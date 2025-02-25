@@ -89,6 +89,8 @@ Once installed, Transparent Zen will automatically apply transparent styles to t
 #### Customization
 I highly recommend darkening the browser theme slightly by right-clicking the Zen Browser Toolbar and selecting **Change Theme Colors**. I'm personally using the hex code **#00000066** which darkens the browser background slightly while maintaining readability. But of course, feel free to play around to find the best color to your liking!
 
+##### ⚠️ Since Zen Browser 1.8.1b you need to set `zen.theme.gradient.show-custom-colors` to **true** in `about:config` in order to be able to set a hex code for the theme color
+
 ## Contributing
 
 The main idea behind this project is for the community to contribute and add styles for their favorite websites, so that everyone can enjoy a fully transparent experience.
