@@ -64,6 +64,8 @@ The following websites are currently supported by Transparent Zen:
 - [ ] x.com
 - [ ] threads.net
 - [ ] monkeytype.com
+- [ ] quora.com
+- [ ] search.brave.com
 
 ## Prerequisites
 #### Windows 11
