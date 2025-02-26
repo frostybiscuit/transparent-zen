@@ -6,9 +6,13 @@ body,
 html,
 main {
   background: none !important;
+}
 
-  &::before,
-  &::after {
-    background: none !important;
-  }
+body::before,
+body::after,
+html::before,
+html::after,
+main::before,
+main::after {
+  background: none !important;
 }

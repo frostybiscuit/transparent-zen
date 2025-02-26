@@ -1,11 +1,11 @@
 .navbar {
   background: var(--transparent-background-dark) !important;
   backdrop-filter: var(--backdrop-blur);
+}
 
-  &:focus-within,
-  &:hover {
-    background: var(--color-bg) !important;
-  }
+.navbar:focus-within,
+.navbar:hover {
+  background: var(--color-bg) !important;
 }
 
 .card,
@@ -25,33 +25,39 @@
   border: 2px solid rgb(from var(--alert-color) r g b / 0.5) !important;
   color: var(--alert-color) !important;
 }
+
 .alert-success {
   --alert-color: var(--color-green);
 }
+
 .alert-danger {
   --alert-color: var(--color-red);
 }
+
 .alert-warning {
   --alert-color: var(--color-orange);
 }
+
 .alert-primary {
   --alert-color: var(--color-primary);
 }
+
 .alert-secondary {
   --alert-color: var(--color-secondary);
 }
+
 .alert-info {
   --alert-color: var(--color-blue);
 }
 
 .dropdown-menu {
   background: var(--transparent-background-dark) !important;
+}
 
-  .dropdown-item {
-    color: var(--color-text) !important;
+.dropdown-menu .dropdown-item {
+  color: var(--color-text) !important;
+}
 
-    &:hover {
-      background: var(--color-primary) !important;
-    }
-  }
+.dropdown-menu .dropdown-item:hover {
+  background: var(--color-primary) !important;
 }

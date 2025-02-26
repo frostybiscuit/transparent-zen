@@ -8,12 +8,19 @@ textarea,
 select {
   color: var(--color-text);
   border-radius: var(--border-radius);
+}
 
-  &[type="file"] {
-    background: transparent;
-  }
+input[type="file"] {
+  background: transparent;
+}
 
-  &::placeholder {
-    color: var(--transparent-text);
-  }
+input[type="text"]::placeholder,
+input[type="number"]::placeholder,
+input[type="tel"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder,
+input[type="search"]::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: var(--transparent-text);
 }

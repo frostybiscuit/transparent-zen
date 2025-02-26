@@ -5,7 +5,6 @@ button[type="submit"] {
   --button-border: 2px solid var(--color-text);
   --button-background: transparent;
   --button-image: none;
-
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -17,190 +16,515 @@ button[type="submit"] {
   color: var(--button-color) !important;
   font-weight: 500;
   position: relative;
+}
 
-  &:hover {
-    --button-background: var(--color-text);
-    --button-color: var(--color-black);
+.button:hover,
+.btn:hover,
+button[type="submit"]:hover {
+  --button-background: var(--color-text);
+  --button-color: var(--color-black);
+  background: var(--button-background) !important;
+}
 
-    /* override existing hover states */
-    background: var(--button-background) !important;
-  }
+.button::before,
+.btn::before,
+button[type="submit"]::before {
+  background: none !important;
+}
 
-  &::before {
-    background: none !important;
-  }
+/* Fix for rendering issue
+.button::after,
+.btn::after,
+button[type="submit"]::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    border: var(--button-border) !important;
+    border-image: var(--button-image) 1 !important;
+    transform: none !important;
+}*/
 
-  /* Fix for rendering issue
-  &::after {
-      content: "";
-      display: block;
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-      border: var(--button-border) !important;
-      border-image: var(--button-image) 1 !important;
-      transform: none !important;
-  }*/
+.button *,
+.btn *,
+button[type="submit"] * {
+  color: var(--button-color) !important;
+}
 
-  * {
-    color: var(--button-color) !important;
-  }
+.button img,
+.button svg,
+.btn img,
+.btn svg,
+button[type="submit"] img,
+button[type="submit"] svg {
+  position: static;
+}
 
-  img,
-  svg {
-    position: static;
-  }
+.button.btn-primary,
+.button.button-primary,
+.button[type="submit"],
+.btn.btn-primary,
+.btn.button-primary,
+.btn[type="submit"],
+button[type="submit"].btn-primary,
+button[type="submit"].button-primary,
+button[type="submit"][type="submit"] {
+  --button-color: var(--color-white);
+  --button-border: 2px solid var(--color-primary);
+  --button-background: var(--gradient);
+  --button-image: var(--gradient);
+}
 
-  &.btn-primary,
-  &.button-primary,
-  &[type="submit"] {
-    --button-color: var(--color-white);
-    --button-border: 2px solid var(--color-primary);
-    --button-background: var(--gradient);
-    --button-image: var(--gradient);
+.button.btn-primary:hover,
+.button.button-primary:hover,
+.button[type="submit"]:hover,
+.btn.btn-primary:hover,
+.btn.button-primary:hover,
+.btn[type="submit"]:hover,
+button[type="submit"].btn-primary:hover,
+button[type="submit"].button-primary:hover,
+button[type="submit"][type="submit"]:hover {
+  --button-background: var(--gradient-reverse);
+  --button-image: var(--gradient-reverse);
+  --button-color: var(--color-white);
+}
 
-    &:hover {
-      --button-background: var(--gradient-reverse);
-      --button-image: var(--gradient-reverse);
-      --button-color: var(--color-white);
-    }
-  }
+.button.btn-secondary,
+.button.btn-clear,
+.button.btn-transparent,
+.button.btn-outline,
+.button.button-secondary,
+.button.button-clear,
+.button.button-transparent,
+.button.button-outline,
+.btn.btn-secondary,
+.btn.btn-clear,
+.btn.btn-transparent,
+.btn.btn-outline,
+.btn.button-secondary,
+.btn.button-clear,
+.btn.button-transparent,
+.btn.button-outline,
+button[type="submit"].btn-secondary,
+button[type="submit"].btn-clear,
+button[type="submit"].btn-transparent,
+button[type="submit"].btn-outline,
+button[type="submit"].button-secondary,
+button[type="submit"].button-clear,
+button[type="submit"].button-transparent,
+button[type="submit"].button-outline {
+  --button-color: var(--color-primary);
+  --button-border: 2px solid var(--color-primary);
+  --button-background: transparent;
+  --button-image: var(--gradient);
+}
 
-  &.btn-secondary,
-  &.btn-clear,
-  &.btn-transparent,
-  &.btn-outline,
-  &.button-secondary,
-  &.button-clear,
-  &.button-transparent,
-  &.button-outline {
-    --button-color: var(--color-primary);
-    --button-border: 2px solid var(--color-primary);
-    --button-background: transparent;
-    --button-image: var(--gradient);
+.button.btn-secondary > a,
+.button.btn-clear > a,
+.button.btn-transparent > a,
+.button.btn-outline > a,
+.button.button-secondary > a,
+.button.button-clear > a,
+.button.button-transparent > a,
+.button.button-outline > a,
+.btn.btn-secondary > a,
+.btn.btn-clear > a,
+.btn.btn-transparent > a,
+.btn.btn-outline > a,
+.btn.button-secondary > a,
+.btn.button-clear > a,
+.btn.button-transparent > a,
+.btn.button-outline > a,
+button[type="submit"].btn-secondary > a,
+button[type="submit"].btn-clear > a,
+button[type="submit"].btn-transparent > a,
+button[type="submit"].btn-outline > a,
+button[type="submit"].button-secondary > a,
+button[type="submit"].button-clear > a,
+button[type="submit"].button-transparent > a,
+button[type="submit"].button-outline > a,
+.button.btn-secondary > span,
+.button.btn-clear > span,
+.button.btn-transparent > span,
+.button.btn-outline > span,
+.button.button-secondary > span,
+.button.button-clear > span,
+.button.button-transparent > span,
+.button.button-outline > span,
+.btn.btn-secondary > span,
+.btn.btn-clear > span,
+.btn.btn-transparent > span,
+.btn.btn-outline > span,
+.btn.button-secondary > span,
+.btn.button-clear > span,
+.btn.button-transparent > span,
+.btn.button-outline > span,
+button[type="submit"].btn-secondary > span,
+button[type="submit"].btn-clear > span,
+button[type="submit"].btn-transparent > span,
+button[type="submit"].btn-outline > span,
+button[type="submit"].button-secondary > span,
+button[type="submit"].button-clear > span,
+button[type="submit"].button-transparent > span,
+button[type="submit"].button-outline > span {
+  background: var(--button-image);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-    > a,
-    > span {
-      background: var(--button-image);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+.button.btn-secondary:hover,
+.button.btn-clear:hover,
+.button.btn-transparent:hover,
+.button.btn-outline:hover,
+.button.button-secondary:hover,
+.button.button-clear:hover,
+.button.button-transparent:hover,
+.button.button-outline:hover,
+.btn.btn-secondary:hover,
+.btn.btn-clear:hover,
+.btn.btn-transparent:hover,
+.btn.btn-outline:hover,
+.btn.button-secondary:hover,
+.btn.button-clear:hover,
+.btn.button-transparent:hover,
+.btn.button-outline:hover,
+button[type="submit"].btn-secondary:hover,
+button[type="submit"].btn-clear:hover,
+button[type="submit"].btn-transparent:hover,
+button[type="submit"].btn-outline:hover,
+button[type="submit"].button-secondary:hover,
+button[type="submit"].button-clear:hover,
+button[type="submit"].button-transparent:hover,
+button[type="submit"].button-outline:hover {
+  --button-background: var(--gradient);
+  --button-color: var(--color-white);
+}
 
-    &:hover {
-      --button-background: var(--gradient);
-      --button-color: var(--color-white);
+.button.btn-secondary:hover > a,
+.button.btn-clear:hover > a,
+.button.btn-transparent:hover > a,
+.button.btn-outline:hover > a,
+.button.button-secondary:hover > a,
+.button.button-clear:hover > a,
+.button.button-transparent:hover > a,
+.button.button-outline:hover > a,
+.btn.btn-secondary:hover > a,
+.btn.btn-clear:hover > a,
+.btn.btn-transparent:hover > a,
+.btn.btn-outline:hover > a,
+.btn.button-secondary:hover > a,
+.btn.button-clear:hover > a,
+.btn.button-transparent:hover > a,
+.btn.button-outline:hover > a,
+button[type="submit"].btn-secondary:hover > a,
+button[type="submit"].btn-clear:hover > a,
+button[type="submit"].btn-transparent:hover > a,
+button[type="submit"].btn-outline:hover > a,
+button[type="submit"].button-secondary:hover > a,
+button[type="submit"].button-clear:hover > a,
+button[type="submit"].button-transparent:hover > a,
+button[type="submit"].button-outline:hover > a,
+.button.btn-secondary:hover > span,
+.button.btn-clear:hover > span,
+.button.btn-transparent:hover > span,
+.button.btn-outline:hover > span,
+.button.button-secondary:hover > span,
+.button.button-clear:hover > span,
+.button.button-transparent:hover > span,
+.button.button-outline:hover > span,
+.btn.btn-secondary:hover > span,
+.btn.btn-clear:hover > span,
+.btn.btn-transparent:hover > span,
+.btn.btn-outline:hover > span,
+.btn.button-secondary:hover > span,
+.btn.button-clear:hover > span,
+.btn.button-transparent:hover > span,
+.btn.button-outline:hover > span,
+button[type="submit"].btn-secondary:hover > span,
+button[type="submit"].btn-clear:hover > span,
+button[type="submit"].btn-transparent:hover > span,
+button[type="submit"].btn-outline:hover > span,
+button[type="submit"].button-secondary:hover > span,
+button[type="submit"].button-clear:hover > span,
+button[type="submit"].button-transparent:hover > span,
+button[type="submit"].button-outline:hover > span {
+  -webkit-text-fill-color: var(--button-color);
+}
 
-      > a,
-      > span {
-        -webkit-text-fill-color: var(--button-color);
-      }
-    }
-  }
+.button.btn-tertiary,
+.button.button-tertiary,
+.btn.btn-tertiary,
+.btn.button-tertiary,
+button[type="submit"].btn-tertiary,
+button[type="submit"].button-tertiary {
+  --button-color: var(--color-tertiary);
+  --button-border: 2px solid var(--color-tertiary);
+}
 
-  &.btn-tertiary,
-  &.button-tertiary {
-    --button-color: var(--color-tertiary);
-    --button-border: 2px solid var(--color-tertiary);
+.button.btn-tertiary:hover,
+.button.button-tertiary:hover,
+.btn.btn-tertiary:hover,
+.btn.button-tertiary:hover,
+button[type="submit"].btn-tertiary:hover,
+button[type="submit"].button-tertiary:hover {
+  --button-background: var(--color-tertiary);
+  --button-color: var(--color-white);
+}
 
-    &:hover {
-      --button-background: var(--color-tertiary);
-      --button-color: var(--color-white);
-    }
-  }
+.button.btn-success,
+.button.btn-green,
+.button.button-success,
+.button.button-green,
+.btn.btn-success,
+.btn.btn-green,
+.btn.button-success,
+.btn.button-green,
+button[type="submit"].btn-success,
+button[type="submit"].btn-green,
+button[type="submit"].button-success,
+button[type="submit"].button-green {
+  --button-color: var(--color-green);
+  --button-border: 2px solid var(--color-green);
+}
 
-  &.btn-success,
-  &.btn-green,
-  &.button-success,
-  &.button-green {
-    --button-color: var(--color-green);
-    --button-border: 2px solid var(--color-green);
+.button.btn-success:hover,
+.button.btn-green:hover,
+.button.button-success:hover,
+.button.button-green:hover,
+.btn.btn-success:hover,
+.btn.btn-green:hover,
+.btn.button-success:hover,
+.btn.button-green:hover,
+button[type="submit"].btn-success:hover,
+button[type="submit"].btn-green:hover,
+button[type="submit"].button-success:hover,
+button[type="submit"].button-green:hover {
+  --button-background: var(--color-green);
+  --button-color: var(--color-black);
+}
 
-    &:hover {
-      --button-background: var(--color-green);
-      --button-color: var(--color-black);
-    }
-  }
+.button.btn-danger,
+.button.btn-error,
+.button.btn-red,
+.button.button-danger,
+.button.button-error,
+.button.button-red,
+.btn.btn-danger,
+.btn.btn-error,
+.btn.btn-red,
+.btn.button-danger,
+.btn.button-error,
+.btn.button-red,
+button[type="submit"].btn-danger,
+button[type="submit"].btn-error,
+button[type="submit"].btn-red,
+button[type="submit"].button-danger,
+button[type="submit"].button-error,
+button[type="submit"].button-red {
+  --button-color: var(--color-red);
+  --button-border: 2px solid var(--color-red);
+}
 
-  &.btn-danger,
-  &.btn-error,
-  &.btn-red,
-  &.button-danger,
-  &.button-error,
-  &.button-red {
-    --button-color: var(--color-red);
-    --button-border: 2px solid var(--color-red);
+.button.btn-danger:hover,
+.button.btn-error:hover,
+.button.btn-red:hover,
+.button.button-danger:hover,
+.button.button-error:hover,
+.button.button-red:hover,
+.btn.btn-danger:hover,
+.btn.btn-error:hover,
+.btn.btn-red:hover,
+.btn.button-danger:hover,
+.btn.button-error:hover,
+.btn.button-red:hover,
+button[type="submit"].btn-danger:hover,
+button[type="submit"].btn-error:hover,
+button[type="submit"].btn-red:hover,
+button[type="submit"].button-danger:hover,
+button[type="submit"].button-error:hover,
+button[type="submit"].button-red:hover {
+  --button-background: var(--color-red);
+  --button-color: var(--color-black);
+}
 
-    &:hover {
-      --button-background: var(--color-red);
-      --button-color: var(--color-black);
-    }
-  }
+.button.btn-warning,
+.button.btn-orange,
+.button.btn-yellow,
+.button.button-warning,
+.button.button-orange,
+.button.button-yellow,
+.btn.btn-warning,
+.btn.btn-orange,
+.btn.btn-yellow,
+.btn.button-warning,
+.btn.button-orange,
+.btn.button-yellow,
+button[type="submit"].btn-warning,
+button[type="submit"].btn-orange,
+button[type="submit"].btn-yellow,
+button[type="submit"].button-warning,
+button[type="submit"].button-orange,
+button[type="submit"].button-yellow {
+  --button-color: var(--color-orange);
+  --button-border: 2px solid var(--color-orange);
+}
 
-  &.btn-warning,
-  &.btn-orange,
-  &.btn-yellow,
-  &.button-warning,
-  &.button-orange,
-  &.button-yellow {
-    --button-color: var(--color-orange);
-    --button-border: 2px solid var(--color-orange);
+.button.btn-warning:hover,
+.button.btn-orange:hover,
+.button.btn-yellow:hover,
+.button.button-warning:hover,
+.button.button-orange:hover,
+.button.button-yellow:hover,
+.btn.btn-warning:hover,
+.btn.btn-orange:hover,
+.btn.btn-yellow:hover,
+.btn.button-warning:hover,
+.btn.button-orange:hover,
+.btn.button-yellow:hover,
+button[type="submit"].btn-warning:hover,
+button[type="submit"].btn-orange:hover,
+button[type="submit"].btn-yellow:hover,
+button[type="submit"].button-warning:hover,
+button[type="submit"].button-orange:hover,
+button[type="submit"].button-yellow:hover {
+  --button-background: var(--color-orange);
+  --button-color: var(--color-black);
+}
 
-    &:hover {
-      --button-background: var(--color-orange);
-      --button-color: var(--color-black);
-    }
-  }
+.button.btn-info,
+.button.btn-blue,
+.button.button-info,
+.button.button-blue,
+.btn.btn-info,
+.btn.btn-blue,
+.btn.button-info,
+.btn.button-blue,
+button[type="submit"].btn-info,
+button[type="submit"].btn-blue,
+button[type="submit"].button-info,
+button[type="submit"].button-blue {
+  --button-color: var(--color-blue);
+  --button-border: 2px solid var(--color-blue);
+}
 
-  &.btn-info,
-  &.btn-blue,
-  &.button-info,
-  &.button-blue {
-    --button-color: var(--color-blue);
-    --button-border: 2px solid var(--color-blue);
+.button.btn-info:hover,
+.button.btn-blue:hover,
+.button.button-info:hover,
+.button.button-blue:hover,
+.btn.btn-info:hover,
+.btn.btn-blue:hover,
+.btn.button-info:hover,
+.btn.button-blue:hover,
+button[type="submit"].btn-info:hover,
+button[type="submit"].btn-blue:hover,
+button[type="submit"].button-info:hover,
+button[type="submit"].button-blue:hover {
+  --button-background: var(--color-blue);
+  --button-color: var(--color-black);
+}
 
-    &:hover {
-      --button-background: var(--color-blue);
-      --button-color: var(--color-black);
-    }
-  }
+.button.btn-dark,
+.button.btn-invert,
+.button.btn-black,
+.button.button-dark,
+.button.button-invert,
+.button.button-black,
+.btn.btn-dark,
+.btn.btn-invert,
+.btn.btn-black,
+.btn.button-dark,
+.btn.button-invert,
+.btn.button-black,
+button[type="submit"].btn-dark,
+button[type="submit"].btn-invert,
+button[type="submit"].btn-black,
+button[type="submit"].button-dark,
+button[type="submit"].button-invert,
+button[type="submit"].button-black {
+  --button-border: 2px solid var(--color-bg);
+  --button-background: var(--color-bg);
+}
 
-  &.btn-dark,
-  &.btn-invert,
-  &.btn-black,
-  &.button-dark,
-  &.button-invert,
-  &.button-black {
-    --button-border: 2px solid var(--color-bg);
-    --button-background: var(--color-bg);
+.button.btn-dark:hover,
+.button.btn-invert:hover,
+.button.btn-black:hover,
+.button.button-dark:hover,
+.button.button-invert:hover,
+.button.button-black:hover,
+.btn.btn-dark:hover,
+.btn.btn-invert:hover,
+.btn.btn-black:hover,
+.btn.button-dark:hover,
+.btn.button-invert:hover,
+.btn.button-black:hover,
+button[type="submit"].btn-dark:hover,
+button[type="submit"].btn-invert:hover,
+button[type="submit"].btn-black:hover,
+button[type="submit"].button-dark:hover,
+button[type="submit"].button-invert:hover,
+button[type="submit"].button-black:hover {
+  --button-border: 2px solid var(--color-white);
+  --button-color: var(--color-white);
+}
 
-    &:hover {
-      --button-border: 2px solid var(--color-white);
-      --button-color: var(--color-white);
-    }
-  }
+.button.btn-invisible,
+.button.btn-text,
+.button.btn-link,
+.button.button-invisible,
+.button.button-text,
+.button.button-link,
+.button.text,
+.btn.btn-invisible,
+.btn.btn-text,
+.btn.btn-link,
+.btn.button-invisible,
+.btn.button-text,
+.btn.btn-link,
+.btn.text,
+button[type="submit"].btn-invisible,
+button[type="submit"].btn-text,
+button[type="submit"].btn-link,
+button[type="submit"].button-invisible,
+button[type="submit"].button-text,
+button[type="submit"].button-link,
+button[type="submit"].text {
+  --button-border: none;
+  --button-color: var(--color-primary);
+}
 
-  &.btn-invisible,
-  &.btn-text,
-  &.btn-link,
-  &.button-invisible,
-  &.button-text,
-  &.button-link,
-  &.text {
-    --button-border: none;
-    --button-color: var(--color-primary);
+.button.btn-invisible:hover,
+.button.btn-text:hover,
+.button.btn-link:hover,
+.button.button-invisible:hover,
+.button.button-text:hover,
+.button.button-link:hover,
+.button.text:hover,
+.btn.btn-invisible:hover,
+.btn.btn-text:hover,
+.btn.btn-link:hover,
+.btn.button-invisible:hover,
+.btn.button-text:hover,
+.btn.button-link:hover,
+.btn.text:hover,
+button[type="submit"].btn-invisible:hover,
+button[type="submit"].btn-text:hover,
+button[type="submit"].btn-link:hover,
+button[type="submit"].button-invisible:hover,
+button[type="submit"].button-text:hover,
+button[type="submit"].button-link:hover,
+button[type="submit"].text:hover {
+  --button-background: transparent;
+  text-decoration: underline;
+}
 
-    &:hover {
-      --button-background: transparent;
-      text-decoration: underline;
-    }
-  }
-
-  &.btn-circle-icon {
-    --button-border: none;
-    border-radius: 50% !important;
-  }
+.button.btn-circle-icon,
+.btn.btn-circle-icon,
+button[type="submit"].btn-circle-icon {
+  --button-border: none;
+  border-radius: 50% !important;
 }
