@@ -10,6 +10,10 @@
   backdrop-filter: var(--backdrop-blur);
 }
 
+#loadingScreen {
+  background: none !important;
+}
+
 #app {
   #appContainer {
     background: none !important;
