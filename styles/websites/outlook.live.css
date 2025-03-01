@@ -1,0 +1,209 @@
+@import url("../global/base.css");
+
+:root {
+  --outlook-blue: #479ef5;
+  --outlook-blue-transparent: rgb(from var(--outlook-blue) r g b / 0.5);
+}
+
+.o365sx-neutral-foreground-background {
+  background: var(--transparent-background-dark) !important;
+  backdrop-filter: var(--backdrop-blur);
+}
+
+#app {
+  #appContainer {
+    background: none !important;
+
+    #OwaTitleBar {
+      #O365_NavHeader {
+        background: var(--outlook-blue-transparent) !important;
+
+        #O365_HeaderLeftRegion {
+          #O365_MainLink_NavMenu {
+            background: none !important;
+            color: var(--color-text) !important;
+
+            &:hover {
+              background: var(--outlook-blue) !important;
+            }
+          }
+        }
+
+        #CenterRegion {
+          #owaBranding_container {
+            .o365sx-appName {
+              background: none !important;
+              color: var(--color-text) !important;
+
+              &:hover {
+                background: var(--outlook-blue) !important;
+              }
+            }
+          }
+
+          #searchScopeButtonId,
+          #searchScopeButtonId > * {
+            border: 0 !important;
+            outline: 0 !important;
+            box-shadow: none !important;
+          }
+
+          #owaSearchBox_container {
+            #searchBoxId-Mail {
+              background: var(--transparent-background) !important;
+              box-shadow: none !important;
+
+              + {
+                .ms-Button {
+                  box-shadow: none !important;
+                }
+              }
+            }
+          }
+
+          #headerButtonsRegionId {
+            .o365sx-button,
+            button {
+              background: none !important;
+              color: var(--color-text) !important;
+
+              &:hover {
+                background: var(--outlook-blue) !important;
+              }
+            }
+          }
+        }
+
+        #O365_HeaderRightRegion {
+          background: none !important;
+
+          #O365_MainLink_Me,
+          #O365_MainLink_Signin,
+          #O365_UniversalMeContainer {
+            background: none !important;
+
+            &:hover {
+              background: var(--outlook-blue) !important;
+            }
+          }
+        }
+      }
+    }
+
+    #mainApp {
+      #LeftRail {
+        background: none !important;
+
+        /* Main Content */
+        + div {
+          background: none !important;
+
+          #RibbonRoot {
+            #TopBar {
+              .ms-Button {
+                background: none !important;
+
+                &:hover {
+                  background: var(--outlook-blue) !important;
+                }
+              }
+
+              [data-unique-id="visibleContent"] {
+                > div {
+                  background: none !important;
+                }
+              }
+            }
+
+            #BottomBar {
+              > div:first-child {
+                background: var(--transparent-background) !important;
+              }
+            }
+          }
+
+          #MainModule {
+            [data-app-section="NavigationPane"] {
+              > div > div {
+                background: none !important;
+              }
+            }
+
+            [data-app-section="MessageList"] {
+              background: none !important;
+              border-left-width: 1px;
+
+              /* Message List Header */
+              > div:has(+ #MailList) {
+                background: var(--transparent-background) !important;
+
+                #mailListFilterMenu,
+                #mailListSortMenu {
+                  background: none !important;
+
+                  &:hover {
+                    background: var(--transparent-background-darker) !important;
+                  }
+                }
+              }
+
+              #MailList {
+                [role="region"] {
+                  [role="listbox"] {
+                    > div:first-child {
+                      background: none !important;
+
+                      .customScrollBar {
+                        background: none !important;
+
+                        [role="option"] {
+                          [role="group"] {
+                            > div:first-child {
+                              background: var(--transparent-background) !important;
+                            }
+                          }
+
+                          &[aria-selected="true"] {
+                            [role="group"] {
+                              > div:first-child {
+                                background: var(--outlook-blue-transparent) !important;
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+            [data-app-section="MailReadCompose"] {
+              #ReadingPaneContainerId {
+                background: none !important;
+
+                #ItemReadingPaneContainer {
+                  > div:first-child {
+                    background: var(--transparent-background) !important;
+
+                    .allowTextSelection {
+                      > div {
+                        background: none !important;
+                      }
+                    }
+                  }
+
+                  .wide-content-host {
+                    > div:first-child > div:first-child {
+                      background: var(--transparent-background) !important;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+@import url("../global/base.css");
+
+:root {
+  --v2-surface: transparent;
+}
+
+.app-body {
+  notebook {
+    background: none !important;
+
+    .panel-container {
+      .source-panel,
+      .chat-panel,
+      .studio-panel {
+        background: var(--transparent-background) !important;
+      }
+
+      .source-panel {
+        .source-guide-container {
+          background: var(--transparent-background) !important;
+        }
+      }
+
+      .chat-panel {
+        omnibar {
+          background: none !important;
+        }
+      }
+    }
+  }
+}

@@ -48,14 +48,16 @@ The following websites are currently supported by Transparent Zen:
 - 🟢 duckduckgo.com
 - 🟢 epicgames.com
 - 🟢 google.com
+- 🟢 notebooklm.google.com
+- 🟢 outlook.live.com
 - 🟠 amazon.de
 - 🟠 lieferando.at
 - 🔴 gog.com
 - 🔴 kinguin.net
 
 #### To Do
-- [ ] outlook.live.com
-- [ ] notebooklm.google.com
+- [x] ~~outlook.live.com~~
+- [x] ~~notebooklm.google.com~~
 - [ ] web.whatsapp.com
 - [ ] Plex Media Server (usually 127.0.0.1:32400)
 - [ ] linkedin.com
