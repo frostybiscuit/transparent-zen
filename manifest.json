@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Transparent Zen",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Inject custom styles to make your favorite websites transparent. PLEASE KEEP IN MIND THAT THIS IS STILL WORK IN PROGRESS, SO THINGS MIGHT BREAK!",
   "browser_specific_settings": {
     "gecko": {
@@ -156,6 +156,16 @@
     {
       "matches": ["*://outlook.live.com/*"],
       "css": ["./styles/websites/outlook.live.css"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://mail.google.com/*"],
+      "css": ["./styles/websites/mail.google.css"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://drive.google.com/*"],
+      "css": ["./styles/websites/drive.google.css"],
       "run_at": "document_start"
     }
   ]

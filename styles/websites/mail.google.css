@@ -1,0 +1,34 @@
+@import url("../global/base.css");
+
+/* Gmail uses obfuscated classes, making it hard to select elements, thus the hacky selectors */
+
+#loading {
+  /* A transparent background won't work, due to the wonky implementation of the "M" used in the loading animation */
+  background: var(--color-bg) !important;
+
+  /* Loading Screen scaling bubble animation */
+  #explosion_clipper_div {
+    display: none !important;
+  }
+
+  /* A colored Element which is used to shape the "M" letter */
+  .la-k .la-m {
+    background: var(--color-bg) !important;
+  }
+}
+
+/* Main Wrapper */
+div[style="position: relative; min-height: 100%;"] {
+  /* Some elements where one has a background-color */
+  > div:first-child > * {
+    background: none !important;
+  }
+
+  /* Sidebar */
+  [role="navigation"] {
+    /* Mail List & Mail Preview Wrapper */
+    + div > div:first-child {
+      background: var(--transparent-background) !important;
+    }
+  }
+}

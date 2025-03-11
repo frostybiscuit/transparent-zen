@@ -1,6 +1,6 @@
 {
   "name": "transparent-zen",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "A browser extension for Zen Browser to inject custom styles to make your favorite websites transparent",
   "scripts": {
     "build": "web-ext build --config web-ext-config.mjs",

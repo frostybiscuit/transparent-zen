@@ -1,0 +1,12 @@
+@import url("../global/base.css");
+
+#drive_main_page {
+  --dt-background: transparent;
+  --dt-surface: var(--transparent-background);
+  --dt-surface-container: var(--transparent-background);
+  --dt-surface-container-low: transparent;
+
+  > div:first-child {
+    background: none !important;
+  }
+}
