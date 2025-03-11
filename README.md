@@ -50,6 +50,8 @@ The following websites are currently supported by Transparent Zen:
 - 🟢 google.com
 - 🟢 notebooklm.google.com
 - 🟢 outlook.live.com
+- 🟢 mail.google.com (needs dark theme enabled)
+- 🟢 drive.google.com (needs dark theme enabled)
 - 🟠 amazon.de
 - 🟠 lieferando.at
 - 🔴 gog.com
