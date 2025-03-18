@@ -1,0 +1,9 @@
+{
+  "summary": {
+    "en-US": "Applies custom styles to make your favorite websites transparent. For a full list of supported websites, check https://github.com/frostybiscuit/transparent-zen?tab=readme-ov-file#supported-websites"
+  },
+  "categories": ["appearance"],
+  "version": {
+    "license": "MIT"
+  }
+}

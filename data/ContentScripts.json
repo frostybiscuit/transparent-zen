@@ -1,0 +1,180 @@
+{
+  "zenScripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["transparent-zen.css"],
+      "js": ["transparent-zen.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "supportedWebsites": [
+    {
+      "name": "Steam Store & Community",
+      "matches": ["*://*.steampowered.com/*", "*://*.steamcommunity.com/*"],
+      "css": ["./styles/websites/steam.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Bing",
+      "matches": ["*://*.bing.com/*"],
+      "css": ["./styles/websites/bing.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Amazon",
+      "matches": ["*://*.amazon.com/*", "*://*.amazon.de/*"],
+      "css": ["./styles/websites/amazon.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "DDL-Warez",
+      "matches": ["*://*.ddl-warez.cc/*"],
+      "css": ["./styles/websites/ddl-warez.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Epic Games",
+      "matches": ["*://*.epicgames.com/*"],
+      "css": ["./styles/websites/epicgames.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "GOG",
+      "matches": ["*://*.gog.com/*"],
+      "css": ["./styles/websites/gog.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Kinguin",
+      "matches": ["*://*.kinguin.net/*"],
+      "css": ["./styles/websites/kinguin.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Kryptex",
+      "matches": ["*://*.kryptex.com/*"],
+      "css": ["./styles/websites/kryptex.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Lieferando",
+      "matches": ["*://*.lieferando.at/*"],
+      "css": ["./styles/websites/lieferando.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Proton",
+      "matches": ["*://*.proton.me/*"],
+      "css": ["./styles/websites/proton.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Proton Mail",
+      "matches": ["*://mail.proton.me/*"],
+      "css": ["./styles/websites/mail.proton.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "WuwaTracker",
+      "matches": ["*://*.wuwatracker.com/*"],
+      "css": ["./styles/websites/wuwatracker.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "YouTube",
+      "matches": ["*://*.youtube.com/*"],
+      "css": ["./styles/websites/youtube.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "GitHub",
+      "matches": ["*://*.github.com/*"],
+      "css": ["./styles/websites/github.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Reddit",
+      "matches": ["*://*.reddit.com/*"],
+      "css": ["./styles/websites/reddit.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "NexusMods",
+      "matches": ["*://*.nexusmods.com/*"],
+      "css": ["./styles/websites/nexusmods.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Wikipedia",
+      "matches": ["*://*.wikipedia.org/*"],
+      "css": ["./styles/websites/wikipedia.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Microsoft Copilot",
+      "matches": ["*://copilot.microsoft.com/*"],
+      "css": ["./styles/websites/copilot.microsoft.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "ChatGPT",
+      "matches": ["*://*.chatgpt.com/*"],
+      "css": ["./styles/websites/chatgpt.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Chess.com",
+      "matches": ["*://*.chess.com/*"],
+      "css": ["./styles/websites/chess.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Leetcode",
+      "matches": ["*://*.leetcode.com/*"],
+      "css": ["./styles/websites/leetcode.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Programiz",
+      "matches": ["*://*.programiz.com/*"],
+      "css": ["./styles/websites/programiz.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "DuckDuckGo",
+      "matches": ["*://*.duckduckgo.com/*"],
+      "css": ["./styles/websites/duckduckgo.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Google",
+      "matches": ["*://*.google.com/*"],
+      "css": ["./styles/websites/google.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Google NotebookLM",
+      "matches": ["*://notebooklm.google.com/*"],
+      "css": ["./styles/websites/notebooklm.google.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Outlook Mail",
+      "matches": ["*://outlook.live.com/*"],
+      "css": ["./styles/websites/outlook.live.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Gmail",
+      "matches": ["*://mail.google.com/*"],
+      "css": ["./styles/websites/mail.google.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "Google Drive",
+      "matches": ["*://drive.google.com/*"],
+      "css": ["./styles/websites/drive.google.css"],
+      "run_at": "document_start"
+    }
+  ]
+}
