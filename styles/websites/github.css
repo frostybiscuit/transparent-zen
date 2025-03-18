@@ -7,6 +7,11 @@ body {
   background-color: var(--transparent-background-darker);
 }
 
+[class*="Box-"]:has(> h2):has(> nav) {
+  background: var(--transparent-background-dark);
+  backdrop-filter: var(--backdrop-blur);
+}
+
 /* Styles by u/sameera_s_w */
 
 div.feed-item-content.d-flex.flex-column.pt-2.pb-2.border.color-border-default.rounded-2.color-shadow-small.width-full.height-fit,

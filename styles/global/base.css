@@ -1,7 +1,3 @@
-:root {
-  --darkreader-background-ffffff: transparent;
-}
-
 body,
 html,
 main {
@@ -11,4 +7,9 @@ main {
   &::after {
     background: none !important;
   }
+}
+
+*::before,
+*::after {
+  background-color: none !important;
 }

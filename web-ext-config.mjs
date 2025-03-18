@@ -14,6 +14,7 @@ export default {
     sign: {
         apiKey: process.env.FIREFOX_API_KEY,
         apiSecret: process.env.FIREFOX_API_SECRET,
-        channel: "listed"
+        channel: "listed",
+        amoMetadata: "metadata.json"
     }
 };

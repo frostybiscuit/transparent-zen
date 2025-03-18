@@ -1,16 +1,21 @@
 {
   "name": "transparent-zen",
-  "version": "0.1.12",
+  "version": "0.2.0",
   "description": "A browser extension for Zen Browser to inject custom styles to make your favorite websites transparent",
   "scripts": {
-    "build": "web-ext build --config web-ext-config.mjs",
+    "build": "node ./scripts/updateContentScripts.mjs && web-ext build --config web-ext-config.mjs",
+    "build:patch": "node ./scripts/updateVersion.mjs patch && npm run build",
+    "build:minor": "node ./scripts/updateVersion.mjs minor && npm run build",
+    "build:major": "node ./scripts/updateVersion.mjs major && npm run build",
     "run": "web-ext run --config web-ext-config.mjs",
     "sign": "web-ext sign --config web-ext-config.mjs",
-    "lint": "web-ext lint --config web-ext-config.mjs"
+    "lint": "biome check && web-ext lint --config web-ext-config.mjs",
+    "lint:fix": "biome check --write"
   },
   "author": "FrostyBiscuit",
   "license": "MIT",
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "dotenv": "^16.4.7",
     "web-ext": "^8.4.0"
   }
