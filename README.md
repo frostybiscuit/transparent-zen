@@ -61,6 +61,8 @@ The following websites are currently supported by Transparent Zen:
 - [x] ~~outlook.live.com~~
 - [x] ~~notebooklm.google.com~~
 - [ ] web.whatsapp.com
+- [ ] music.youtube.com
+- [ ] deepseek.com
 - [ ] Plex Media Server (usually 127.0.0.1:32400)
 - [ ] linkedin.com
 - [x] ~~google.com~~
