@@ -175,7 +175,7 @@ class TransparentZen {
 	};
 
 	wildcardToRegex(pattern) {
-		return new RegExp(pattern.replaceAll(/\*/g, "[^ ]*"));
+		return new RegExp(pattern.replace(/\./, ".?").replaceAll(/\*/g, "[^ ]*"));
 	}
 
 	matchesHref(href, pattern) {

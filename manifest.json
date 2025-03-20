@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Transparent Zen",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Applies custom styles to make your favorite websites transparent. For a full list of supported websites, check https://github.com/frostybiscuit/transparent-zen?tab=readme-ov-file#supported-websites",
   "browser_specific_settings": {
     "gecko": {
@@ -12,156 +12,281 @@
     "48": "assets/images/logo_48.png",
     "96": "assets/images/logo_96.png"
   },
-  "permissions": ["activeTab", "storage", "tabs", "<all_urls>"],
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs",
+    "<all_urls>"
+  ],
   "browser_action": {
     "default_popup": "popup/popup.html",
     "default_title": "Transparent Zen"
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "css": ["transparent-zen.css"],
-      "js": ["transparent-zen.js"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "css": [
+        "transparent-zen.css"
+      ],
+      "js": [
+        "transparent-zen.js"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.steampowered.com/*", "*://*.steamcommunity.com/*"],
-      "css": ["./styles/websites/steam.css"],
+      "matches": [
+        "*://*.steampowered.com/*",
+        "*://*.steamcommunity.com/*"
+      ],
+      "css": [
+        "./styles/websites/steam.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.bing.com/*"],
-      "css": ["./styles/websites/bing.css"],
+      "matches": [
+        "*://*.bing.com/*"
+      ],
+      "css": [
+        "./styles/websites/bing.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.amazon.com/*", "*://*.amazon.de/*"],
-      "css": ["./styles/websites/amazon.css"],
+      "matches": [
+        "*://*.amazon.com/*",
+        "*://*.amazon.de/*"
+      ],
+      "css": [
+        "./styles/websites/amazon.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.ddl-warez.cc/*"],
-      "css": ["./styles/websites/ddl-warez.css"],
+      "matches": [
+        "*://*.ddl-warez.cc/*"
+      ],
+      "css": [
+        "./styles/websites/ddl-warez.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.epicgames.com/*"],
-      "css": ["./styles/websites/epicgames.css"],
+      "matches": [
+        "*://*.epicgames.com/*"
+      ],
+      "css": [
+        "./styles/websites/epicgames.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.gog.com/*"],
-      "css": ["./styles/websites/gog.css"],
+      "matches": [
+        "*://*.gog.com/*"
+      ],
+      "css": [
+        "./styles/websites/gog.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.kinguin.net/*"],
-      "css": ["./styles/websites/kinguin.css"],
+      "matches": [
+        "*://*.kinguin.net/*"
+      ],
+      "css": [
+        "./styles/websites/kinguin.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.kryptex.com/*"],
-      "css": ["./styles/websites/kryptex.css"],
+      "matches": [
+        "*://*.kryptex.com/*"
+      ],
+      "css": [
+        "./styles/websites/kryptex.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.lieferando.at/*"],
-      "css": ["./styles/websites/lieferando.css"],
+      "matches": [
+        "*://*.lieferando.at/*"
+      ],
+      "css": [
+        "./styles/websites/lieferando.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.proton.me/*"],
-      "css": ["./styles/websites/proton.css"],
+      "matches": [
+        "*://*.proton.me/*"
+      ],
+      "css": [
+        "./styles/websites/proton.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://mail.proton.me/*"],
-      "css": ["./styles/websites/mail.proton.css"],
+      "matches": [
+        "*://mail.proton.me/*"
+      ],
+      "css": [
+        "./styles/websites/mail.proton.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.wuwatracker.com/*"],
-      "css": ["./styles/websites/wuwatracker.css"],
+      "matches": [
+        "*://*.wuwatracker.com/*"
+      ],
+      "css": [
+        "./styles/websites/wuwatracker.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.youtube.com/*"],
-      "css": ["./styles/websites/youtube.css"],
+      "matches": [
+        "*://*.youtube.com/*"
+      ],
+      "css": [
+        "./styles/websites/youtube.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.github.com/*"],
-      "css": ["./styles/websites/github.css"],
+      "matches": [
+        "*://*.github.com/*"
+      ],
+      "css": [
+        "./styles/websites/github.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.reddit.com/*"],
-      "css": ["./styles/websites/reddit.css"],
+      "matches": [
+        "*://*.reddit.com/*"
+      ],
+      "css": [
+        "./styles/websites/reddit.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.nexusmods.com/*"],
-      "css": ["./styles/websites/nexusmods.css"],
+      "matches": [
+        "*://*.nexusmods.com/*"
+      ],
+      "css": [
+        "./styles/websites/nexusmods.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.wikipedia.org/*"],
-      "css": ["./styles/websites/wikipedia.css"],
+      "matches": [
+        "*://*.wikipedia.org/*"
+      ],
+      "css": [
+        "./styles/websites/wikipedia.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://copilot.microsoft.com/*"],
-      "css": ["./styles/websites/copilot.microsoft.css"],
+      "matches": [
+        "*://copilot.microsoft.com/*"
+      ],
+      "css": [
+        "./styles/websites/copilot.microsoft.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.chatgpt.com/*"],
-      "css": ["./styles/websites/chatgpt.css"],
+      "matches": [
+        "*://*.chatgpt.com/*"
+      ],
+      "css": [
+        "./styles/websites/chatgpt.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.chess.com/*"],
-      "css": ["./styles/websites/chess.css"],
+      "matches": [
+        "*://*.chess.com/*"
+      ],
+      "css": [
+        "./styles/websites/chess.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.leetcode.com/*"],
-      "css": ["./styles/websites/leetcode.css"],
+      "matches": [
+        "*://*.leetcode.com/*"
+      ],
+      "css": [
+        "./styles/websites/leetcode.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.programiz.com/*"],
-      "css": ["./styles/websites/programiz.css"],
+      "matches": [
+        "*://*.programiz.com/*"
+      ],
+      "css": [
+        "./styles/websites/programiz.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.duckduckgo.com/*"],
-      "css": ["./styles/websites/duckduckgo.css"],
+      "matches": [
+        "*://*.duckduckgo.com/*"
+      ],
+      "css": [
+        "./styles/websites/duckduckgo.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.google.com/*"],
-      "css": ["./styles/websites/google.css"],
+      "matches": [
+        "*://*.google.com/*"
+      ],
+      "css": [
+        "./styles/websites/google.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://notebooklm.google.com/*"],
-      "css": ["./styles/websites/notebooklm.google.css"],
+      "matches": [
+        "*://notebooklm.google.com/*"
+      ],
+      "css": [
+        "./styles/websites/notebooklm.google.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://outlook.live.com/*"],
-      "css": ["./styles/websites/outlook.live.css"],
+      "matches": [
+        "*://outlook.live.com/*"
+      ],
+      "css": [
+        "./styles/websites/outlook.live.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://mail.google.com/*"],
-      "css": ["./styles/websites/mail.google.css"],
+      "matches": [
+        "*://mail.google.com/*"
+      ],
+      "css": [
+        "./styles/websites/mail.google.css"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://drive.google.com/*"],
-      "css": ["./styles/websites/drive.google.css"],
+      "matches": [
+        "*://drive.google.com/*"
+      ],
+      "css": [
+        "./styles/websites/drive.google.css"
+      ],
       "run_at": "document_start"
     }
   ]
