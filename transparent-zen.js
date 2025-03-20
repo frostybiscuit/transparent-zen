@@ -1,4 +1,4 @@
-new (class TransparentZen {
+class TransparentZen {
 	BLACKLISTED_ELEMENTS = ["BUTTON", "A", "INPUT", "TEXTAREA"];
 	transparentZenSettings;
 
@@ -17,16 +17,18 @@ new (class TransparentZen {
 	checkIfWebsiteAlreadySupported() {
 		const contentScriptsUrl = browser.runtime.getURL("data/ContentScripts.json");
 		return new Promise((resolve) => {
-			fetch(contentScriptsUrl).then((response) => {
+			fetch(contentScriptsUrl).then(async (response) => {
 				if (response.ok) {
-					response.json().then((data) => {
-						const currentUrl = window.location.href;
-						for (const script of data.supportedWebsites) {
-							if (script.matches.some((match) => this.matchesHref(currentUrl, match))) {
+					const data = await response.json();
+					const currentUrl = window.location.href;
+					for (const script of data.supportedWebsites) {
+						for (const match of script.matches) {
+							if (this.matchesHref(currentUrl, match)) {
 								resolve(true);
+								break;
 							}
 						}
-					});
+					}
 				}
 				resolve(false);
 			});
@@ -173,21 +175,13 @@ new (class TransparentZen {
 	};
 
 	wildcardToRegex(pattern) {
-		return new RegExp(
-			pattern
-				.replace(/\*/g, ".*") // Convert `*` to `.*` (match anything)
-				.replace(/\./g, "\\.") // Escape `.` to match literally
-				.replace(/\//g, "\\/"), // Escape `/` to match literally
-		);
+		return new RegExp(pattern.replaceAll(/\*/g, "[^ ]*"));
 	}
 
 	matchesHref(href, pattern) {
-		try {
-			const url = new URL(href);
-			const regex = this.wildcardToRegex(pattern); // Convert pattern
-			return regex.test(url.href);
-		} catch {
-			return false; // Invalid URL
-		}
+		const regex = this.wildcardToRegex(pattern);
+		return regex.test(href);
 	}
-})();
+}
+
+new TransparentZen();
