@@ -1,6 +1,7 @@
 class TransparentZen {
 	BLACKLISTED_ELEMENTS = ["BUTTON", "A", "INPUT", "TEXTAREA"];
 	transparentZenSettings;
+	documentObserver;
 
 	constructor() {
 		this.checkIfWebsiteAlreadySupported().then((isSupported) => {
@@ -38,7 +39,7 @@ class TransparentZen {
 	initTransparency() {
 		browser.storage.local.get("transparentZenSettings", (settings) => {
 			this.transparentZenSettings = settings.transparentZenSettings;
-			if (this.transparentZenSettings?.["enable-transparency"]) {
+			if (this.transparentZenSettings?.["enable-transparency"] && this.transparentZenSettings?.blacklistedDomains?.indexOf(window.location.hostname) === -1) {
 				this.processPage();
 			}
 		});
@@ -46,13 +47,20 @@ class TransparentZen {
 
 	initBrowserEvents() {
 		browser.runtime.onMessage.addListener((request) => {
-			if (request.action === "toggleTransparency") {
-				if (request.enabled) {
-					this.processPage();
-				} else {
-					document.getElementById("transparent-zen-base-css")?.remove();
-					document.getElementById("transparent-zen-dynamic-css")?.remove();
-					location.reload();
+			switch (request.action) {
+				case "toggleTransparency": {
+					if (request.enabled) {
+						this.processPage();
+					} else {
+						document.getElementById("transparent-zen-base-css")?.remove();
+						document.getElementById("transparent-zen-dynamic-css")?.remove();
+						this.removeTransparencyRules();
+						// location.reload();
+					}
+					break;
+				}
+				case "getDomain": {
+					return Promise.resolve(window.location.hostname);
 				}
 			}
 		});
@@ -69,7 +77,7 @@ class TransparentZen {
 			this.applyTransparencyRules();
 
 			let debounce;
-			const observer = new MutationObserver(() => {
+			this.documentObserver = new MutationObserver(() => {
 				if (debounce) {
 					clearTimeout(debounce);
 				}
@@ -78,7 +86,7 @@ class TransparentZen {
 				}, 100);
 			});
 
-			observer.observe(document.body, {
+			this.documentObserver.observe(document.body, {
 				childList: true,
 				subtree: true,
 			});
@@ -135,6 +143,20 @@ class TransparentZen {
 
 		for (const child of root.children) {
 			this.applyTransparencyRules(child, nextDepth, maxDepth);
+		}
+	}
+
+	removeTransparencyRules() {
+		if (this.documentObserver) {
+			this.documentObserver.disconnect();
+		}
+
+		const processedElements = document.querySelectorAll("[data-tz-processed]");
+		for (const element of processedElements) {
+			element.style.backgroundColor = "";
+			element.style.backdropFilter = "";
+			element.style.color = "";
+			element.removeAttribute("data-tz-processed");
 		}
 	}
 

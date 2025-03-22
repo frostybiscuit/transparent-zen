@@ -42,10 +42,12 @@ body {
 
         .settings-group {
           display: none;
+          flex-direction: column;
+          gap: 4px;
           padding-left: 26px;
 
           &.visible {
-            display: block;
+            display: flex;
           }
         }
       }
