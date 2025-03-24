@@ -16,6 +16,7 @@ html[dark] {
 }
 
 #home-chips,
+#chips,
 #chips-wrapper.ytd-feed-filter-chip-bar-renderer {
   position: relative;
   top: 0;
@@ -26,6 +27,7 @@ html[dark] {
 
     #chip-container.yt-chip-cloud-chip-renderer {
       background: var(--color-bg) !important;
+      color: var(--color-text) !important;
       outline: 1px solid var(--color-primary);
       outline-offset: -1px;
     }
