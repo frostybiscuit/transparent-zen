@@ -39,7 +39,7 @@ class TransparentZen {
 	initTransparency() {
 		browser.storage.local.get("transparentZenSettings", (settings) => {
 			this.transparentZenSettings = settings.transparentZenSettings;
-			if (this.transparentZenSettings?.["enable-transparency"] && this.transparentZenSettings?.blacklistedDomains?.indexOf(window.location.hostname) === -1) {
+			if (this.transparentZenSettings?.["enable-transparency"] && (!this.transparentZenSettings?.blacklistedDomains || this.transparentZenSettings?.blacklistedDomains?.indexOf(window.location.hostname) === -1)) {
 				this.processPage();
 			}
 		});
