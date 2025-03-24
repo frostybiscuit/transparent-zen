@@ -1,0 +1,52 @@
+@import url("../global/base.css");
+
+ytmusic-app {
+  #layout {
+    #nav-bar-background {
+      background: var(--transparent-background-dark) !important;
+      backdrop-filter: var(--backdrop-blur);
+    }
+    #mini-guide-background {
+      background: none !important;
+      border: 0 !important;
+    }
+    #player-bar-background {
+      background: var(--transparent-background-dark) !important;
+      backdrop-filter: var(--backdrop-blur);
+    }
+
+    #guide {
+      #guide-wrapper {
+        background: none !important;
+        border: 0 !important;
+      }
+    }
+
+    ytmusic-player-bar {
+      background: none !important;
+    }
+
+    #player-page {
+      background: none !important;
+    }
+
+    #search-page {
+      #tabs {
+        &.stuck {
+          background: var(--transparent-background-dark) !important;
+          backdrop-filter: var(--backdrop-blur);
+        }
+      }
+    }
+
+    #browse-page {
+      #background {
+        display: none !important;
+      }
+
+      .background-gradient {
+        background: none !important;
+      }
+    }
+  }
+}

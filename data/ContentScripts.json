@@ -63,6 +63,12 @@
       "run_at": "document_start"
     },
     {
+      "name": "YouTube Music",
+      "matches": ["*://music.youtube.com/*"],
+      "css": ["./styles/websites/music.youtube.css"],
+      "run_at": "document_start"
+    },
+    {
       "name": "GitHub",
       "matches": ["*://*.github.com/*"],
       "css": ["./styles/websites/github.css"],
