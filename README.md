@@ -10,6 +10,7 @@ Transparent Zen is a browser extension specifically designed for Zen Browser. Th
 
 - [Transparent Zen](#transparent-zen)
 - [Supported Websites](#supported-websites)
+- [Dynamic Transparency](#dynamic-transparency)
 - [Prerequisites](#prerequisites)
     - [Windows 11](#windows-11)
 - [Installation](#installation)
@@ -63,7 +64,7 @@ The following websites are currently supported by Transparent Zen:
 - [x] ~~outlook.live.com~~
 - [x] ~~notebooklm.google.com~~
 - [x] ~~web.whatsapp.com~~
-- [ ] music.youtube.com
+- [x] ~~music.youtube.com~~
 - [ ] deepseek.com
 - [ ] Plex Media Server (usually 127.0.0.1:32400)
 - [ ] linkedin.com
@@ -76,6 +77,11 @@ The following websites are currently supported by Transparent Zen:
 - [ ] facebook.com
 - [ ] messenger.com
 - [ ] x.com
+
+## Dynamic Transparency
+With 0.2.0 Transparent Zen now has the option to make any website transparent by crawling the website and setting styles as good as possible.
+
+While this works well on many websites, this is a very early state of this feature and will be improved with future updates to get a better experience on more websites. For the case that a website is rendered unusable with this, it is possible to disable this per domain in the extension popup.
 
 ## Prerequisites
 #### Windows 11
