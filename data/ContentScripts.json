@@ -157,6 +157,12 @@
       "matches": ["*://web.whatsapp.com/*"],
       "css": ["./styles/websites/web.whatsapp.css"],
       "run_at": "document_start"
+    },
+    {
+      "name": "Notion",
+      "matches": ["*://*.notion.so/*"],
+      "css": ["./styles/websites/notion.css"],
+      "run_at": "document_start"
     }
   ]
 }
