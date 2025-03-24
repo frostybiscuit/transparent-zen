@@ -1,0 +1,67 @@
+@import url("../global/base.css");
+
+#wa_web_initial_startup {
+  --splashscreen-primary-title: var(--color-text);
+
+  background: none !important;
+
+  ._apdm {
+    &::after {
+      content: none;
+    }
+  }
+}
+
+#whatsapp-web {
+  .dark {
+    --WDS-background-wash-inset: transparent;
+  }
+
+  #app {
+    --background-default: var(--transparent-background);
+    --background-default-active: var(--transparent-background-dark);
+    --background-default-hover: var(--transparent-background-dark);
+    --navbar-background: var(--transparent-background);
+    --navbar-border: transparent;
+    --panel-background-lighter: transparent;
+    --panel-header-background: transparent;
+    --search-container-background: var(--transparent-background);
+    --search-input-container-background: transparent;
+    --filters-container-background: var(--transparent-background);
+    --butterbar-default-background: var(--transparent-background);
+    --intro-background: var(--transparent-background);
+    --drawer-section-background: transparent;
+
+    --conversation-panel-background: var(--transparent-background);
+    --rich-text-panel-background: var(--transparent-background);
+    --compose-input-background: var(--transparent-background);
+
+    .two {
+      /* Toolbar / Navigation pane */
+      > header {
+        /* Settings Panel */
+        /* For the record.. yes, this is the only way to select it */
+        + div > div > span > div > div > span > div.copyable-area {
+          background-color: var(--transparent-background-darker) !important;
+          backdrop-filter: var(--backdrop-blur);
+        }
+
+        /* Channels Panel */
+        + div > div > span > div > span > div > div.copyable-area {
+          background-color: var(--transparent-background-darker) !important;
+          backdrop-filter: var(--backdrop-blur);
+        }
+      }
+    }
+
+    #pane-side {
+      background: none !important;
+
+      /* "Get Windows App" button */
+      + [role="button"] > div > div > div {
+        background-color: var(--transparent-background-darker) !important;
+        backdrop-filter: var(--backdrop-blur);
+      }
+    }
+  }
+}

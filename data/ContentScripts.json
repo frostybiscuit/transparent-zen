@@ -21,12 +21,6 @@
       "run_at": "document_start"
     },
     {
-      "name": "Amazon",
-      "matches": ["*://*.amazon.com/*", "*://*.amazon.de/*"],
-      "css": ["./styles/websites/amazon.css"],
-      "run_at": "document_start"
-    },
-    {
       "name": "DDL-Warez",
       "matches": ["*://*.ddl-warez.cc/*"],
       "css": ["./styles/websites/ddl-warez.css"],
@@ -39,27 +33,9 @@
       "run_at": "document_start"
     },
     {
-      "name": "GOG",
-      "matches": ["*://*.gog.com/*"],
-      "css": ["./styles/websites/gog.css"],
-      "run_at": "document_start"
-    },
-    {
-      "name": "Kinguin",
-      "matches": ["*://*.kinguin.net/*"],
-      "css": ["./styles/websites/kinguin.css"],
-      "run_at": "document_start"
-    },
-    {
       "name": "Kryptex",
       "matches": ["*://*.kryptex.com/*"],
       "css": ["./styles/websites/kryptex.css"],
-      "run_at": "document_start"
-    },
-    {
-      "name": "Lieferando",
-      "matches": ["*://*.lieferando.at/*"],
-      "css": ["./styles/websites/lieferando.css"],
       "run_at": "document_start"
     },
     {
@@ -174,6 +150,12 @@
       "name": "Google Drive",
       "matches": ["*://drive.google.com/*"],
       "css": ["./styles/websites/drive.google.css"],
+      "run_at": "document_start"
+    },
+    {
+      "name": "WhatsApp Web",
+      "matches": ["*://web.whatsapp.com/*"],
+      "css": ["./styles/websites/web.whatsapp.css"],
       "run_at": "document_start"
     }
   ]
