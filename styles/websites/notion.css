@@ -1,0 +1,87 @@
+@import url("../global/base.css");
+
+#notion-app {
+  .notion-app-inner {
+    background: none !important;
+
+    .notion-cursor-listener {
+      background: none !important;
+
+      .notion-sidebar-container {
+        background: var(--transparent-background) !important;
+
+        ~ [role="region"] {
+          background-color: var(--transparent-background-dark) !important;
+          backdrop-filter: var(--backdrop-blur);
+        }
+      }
+
+      header:has(> .notion-topbar) {
+        background: var(--transparent-background-dark) !important;
+        backdrop-filter: var(--backdrop-blur);
+      }
+
+      .notion-frame {
+        .notion-scroller {
+          background: none !important;
+        }
+
+        .notion-table-view-header-row,
+        .notion-table-view-add-row {
+          background-color: var(--transparent-background) !important;
+        }
+      }
+
+      .layout {
+        .notion-selectable,
+        .notion-sub_sub_header-block {
+          > div[style*="background"] {
+            background-color: var(--transparent-background) !important;
+          }
+        }
+
+        &.layout-chat {
+          .notion-scroller {
+            [role="button"] {
+              background: var(--transparent-background) !important;
+
+              &:hover {
+                background: var(--transparent-background-dark) !important;
+              }
+            }
+          }
+        }
+
+        &.layout-home {
+          .layout-content {
+            [role="button"],
+            [role="link"] {
+              background: var(--transparent-background) !important;
+
+              &:hover {
+                background: var(--transparent-background-dark) !important;
+              }
+            }
+          }
+        }
+
+        &.layout-marketplace {
+          > .layout-full[style*="position: sticky"] {
+            background: var(--transparent-background-dark) !important;
+            backdrop-filter: var(--backdrop-blur);
+          }
+
+          section {
+            [role="navigation"] {
+              + div {
+                div[style*="linear-gradient("]:has(+ form[role="search"]) {
+                  background-image: none !important;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

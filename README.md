@@ -53,6 +53,7 @@ The following websites are currently supported by Transparent Zen:
 - 🟢 mail.google.com (needs dark theme enabled)
 - 🟢 drive.google.com (needs dark theme enabled)
 - 🟢 web.whatsapp.com
+- 🟢 notion.so
 - 🟠 amazon.de
 - 🟠 lieferando.at
 - 🔴 gog.com
@@ -61,18 +62,20 @@ The following websites are currently supported by Transparent Zen:
 #### To Do
 - [x] ~~outlook.live.com~~
 - [x] ~~notebooklm.google.com~~
-- [ ] web.whatsapp.com
+- [x] ~~web.whatsapp.com~~
 - [ ] music.youtube.com
 - [ ] deepseek.com
 - [ ] Plex Media Server (usually 127.0.0.1:32400)
 - [ ] linkedin.com
 - [x] ~~google.com~~
 - [ ] instagram.com
-- [ ] x.com
 - [ ] threads.net
 - [ ] monkeytype.com
 - [ ] quora.com
 - [ ] search.brave.com
+- [ ] facebook.com
+- [ ] messenger.com
+- [ ] x.com
 
 ## Prerequisites
 #### Windows 11
