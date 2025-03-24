@@ -17,7 +17,8 @@ html[dark] {
 
 #home-chips,
 #chips-wrapper.ytd-feed-filter-chip-bar-renderer {
-  position: static;
+  position: relative;
+  top: 0;
 
   yt-chip-cloud-chip-renderer[chip-style="STYLE_DEFAULT"][selected],
   yt-chip-cloud-chip-renderer[chip-style="STYLE_HOME_FILTER"][selected] {
