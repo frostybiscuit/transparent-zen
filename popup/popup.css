@@ -1,12 +1,21 @@
 @import url("../shared/variables.css");
+@import url("../shared/fonts.css");
+
+:root {
+  --font-regular: "Open Sans Regular", sans-serif;
+  --font-medium: "Open Sans Medium", sans-serif;
+  --font-bold: "Open Sans Bold", sans-serif;
+}
 
 body {
   width: 350px;
   padding: 0;
   margin: 0;
-  background-color: var(--transparent-background-darker);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-regular);
   color: var(--color-text);
+  background-color: var(--transparent-background-darker);
+  background-image: url("../assets/images/popup_background.jpg");
+  background-size: cover;
 
   .container {
     display: flex;
@@ -14,11 +23,29 @@ body {
     gap: 12px;
 
     #extension-header {
-      background-color: var(--color-bg);
+      display: flex;
+      align-items: baseline;
+      position: sticky;
+      top: 0;
+      background-color: var(--transparent-background);
+      backdrop-filter: var(--backdrop-blur);
       padding: 16px;
+      gap: 8px;
+      z-index: 1;
+
+      .logo {
+        width: 26px;
+        align-self: center;
+      }
 
       .headline {
         margin: 0;
+        font-size: 26px;
+        font-family: var(--font-bold);
+      }
+
+      .version {
+        opacity: 0.5;
       }
     }
 
@@ -66,19 +93,33 @@ body {
             height: 300px;
             overflow: hidden;
 
-            &::after {
-              content: "";
-              position: absolute;
-              bottom: 0;
-              left: 0;
-              width: 100%;
-              height: 50%;
-              background: linear-gradient(to bottom, transparent, var(--transparent-background-darker));
+            li {
+              + li {
+                opacity: 0.9;
+                + li {
+                  opacity: 0.8;
+                  + li {
+                    opacity: 0.7;
+                    + li {
+                      opacity: 0.6;
+                      + li {
+                        opacity: 0.5;
+                        + li {
+                          opacity: 0.4;
+                          + li {
+                            opacity: 0.3;
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
 
           li {
-            background-color: var(--color-bg);
+            background-color: var(--transparent-background-dark);
             padding: 8px;
             border-radius: 4px;
             display: flex;
@@ -101,7 +142,7 @@ body {
             border-radius: var(--border-radius);
             padding: 4px 8px;
             font-size: 16px;
-            font-weight: 500;
+            font-family: var(--font-medium);
             cursor: pointer;
 
             &:hover {
