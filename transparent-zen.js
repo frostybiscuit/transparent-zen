@@ -1,5 +1,5 @@
 class TransparentZen {
-	BLACKLISTED_ELEMENTS = ["BUTTON", "A", "INPUT", "TEXTAREA"];
+	BLACKLISTED_ELEMENTS = ["BUTTON", "INPUT", "TEXTAREA"];
 	transparentZenSettings;
 	documentObserver;
 
@@ -62,6 +62,10 @@ class TransparentZen {
 				case "getDomain": {
 					return Promise.resolve(window.location.hostname);
 				}
+				case "changePrimaryColor": {
+					this.applyPrimaryColor(request.value);
+					break;
+				}
 			}
 		});
 	}
@@ -70,10 +74,14 @@ class TransparentZen {
 		const baseStyles = document.createElement("link");
 		baseStyles.rel = "stylesheet";
 		baseStyles.id = "transparent-zen-base-css";
-		baseStyles.href = browser.runtime.getURL("styles/global/base.css");
+		baseStyles.href = browser.runtime.getURL("styles/global/dynamic-transparency.css");
 		document.head.insertAdjacentElement("beforeend", baseStyles);
 
 		document.addEventListener("DOMContentLoaded", () => {
+			if (this.transparentZenSettings?.["primary-color"]) {
+				this.applyPrimaryColor(this.transparentZenSettings["primary-color"]);
+			}
+
 			this.applyTransparencyRules();
 
 			let debounce;
@@ -103,8 +111,8 @@ class TransparentZen {
 			if (styleMap.backgroundColor && styleMap.backgroundColor !== "rgba(0, 0, 0, 0)" && styleMap.backgroundColor !== "transparent") {
 				const hasLowContrast = this.hasLowContrast(styleMap.backgroundColor, styleMap.color);
 				if (hasLowContrast) {
-					console.log("Has low contrast", root);
-					root.style.backgroundColor = "var(--transparent-background)";
+					root.dataset.tzLowContrast = true;
+					root.dataset.tzProcessed = true;
 				}
 			}
 		}
@@ -116,27 +124,33 @@ class TransparentZen {
 		const style = window.getComputedStyle(root);
 		const parentStyleMap = window.getComputedStyle(root.parentElement);
 		const background = style.backgroundColor;
+		const hasBackground = background !== "rgba(0, 0, 0, 0)" && background !== "transparent";
 		const color = style.color;
 		let nextDepth = depth;
 
 		if (color && this.hasLowLumen(color)) {
-			root.style.color = "white";
+			root.dataset.tzLowLumen = true;
+			root.dataset.tzProcessed = true;
 		}
 
-		if (background !== "rgba(0, 0, 0, 0)" && background !== "transparent" && root.dataset.tzProcessed !== "true") {
-			if (depth === 0 && root.offsetWidth - 100 > document.documentElement.offsetWidth) {
-				root.style.backgroundColor = "transparent";
+		if (hasBackground && color) {
+			const hasLowContrast = this.hasLowContrast(style.backgroundColor, style.color);
+			if (hasLowContrast) {
+				root.dataset.tzLowContrast = true;
 				root.dataset.tzProcessed = true;
+				root.dataset.tzDepth = depth;
 				nextDepth++;
-			} else if (depth <= Number.parseInt(maxDepth)) {
+			}
+		}
+
+		if (hasBackground && root.dataset.tzProcessed !== "true") {
+			if (depth <= Number.parseInt(maxDepth)) {
 				if (style.position === "fixed" || style.position === "absolute" || style.position === "sticky" || parentStyleMap.position === "fixed" || parentStyleMap.position === "absolute" || parentStyleMap.position === "sticky") {
-					root.style.backgroundColor = "var(--transparent-background-darker)";
-					root.style.backdropFilter = "var(--backdrop-blur)";
-				} else {
-					root.style.backgroundColor = "var(--transparent-background)";
+					root.dataset.tzOverlay = true;
 				}
 
 				root.dataset.tzProcessed = true;
+				root.dataset.tzDepth = depth;
 				nextDepth++;
 			}
 		}
@@ -146,17 +160,24 @@ class TransparentZen {
 		}
 	}
 
+	applyPrimaryColor(color) {
+		document.body.style.setProperty("--color-primary", color);
+	}
+
 	removeTransparencyRules() {
 		if (this.documentObserver) {
 			this.documentObserver.disconnect();
 		}
 
+		document.body.style.removeProperty("--color-primary");
+
 		const processedElements = document.querySelectorAll("[data-tz-processed]");
 		for (const element of processedElements) {
-			element.style.backgroundColor = "";
-			element.style.backdropFilter = "";
-			element.style.color = "";
 			element.removeAttribute("data-tz-processed");
+			element.removeAttribute("data-tz-depth");
+			element.removeAttribute("data-tz-overlay");
+			element.removeAttribute("data-tz-low-contrast");
+			element.removeAttribute("data-tz-low-lumen");
 		}
 	}
 

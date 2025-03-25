@@ -1,0 +1,48 @@
+@import url("./base.css");
+
+* {
+  color: var(--color-text);
+}
+
+a {
+  color: var(--color-primary);
+}
+
+[data-tz-processed] {
+  border: 0 !important;
+  box-shadow: none !important;
+
+  &[data-tz-depth] {
+    background-color: var(--transparent-background) !important;
+    color: var(--color-text);
+  }
+
+  &[data-tz-depth="0"] {
+    background-color: transparent !important;
+  }
+
+  &[data-tz-low-lumen] {
+    color: var(--color-text) !important;
+  }
+
+  &[data-tz-low-contrast] {
+    background-color: var(--transparent-background) !important;
+    color: var(--color-text) !important;
+  }
+
+  &[data-tz-overlay] {
+    background: none !important;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--transparent-background-darker) !important;
+      backdrop-filter: var(--backdrop-blur) !important;
+      z-index: -1;
+    }
+  }
+}
