@@ -26,6 +26,9 @@ class ExtensionPopup {
 					await this.toggleDomainBlacklist(input.checked);
 					this.sendMessageToActiveTabs({ action: "toggleTransparency", enabled: !input.checked });
 				}
+				if (input.name === "primary-color") {
+					this.sendMessageToActiveTabs({ action: "changePrimaryColor", value: input.value });
+				}
 				this.toggleDependantSettings(input);
 				this.saveSettings();
 			});
