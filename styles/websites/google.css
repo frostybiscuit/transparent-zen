@@ -82,6 +82,16 @@ form[role="search"] {
   }
 }
 
+.obcontainer {
+  background: var(--transparent-background) !important;
+  border-radius: var(--border-radius-lg);
+  padding: 8px;
+}
+
+div:has(> .xpdbox) {
+  background: none !important;
+}
+
 #botstuff {
   div:has(> div > div > a) {
     background: var(--transparent-background) !important;
