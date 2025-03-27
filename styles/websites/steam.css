@@ -354,6 +354,10 @@
   z-index: var(--z-index-modal-background) !important;
 }
 
+.gotsteamModal {
+  z-index: var(--z-index-modal) !important;
+}
+
 .screenshot_popup_modal {
   z-index: var(--z-index-modal) !important;
 
