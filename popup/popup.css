@@ -64,7 +64,29 @@ body {
         .setting {
           display: flex;
           align-items: center;
-          gap: 8px;
+          column-gap: 8px;
+
+          &[data-depends-on] {
+            display: none;
+
+            &.visible {
+              display: flex;
+            }
+          }
+
+          &:not(:has(> input[type="checkbox"])) {
+            flex-wrap: wrap;
+
+            input {
+              width: 100%;
+              padding: 5px 10px;
+              background-color: var(--transparent-background);
+              color: var(--color-text);
+              border: 0;
+              border-radius: var(--border-radius);
+              border-left: 4px solid transparent;
+            }
+          }
         }
 
         .settings-group {

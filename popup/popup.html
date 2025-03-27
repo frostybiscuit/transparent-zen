@@ -9,7 +9,7 @@
     <div id="extension-header">
       <!-- <img class="logo" src="../assets/images/logo_48.png" alt="Transparent Zen Logo"> -->
       <h1 class="headline">Transparent Zen</h1>
-      <span class="version">v0.2.10</span>
+      <span class="version">v0.3.0</span>
     </div>
     <div id="extension-body">
       <form id="extension-settings">
@@ -24,13 +24,29 @@
             Disable for this domain
           </label>
           <label class="setting">
-            Primary Color
-            <input type="text" name="primary-color" placeholder="#82C7FF">
+            <input type="checkbox" name="prevent-flicker">
+            Prevent flickering
+          </label>
+          <label class="setting" data-depends-on="prevent-flicker">
+            <input type="checkbox" name="small-loading-icon">
+            Small loading icon
           </label>
           <label class="setting">
+            Text Color
+            <input type="text" name="text-color" placeholder="#FFFFFF" style="border-left-color: #FFFFFF;">
+          </label>
+          <label class="setting">
+            Primary Color
+            <input type="text" name="primary-color" placeholder="#82C7FF" style="border-left-color: #82C7FF;">
+          </label>
+          <label class="setting">
+            Background Color
+            <input type="text" name="background-color" placeholder="rgba(17, 17, 17, 0.5)" style="border-left-color: rgba(17, 17, 17, 0.5);">
+          </label>
+          <!-- <label class="setting">
             Transparency Depth
             <input type="number" name="transparency-depth" placeholder="3" min="1" max="10">
-          </label>
+          </label> -->
         </div>
       </form>
       <section id="supported-websites">

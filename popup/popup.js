@@ -26,8 +26,17 @@ class ExtensionPopup {
 					await this.toggleDomainBlacklist(input.checked);
 					this.sendMessageToActiveTabs({ action: "toggleTransparency", enabled: !input.checked });
 				}
+				if (input.name === "text-color") {
+					this.sendMessageToActiveTabs({ action: "changeTextColor", value: input.value });
+					input.style.borderLeftColor = input.value || input.placeholder;
+				}
 				if (input.name === "primary-color") {
 					this.sendMessageToActiveTabs({ action: "changePrimaryColor", value: input.value });
+					input.style.borderLeftColor = input.value || input.placeholder;
+				}
+				if (input.name === "background-color") {
+					this.sendMessageToActiveTabs({ action: "changeBackgroundColor", value: input.value });
+					input.style.borderLeftColor = input.value || input.placeholder;
 				}
 				this.toggleDependantSettings(input);
 				this.saveSettings();
@@ -89,6 +98,14 @@ class ExtensionPopup {
 						case "text":
 						case "number":
 							element.value = this.browserStorageSettings[element.name];
+							break;
+					}
+
+					switch (element.name) {
+						case "text-color":
+						case "primary-color":
+						case "background-color":
+							element.style.borderLeftColor = this.browserStorageSettings[element.name];
 							break;
 					}
 				}
