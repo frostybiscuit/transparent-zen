@@ -4,9 +4,9 @@
   --color-tertiary: blueviolet;
   --color-link-visited: #9ea2ff;
   --color-text: var(--color-white);
-  --color-text-alt: #2b2b2b;
-  --color-bg: var(--color-white);
-  --color-bg-alt: #efefef;
+  --color-text-alt: var(--color-grey);
+  --color-bg: var(--color-black);
+  --color-bg-alt: var(--color-black-light);
 
   --color-white: #fff;
   --color-grey: #b9b9b9;
@@ -28,14 +28,5 @@
   --gradient-reverse: linear-gradient(200deg, var(--color-primary), var(--color-tertiary));
   --border-radius: 5px;
   --border-radius-lg: 8px;
-  --backdrop-blur: blur(8px);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: var(--color-black);
-    --color-bg-alt: var(--color-black-light);
-    --color-text: var(--color-white);
-    --color-text-alt: var(--color-grey);
-  }
+  --backdrop-blur: blur(20px);
 }

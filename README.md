@@ -83,6 +83,13 @@ With 0.2.0 Transparent Zen now has the option to make any website transparent by
 
 While this works well on many websites, this is a very early state of this feature and will be improved with future updates to get a better experience on more websites. For the case that a website is rendered unusable with this, it is possible to disable this per domain in the extension popup.
 
+#### To-Do
+- [ ] Reduce flashing on style application
+- [ ] Add per-site configuration
+- [ ] Add options to configure colors for supported sites
+- [ ] Improve stability
+- [ ] Rework popup for expandability
+
 ## Prerequisites
 #### Windows 11
 1. Install [MicaForEveryone](https://github.com/MicaForEveryone/MicaForEveryone)

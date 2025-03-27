@@ -8,8 +8,3 @@ main {
     background: none !important;
   }
 }
-
-*::before,
-*::after {
-  background-color: none !important;
-}

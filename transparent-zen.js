@@ -66,6 +66,14 @@ class TransparentZen {
 					this.applyPrimaryColor(request.value);
 					break;
 				}
+				case "changeTextColor": {
+					this.applyTextColor(request.value);
+					break;
+				}
+				case "changeBackgroundColor": {
+					this.applyBackgroundColor(request.value);
+					break;
+				}
 			}
 		});
 	}
@@ -77,20 +85,41 @@ class TransparentZen {
 		baseStyles.href = browser.runtime.getURL("styles/global/dynamic-transparency.css");
 		document.head.insertAdjacentElement("beforeend", baseStyles);
 
+		if (this.transparentZenSettings?.["prevent-flicker"] && document.readyState !== "complete") {
+			document.documentElement?.classList.add("tz-hidden");
+			document.documentElement?.style.setProperty("--zen-logo-path", `url(${browser.runtime.getURL("assets/images/zen_logo.svg")})`);
+			if (this.transparentZenSettings["small-loading-icon"]) {
+				document.documentElement.classList.add("tz-small-loading-icon");
+			}
+		}
+
 		document.addEventListener("DOMContentLoaded", () => {
 			if (this.transparentZenSettings?.["primary-color"]) {
 				this.applyPrimaryColor(this.transparentZenSettings["primary-color"]);
+			}
+			if (this.transparentZenSettings?.["text-color"]) {
+				this.applyTextColor(this.transparentZenSettings["text-color"]);
+			}
+			if (this.transparentZenSettings?.["background-color"]) {
+				this.applyBackgroundColor(this.transparentZenSettings["background-color"]);
 			}
 
 			this.applyTransparencyRules();
 
 			let debounce;
+			let initialized = false;
 			this.documentObserver = new MutationObserver(() => {
 				if (debounce) {
 					clearTimeout(debounce);
 				}
 				debounce = setTimeout(() => {
 					this.applyTransparencyRules();
+					if (!initialized) {
+						if (this.transparentZenSettings?.["prevent-flicker"]) {
+							document.documentElement.classList.remove("tz-hidden", "tz-small-loading-icon");
+						}
+						initialized = true;
+					}
 				}, 100);
 			});
 
@@ -99,9 +128,15 @@ class TransparentZen {
 				subtree: true,
 			});
 		});
+
+		document.addEventListener("readystatechange", () => {
+			if (document.readyState === "complete") {
+				document.documentElement.classList.remove("tz-hidden", "tz-small-loading-icon");
+			}
+		});
 	}
 
-	applyTransparencyRules(root = document.body, depth = 0, maxDepth = this.transparentZenSettings?.["transparency-depth"] || 3) {
+	applyTransparencyRules(root = document.body, depth = 0, maxDepth = this.transparentZenSettings?.["transparency-depth"] || 3, insideOverlay = false) {
 		if (root.tagName === "A") {
 			const styleMap = window.getComputedStyle(root);
 			root.style.color = "var(--color-primary)";
@@ -125,43 +160,74 @@ class TransparentZen {
 		const parentStyleMap = window.getComputedStyle(root.parentElement);
 		const background = style.backgroundColor;
 		const hasBackground = background !== "rgba(0, 0, 0, 0)" && background !== "transparent";
+		const hasGradient = style.background.indexOf("gradient(") >= 0;
 		const color = style.color;
 		let nextDepth = depth;
+		let isInsideOverlay = insideOverlay;
 
 		if (color && this.hasLowLumen(color)) {
-			root.dataset.tzLowLumen = true;
 			root.dataset.tzProcessed = true;
-		}
+			root.dataset.tzLowLumen = true;
 
-		if (hasBackground && color) {
-			const hasLowContrast = this.hasLowContrast(style.backgroundColor, style.color);
-			if (hasLowContrast) {
-				root.dataset.tzLowContrast = true;
-				root.dataset.tzProcessed = true;
+			if (hasBackground) {
 				root.dataset.tzDepth = depth;
-				nextDepth++;
 			}
 		}
 
-		if (hasBackground && root.dataset.tzProcessed !== "true") {
-			if (depth <= Number.parseInt(maxDepth)) {
-				if (style.position === "fixed" || style.position === "absolute" || style.position === "sticky" || parentStyleMap.position === "fixed" || parentStyleMap.position === "absolute" || parentStyleMap.position === "sticky") {
-					root.dataset.tzOverlay = true;
-				}
+		if (hasGradient) {
+			root.dataset.tzProcessed = true;
+			root.dataset.tzGradient = true;
+		}
 
+		if (style.position === "fixed" || style.position === "absolute" || style.position === "sticky" || parentStyleMap.position === "fixed" || parentStyleMap.position === "absolute" || parentStyleMap.position === "sticky") {
+			if (depth <= 1) {
 				root.dataset.tzProcessed = true;
-				root.dataset.tzDepth = depth;
-				nextDepth++;
+				root.dataset.tzOverlay = true;
+				isInsideOverlay = true;
+
+				if (hasBackground) {
+					root.dataset.tzDepth = "-1";
+				}
+			}
+		}
+
+		if (!root.dataset.tzProcessed) {
+			if (hasBackground && color) {
+				const hasLowContrast = this.hasLowContrast(style.backgroundColor, style.color);
+				if (hasLowContrast) {
+					root.dataset.tzLowContrast = true;
+					root.dataset.tzProcessed = true;
+					root.dataset.tzDepth = depth;
+				}
+			}
+
+			if (hasBackground) {
+				if (depth === 0 && isInsideOverlay) {
+					root.dataset.tzInsideOverlay = true;
+				}
+				if (depth <= Number.parseInt(maxDepth)) {
+					root.dataset.tzProcessed = true;
+					root.dataset.tzDepth = depth;
+					nextDepth++;
+				}
 			}
 		}
 
 		for (const child of root.children) {
-			this.applyTransparencyRules(child, nextDepth, maxDepth);
+			this.applyTransparencyRules(child, nextDepth, maxDepth, isInsideOverlay);
 		}
 	}
 
 	applyPrimaryColor(color) {
 		document.body.style.setProperty("--color-primary", color);
+	}
+
+	applyTextColor(color) {
+		document.body.style.setProperty("--color-text", color);
+	}
+
+	applyBackgroundColor(color) {
+		document.body.style.setProperty("--transparent-background", color);
 	}
 
 	removeTransparencyRules() {
