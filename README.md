@@ -92,11 +92,11 @@ While this works well on many websites, this is a very early state of this featu
 
 ## Prerequisites
 #### Windows 11
-1. Install [MicaForEveryone](https://github.com/MicaForEveryone/MicaForEveryone)
-2. In MicaForEveryone add a new process rule and select "zen"
-3. Activate **Blur Behind** and set the Backdrop Type to **Acrylic**
-4. Open Zen Browser and go to `about:config`
-5. Make sure that `browser.tabs.allow_transparent_browser`, `widget.transparent-windows` and `widget.windows.mica` are all set to **true**
+1. Open Zen Browser and go to `about:config`
+2. Make sure that `browser.tabs.allow_transparent_browser`, `widget.transparent-windows` and `widget.windows.mica` are all set to **true**
+3. Install [MicaForEveryone](https://github.com/MicaForEveryone/MicaForEveryone) (optional)
+    - In MicaForEveryone add a new process rule and select "zen"
+    - Activate **Blur Behind** and set the Backdrop Type to **Acrylic**
 
 ##### TODO: Add other OS prerequisites
 
