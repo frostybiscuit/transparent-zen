@@ -88,6 +88,7 @@ While this works well on many websites, this is a very early state of this featu
 - [ ] Add per-site configuration
 - [ ] Add options to configure colors for supported sites
 - [ ] Improve stability
+- [ ] Find a solution for hover states
 - [ ] Rework popup for expandability
 
 ## Prerequisites
