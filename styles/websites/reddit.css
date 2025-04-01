@@ -104,6 +104,10 @@ comment-body-header {
   margin-bottom: 20px;
   overflow: hidden;
 
+  > hr {
+    display: none !important;
+  }
+
   .bg-neutral-background {
     background: none !important;
   }
@@ -113,10 +117,20 @@ comment-body-header {
     padding: 10px;
     margin-top: 0 !important;
   }
+
+  shreddit-composer {
+    --color-neutral-border: transparent;
+    --color-neutral-border-medium: transparent;
+  }
 }
 
 shreddit-comment-tree {
   --shreddit-content-background: var(--transparent-background);
   --color-neutral-background: transparent;
   border-radius: var(--border-radius-lg);
+  padding: 0.5rem;
+
+  &[totalcomments="0"] {
+    display: none !important;
+  }
 }

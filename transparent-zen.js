@@ -116,7 +116,7 @@ class TransparentZen {
 					this.applyTransparencyRules();
 					if (!initialized) {
 						if (this.transparentZenSettings?.["prevent-flicker"]) {
-							document.documentElement.classList.remove("tz-hidden", "tz-small-loading-icon");
+							this.removeLoadingScreen();
 						}
 						initialized = true;
 					}
@@ -131,9 +131,15 @@ class TransparentZen {
 
 		document.addEventListener("readystatechange", () => {
 			if (document.readyState === "complete") {
-				document.documentElement.classList.remove("tz-hidden", "tz-small-loading-icon");
+				this.removeLoadingScreen();
 			}
 		});
+	}
+
+	removeLoadingScreen() {
+		setTimeout(() => {
+			document.documentElement.classList.remove("tz-hidden", "tz-small-loading-icon");
+		}, 500);
 	}
 
 	applyTransparencyRules(root = document.body, depth = 0, maxDepth = this.transparentZenSettings?.["transparency-depth"] || 3, insideOverlay = false) {

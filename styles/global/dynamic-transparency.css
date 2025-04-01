@@ -70,6 +70,11 @@ a {
     background-color: var(--transparent-background) !important;
     color: var(--color-text);
 
+    &::before,
+    &::after {
+      background-color: transparent !important;
+    }
+
     &[data-tz-inside-overlay] {
       background-color: var(--transparent-background-darker) !important;
     }
