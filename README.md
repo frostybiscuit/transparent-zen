@@ -84,9 +84,9 @@ With 0.2.0 Transparent Zen now has the option to make any website transparent by
 While this works well on many websites, this is a very early state of this feature and will be improved with future updates to get a better experience on more websites. For the case that a website is rendered unusable with this, it is possible to disable this per domain in the extension popup.
 
 #### To-Do
-- [ ] Reduce flashing on style application
+- [x] ~~Reduce flashing on style application~~
 - [ ] Add per-site configuration
-- [ ] Add options to configure colors for supported sites
+- [x] ~~Add options to configure colors for supported sites~~
 - [ ] Improve stability
 - [ ] Find a solution for hover states
 - [ ] Rework popup for expandability

@@ -1,58 +1,6 @@
 @import url("./base.css");
-@import url("./animations.css");
-
-:root {
-  body {
-    transition: visibility 250ms, opacity 250ms;
-    visibility: visible;
-    opacity: 1;
-  }
-
-  &.tz-hidden {
-    body {
-      transition: none;
-      visibility: hidden;
-      opacity: 0;
-    }
-
-    &::before,
-    &::after {
-      content: "";
-      position: fixed;
-      background-image: var(--zen-logo-path) !important;
-      background-size: cover !important;
-      filter: invert(1);
-      display: block;
-      width: 200px;
-      height: 200px;
-      left: calc(50% - 100px);
-      top: calc(50% - 100px);
-    }
-
-    &::before {
-      animation-name: tz-pulse;
-      animation-duration: 4s;
-      animation-iteration-count: infinite;
-      animation-timing-function: ease-in-out;
-    }
-
-    &::after {
-      opacity: 0.05;
-    }
-
-    &.tz-small-loading-icon {
-      &::before,
-      &::after {
-        width: 100px;
-        height: 100px;
-        left: auto;
-        top: auto;
-        bottom: 50px;
-        right: 50px;
-      }
-    }
-  }
-}
+@import url("./bootstrap.css");
+@import url("./buttons.css");
 
 *:not(button):not(input):not(textarea) {
   color: var(--color-text);

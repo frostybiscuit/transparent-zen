@@ -62,6 +62,7 @@ class ExtensionPopup {
 	}
 
 	async getSupportedWebsites() {
+		this.browserStorageSettings.disabledWebsites ??= [];
 		const contentScripts = await this.getContentScripts();
 		if (!contentScripts) {
 			return;
@@ -71,6 +72,33 @@ class ExtensionPopup {
 		for (const website of contentScripts.supportedWebsites) {
 			const listElement = document.createElement("li");
 			listElement.textContent = website.name;
+
+			const toggleButton = document.createElement("button");
+			const disabledWebsiteIndex = this.browserStorageSettings.disabledWebsites.findIndex((site) => site.name === website.name);
+			if (disabledWebsiteIndex >= 0) {
+				toggleButton.classList.remove("active");
+			} else {
+				toggleButton.classList.add("active");
+			}
+
+			toggleButton.addEventListener("click", () => {
+				if (toggleButton.classList.contains("active")) {
+					this.browserStorageSettings.disabledWebsites.push(website);
+					browser.runtime.sendMessage({ action: "removeStyles", filePath: website.css[0] });
+					toggleButton.classList.remove("active");
+				} else {
+					this.browserStorageSettings.disabledWebsites.splice(disabledWebsiteIndex, 1);
+					console.log(website);
+					browser.runtime.sendMessage({ action: "insertStyles", filePath: website.css[0], domains: website.matches });
+					toggleButton.classList.add("active");
+				}
+
+				browser.storage.local.set({ [this.BROWSER_STORAGE_KEY]: this.browserStorageSettings });
+				this.sendMessageToActiveTabs({ action: "updateSettings" });
+				console.info("Settings saved", this.browserStorageSettings);
+			});
+
+			listElement.appendChild(toggleButton);
 			supportedWebsitesList.appendChild(listElement);
 		}
 	}

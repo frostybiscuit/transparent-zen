@@ -4,13 +4,15 @@ class TransparentZen {
 	documentObserver;
 
 	constructor() {
-		this.checkIfWebsiteAlreadySupported().then((isSupported) => {
-			if (!isSupported) {
+		this.initLoadingScreen();
+		this.checkIfWebsiteAlreadySupported().then((contentScript) => {
+			if (!contentScript) {
 				console.info("Website is not supported by Transparent Zen");
 				this.initTransparency();
 				this.initBrowserEvents();
 			} else {
 				console.info("Website is supported by Transparent Zen");
+				this.initSupportedWebsite(contentScript);
 			}
 		});
 	}
@@ -25,7 +27,7 @@ class TransparentZen {
 					for (const script of data.supportedWebsites) {
 						for (const match of script.matches) {
 							if (this.matchesHref(currentUrl, match)) {
-								resolve(true);
+								resolve(script);
 								break;
 							}
 						}
@@ -36,11 +38,42 @@ class TransparentZen {
 		});
 	}
 
+	initSupportedWebsite(contentScript) {
+		browser.storage.local.get("transparentZenSettings", (settings) => {
+			this.transparentZenSettings = settings.transparentZenSettings;
+			if (
+				!this.transparentZenSettings?.disabledWebsites ||
+				this.transparentZenSettings?.disabledWebsites?.findIndex((website) => {
+					for (const match of website.matches) {
+						if (this.matchesHref(window.location.href, match)) {
+							return true;
+						}
+					}
+					return false;
+				}) === -1
+			) {
+				browser.runtime.sendMessage({ action: "insertStyles", filePath: contentScript.css[0], domains: contentScript.matches });
+				this.initBrowserEvents();
+			}
+			if (document.readyState === "complete") {
+				this.initExtensionSettingsStyles();
+				this.removeLoadingScreen();
+			} else {
+				document.addEventListener("DOMContentLoaded", () => {
+					this.initExtensionSettingsStyles();
+					this.removeLoadingScreen();
+				});
+			}
+		});
+	}
+
 	initTransparency() {
 		browser.storage.local.get("transparentZenSettings", (settings) => {
 			this.transparentZenSettings = settings.transparentZenSettings;
 			if (this.transparentZenSettings?.["enable-transparency"] && (!this.transparentZenSettings?.blacklistedDomains || this.transparentZenSettings?.blacklistedDomains?.indexOf(window.location.hostname) === -1)) {
 				this.processPage();
+			} else {
+				this.removeLoadingScreen();
 			}
 		});
 	}
@@ -55,7 +88,6 @@ class TransparentZen {
 						document.getElementById("transparent-zen-base-css")?.remove();
 						document.getElementById("transparent-zen-dynamic-css")?.remove();
 						this.removeTransparencyRules();
-						// location.reload();
 					}
 					break;
 				}
@@ -85,25 +117,12 @@ class TransparentZen {
 		baseStyles.href = browser.runtime.getURL("styles/global/dynamic-transparency.css");
 		document.head.insertAdjacentElement("beforeend", baseStyles);
 
-		if (this.transparentZenSettings?.["prevent-flicker"] && document.readyState !== "complete") {
-			document.documentElement?.classList.add("tz-hidden");
-			document.documentElement?.style.setProperty("--zen-logo-path", `url(${browser.runtime.getURL("assets/images/zen_logo.svg")})`);
-			if (this.transparentZenSettings["small-loading-icon"]) {
-				document.documentElement.classList.add("tz-small-loading-icon");
-			}
+		if (document.readyState !== "complete") {
+			this.initLoadingScreen();
 		}
 
 		document.addEventListener("DOMContentLoaded", () => {
-			if (this.transparentZenSettings?.["primary-color"]) {
-				this.applyPrimaryColor(this.transparentZenSettings["primary-color"]);
-			}
-			if (this.transparentZenSettings?.["text-color"]) {
-				this.applyTextColor(this.transparentZenSettings["text-color"]);
-			}
-			if (this.transparentZenSettings?.["background-color"]) {
-				this.applyBackgroundColor(this.transparentZenSettings["background-color"]);
-			}
-
+			this.initExtensionSettingsStyles();
 			this.applyTransparencyRules();
 
 			let debounce;
@@ -115,9 +134,7 @@ class TransparentZen {
 				debounce = setTimeout(() => {
 					this.applyTransparencyRules();
 					if (!initialized) {
-						if (this.transparentZenSettings?.["prevent-flicker"]) {
-							this.removeLoadingScreen();
-						}
+						this.removeLoadingScreen();
 						initialized = true;
 					}
 				}, 100);
@@ -136,10 +153,28 @@ class TransparentZen {
 		});
 	}
 
+	initLoadingScreen() {
+		document.documentElement?.classList.add("tz-hidden");
+		document.documentElement?.style.setProperty("--zen-logo-path", `url(${browser.runtime.getURL("assets/images/zen_logo.svg")})`);
+	}
+
 	removeLoadingScreen() {
 		setTimeout(() => {
 			document.documentElement.classList.remove("tz-hidden", "tz-small-loading-icon");
+			document.documentElement.style.removeProperty("--zen-logo-path");
 		}, 500);
+	}
+
+	initExtensionSettingsStyles() {
+		if (this.transparentZenSettings?.["primary-color"]) {
+			this.applyPrimaryColor(this.transparentZenSettings["primary-color"]);
+		}
+		if (this.transparentZenSettings?.["text-color"]) {
+			this.applyTextColor(this.transparentZenSettings["text-color"]);
+		}
+		if (this.transparentZenSettings?.["background-color"]) {
+			this.applyBackgroundColor(this.transparentZenSettings["background-color"]);
+		}
 	}
 
 	applyTransparencyRules(root = document.body, depth = 0, maxDepth = this.transparentZenSettings?.["transparency-depth"] || 3, insideOverlay = false) {

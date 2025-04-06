@@ -1,0 +1,47 @@
+@import url("./animations.css");
+
+:root {
+  transition: background 250ms;
+
+  body {
+    transition: visibility 250ms, opacity 250ms, background 250ms;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &.tz-hidden {
+    background: none;
+
+    body {
+      transition: none;
+      visibility: hidden;
+      background: none;
+      opacity: 0;
+    }
+
+    &::before,
+    &::after {
+      content: "";
+      position: fixed;
+      background-image: var(--zen-logo-path) !important;
+      background-size: cover !important;
+      filter: invert(1);
+      display: block;
+      width: 100px;
+      height: 100px;
+      bottom: 50px;
+      right: 50px;
+    }
+
+    &::before {
+      animation-name: tz-pulse;
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+    }
+
+    &::after {
+      opacity: 0.05;
+    }
+  }
+}

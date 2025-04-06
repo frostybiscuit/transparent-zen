@@ -1,9 +1,3 @@
 /* Global styles */
 @import url("shared/variables.css");
-/* @import url("styles/global/base.css");
-@import url("styles/global/buttons.css");
-@import url("styles/global/bootstrap.css");
-@import url("styles/global/form.css"); */
-
-/* Website specific styles */
-/* @import url("styles/websites/steam.css"); */
+@import url("styles/global/loading-screen.css");
