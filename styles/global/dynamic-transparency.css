@@ -1,6 +1,4 @@
 @import url("./base.css");
-@import url("./bootstrap.css");
-@import url("./buttons.css");
 
 *:not(button):not(input):not(textarea) {
   color: var(--color-text);
