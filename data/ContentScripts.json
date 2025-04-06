@@ -39,12 +39,6 @@
       "run_at": "document_start"
     },
     {
-      "name": "Proton",
-      "matches": ["*://*.proton.me/*"],
-      "css": ["./styles/websites/proton.css"],
-      "run_at": "document_start"
-    },
-    {
       "name": "Proton Mail",
       "matches": ["*://mail.proton.me/*"],
       "css": ["./styles/websites/mail.proton.css"],
@@ -58,7 +52,7 @@
     },
     {
       "name": "YouTube",
-      "matches": ["*://*.youtube.com/*"],
+      "matches": ["*://youtube.com/*"],
       "css": ["./styles/websites/youtube.css"],
       "run_at": "document_start"
     },
@@ -130,7 +124,7 @@
     },
     {
       "name": "Google",
-      "matches": ["*://*.google.com/*"],
+      "matches": ["*://google.com/*"],
       "css": ["./styles/websites/google.css"],
       "run_at": "document_start"
     },
