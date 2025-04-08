@@ -52,7 +52,7 @@
     },
     {
       "name": "YouTube",
-      "matches": ["*://youtube.com/*"],
+      "matches": ["*://www.youtube.com/*"],
       "css": ["./styles/websites/youtube.css"],
       "run_at": "document_start"
     },
