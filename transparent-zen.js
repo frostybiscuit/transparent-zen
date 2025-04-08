@@ -177,7 +177,7 @@ class TransparentZen {
 		}
 	}
 
-	applyTransparencyRules(root = document.body, depth = 0, maxDepth = this.transparentZenSettings?.["transparency-depth"] || 3, insideOverlay = false) {
+	applyTransparencyRules(root = document.body, depth = 0, maxDepth = this.transparentZenSettings?.["transparency-depth"] || 2, insideOverlay = false) {
 		if (root.tagName === "A") {
 			const styleMap = window.getComputedStyle(root);
 			root.style.color = "var(--color-primary)";
