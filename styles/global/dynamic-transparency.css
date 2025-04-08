@@ -45,27 +45,11 @@ a {
 
   &[data-tz-overlay] {
     &[data-tz-depth] {
-      background: none !important;
-
-      &::before {
-        content: "";
-        position: absolute !important;
-        left: 0 !important;
-        top: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        background-color: var(--transparent-background-darker) !important;
-        backdrop-filter: var(--backdrop-blur) !important;
-        transform: none !important;
-        box-shadow: none !important;
-        border: 0 !important;
-        z-index: -1;
-      }
+      background: var(--transparent-background-darker) !important;
     }
 
     [data-tz-depth="-1"] {
       background: var(--transparent-background-darker) !important;
-      backdrop-filter: var(--backdrop-blur);
     }
   }
 }
