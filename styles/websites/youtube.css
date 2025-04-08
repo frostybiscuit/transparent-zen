@@ -6,6 +6,7 @@
   --second-background: transparent !important;
 }
 
+html,
 html[dark] {
   background: transparent !important;
 }
