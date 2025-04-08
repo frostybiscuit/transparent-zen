@@ -12,6 +12,18 @@ body {
   backdrop-filter: var(--backdrop-blur);
 }
 
+.search-suggestions,
+.position-stuck {
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--transparent-background-darker) !important;
+    backdrop-filter: var(--backdrop-blur);
+    z-index: -1;
+  }
+}
+
 /* Styles by u/sameera_s_w */
 
 div.feed-item-content.d-flex.flex-column.pt-2.pb-2.border.color-border-default.rounded-2.color-shadow-small.width-full.height-fit,
@@ -83,8 +95,7 @@ div.prc-Dialog-Dialog-luvDS,
 .Overlay,
 .Overlay__StyledOverlay-sc-51280t-0,
 details-menu {
-  background-color: var(--transparent-background-dark);
-  backdrop-filter: var(--backdrop-blur);
+  background-color: var(--transparent-background-darker);
 }
 
 aside.feed-right-sidebar,
