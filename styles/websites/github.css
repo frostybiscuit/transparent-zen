@@ -24,6 +24,12 @@ body {
   }
 }
 
+.TimelineItem {
+  &::before {
+    content: none !important;
+  }
+}
+
 /* Styles by u/sameera_s_w */
 
 div.feed-item-content.d-flex.flex-column.pt-2.pb-2.border.color-border-default.rounded-2.color-shadow-small.width-full.height-fit,
@@ -107,7 +113,10 @@ aside.feed-left-sidebar {
   }
 }
 
-.gh-header-sticky.is-stuck {
-  background-color: var(--transparent-background-dark);
-  border-radius: 1em;
+.gh-header {
+  &:has(.gh-header-sticky.is-stuck) {
+    .gh-header-shadow {
+      background-color: var(--transparent-background-dark);
+    }
+  }
 }
