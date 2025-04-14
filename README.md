@@ -117,6 +117,19 @@ I highly recommend darkening the browser theme slightly by right-clicking the Ze
 
 ##### ⚠️ Since Zen Browser 1.8.1b you need to set `zen.theme.gradient.show-custom-colors` to **true** in `about:config` in order to be able to set a hex code for the theme color
 
+For a really clean experience I also recommend to remove the light background behind the "website rendering area" which was added with a recent update. To do that, just add this snippet to your `userChrome.css`:
+
+```css
+:root:not([inDOMFullscreen="true"]):not([chromehidden~="location"]):not([chromehidden~="toolbar"]) {
+  & #tabbrowser-tabbox #tabbrowser-tabpanels .browserSidebarContainer {
+    & browser[transparent="true"] {
+      background: none !important;
+    }
+  }
+}
+```
+If you're unsure where to find the `userChrome.css`, you can follow steps 1-5 here: https://www.userchrome.org/how-create-userchrome-css.html
+
 ## Contributing
 
 The main idea behind this project is for the community to contribute and add styles for their favorite websites, so that everyone can enjoy a fully transparent experience.

@@ -1,5 +1,5 @@
-@import url("../shared/variables.css");
-@import url("../shared/fonts.css");
+@import url("../styles/variables.css");
+@import url("../styles/fonts.css");
 
 :root {
   --font-regular: "Open Sans Regular", sans-serif;
@@ -13,14 +13,20 @@ body {
   margin: 0;
   font-family: var(--font-regular);
   color: var(--color-text);
-  background-color: var(--transparent-background-darker);
-  background-image: url("../assets/images/popup_background.jpg");
-  background-size: cover;
 
   .container {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    background-image: linear-gradient(var(--color-bg), var(--color-primary));
+
+    &::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-color: rgba(20, 20, 20, 0.6);
+      z-index: 0;
+    }
 
     #extension-header {
       display: flex;
@@ -31,7 +37,7 @@ body {
       backdrop-filter: var(--backdrop-blur);
       padding: 16px;
       gap: 8px;
-      z-index: 1;
+      z-index: 2;
 
       .logo {
         width: 26px;
@@ -53,6 +59,7 @@ body {
 
     #extension-body {
       padding: 16px;
+      z-index: 1;
 
       #extension-settings {
         display: flex;
@@ -68,14 +75,6 @@ body {
           align-items: center;
           column-gap: 8px;
 
-          &[data-depends-on] {
-            display: none;
-
-            &.visible {
-              display: flex;
-            }
-          }
-
           &:not(:has(> input[type="checkbox"])) {
             flex-wrap: wrap;
 
@@ -85,22 +84,77 @@ body {
               background-color: var(--transparent-background);
               color: var(--color-text);
               border: 0;
+              outline: 0;
               border-radius: var(--border-radius);
-              border-left: 4px solid transparent;
+            }
+          }
+
+          &:has(> input[type="checkbox"]) {
+            input {
+              height: 0.1px;
+              width: 0.1px;
+              position: absolute;
+              transform: translateX(-100%);
+            }
+
+            .custom-checkbox {
+              display: inline-flex;
+              justify-content: center;
+              align-items: center;
+              flex-shrink: 0;
+              height: 20px;
+              width: 20px;
+              background-color: var(--transparent-background);
+              border-radius: var(--border-radius);
+              outline: 1px solid rgb(from var(--color-text) r g b / 0.5);
+              cursor: pointer;
+
+              &::after {
+                content: "";
+                width: 70%;
+                height: 70%;
+                background-color: var(--transparent-background);
+                border-radius: 3px;
+                opacity: 0;
+              }
+            }
+
+            &:has(> input:checked) {
+              .custom-checkbox {
+                background-color: var(--color-primary);
+                outline: 0;
+
+                &::after {
+                  opacity: 1;
+                }
+              }
+            }
+          }
+
+          .color-picker-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+
+            > input[type="text"] {
+              border-top-right-radius: 0;
+              border-bottom-right-radius: 0;
+            }
+
+            .vc-color-wrap {
+              margin-right: 0;
+              border-top-right-radius: var(--border-radius);
+              border-bottom-right-radius: var(--border-radius);
             }
           }
         }
 
         .settings-group {
-          display: none;
+          display: flex;
           flex-direction: column;
           gap: 4px;
-          padding-left: 24px;
+          padding-left: 28px;
           margin-bottom: 8px;
-
-          &.visible {
-            display: flex;
-          }
         }
       }
 
@@ -203,7 +257,7 @@ body {
             cursor: pointer;
 
             &:hover {
-              background-color: var(--color-white);
+              background-color: rgb(from var(--color-primary) calc(r - 30) calc(g - 30) calc(b - 30));
             }
           }
         }
@@ -220,6 +274,18 @@ body {
           }
         }
       }
+    }
+  }
+
+  .vc-colorpicker {
+    background: none !important;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: var(--transparent-background);
+      backdrop-filter: var(--backdrop-blur);
     }
   }
 }
