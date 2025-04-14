@@ -250,9 +250,9 @@ class TransparentZen {
 			currentElement.dataset.tzGradient = "true";
 		}
 
-		if (depth <= 1 && (styleMap.position === "fixed" || styleMap.position === "absolute" || styleMap.position === "sticky")) {
+		if (depth <= 1) {
 			const parentStyleMap = currentElement.parentElement ? window.getComputedStyle(currentElement.parentElement) : null;
-			if (parentStyleMap?.position === "fixed" || parentStyleMap?.position === "absolute" || parentStyleMap?.position === "sticky") {
+			if (styleMap.position === "fixed" || styleMap.position === "absolute" || styleMap.position === "sticky" || parentStyleMap?.position === "fixed" || parentStyleMap?.position === "absolute" || parentStyleMap?.position === "sticky") {
 				currentElement.dataset.tzProcessed = "true";
 				currentElement.dataset.tzOverlay = "true";
 				isInsideOverlay = true;
