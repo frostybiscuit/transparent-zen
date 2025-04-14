@@ -1,4 +1,4 @@
-@import url("../../src/styles/base.css");
+@import url("../../dist/base.css");
 
 /* Google is obfuscating their classes and attributes, which makes it really hard to select elements properly, hence the nested div selectors */
 

@@ -1,4 +1,4 @@
-@import url("../../src/styles/base.css");
+@import url("../../dist/base.css");
 
 [style*="background-color:"] {
   backdrop-filter: var(--backdrop-filter);

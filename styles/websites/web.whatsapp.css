@@ -1,4 +1,4 @@
-@import url("../../src/styles/base.css");
+@import url("../../dist/base.css");
 
 #wa_web_initial_startup {
   --splashscreen-primary-title: var(--color-text);
