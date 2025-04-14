@@ -1,4 +1,4 @@
-@import url("../global/base.css");
+@import url("../../src/styles/base.css");
 
 .product-tile {
   background: var(--transparent-background) !important;
