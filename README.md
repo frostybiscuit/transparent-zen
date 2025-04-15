@@ -7,6 +7,10 @@ Transparent Zen is a browser extension specifically designed for Zen Browser. Th
     <a href="https://www.buymeacoffee.com/frostybiscuit" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 </p>
 
+![image](https://github.com/user-attachments/assets/53d3b461-951b-4d9c-8f12-c5831a306f4a)
+![image](https://github.com/user-attachments/assets/daed97cd-9533-4b17-83da-4107defece39)
+![image](https://github.com/user-attachments/assets/df0adf7d-2b71-4e2c-90ab-011bb5958de4)
+
 ## Table of Contents
 
 - [Transparent Zen](#transparent-zen)
@@ -71,9 +75,11 @@ The following websites are currently supported by Transparent Zen:
 - [ ] x.com
 
 ## Dynamic Transparency
-With 0.2.0 Transparent Zen now has the option to make any website transparent by crawling the website and setting styles as good as possible.
+Transparent Zen has the option to make any website transparent by crawling the website and setting styles as good as possible.
 
 While this works well on many websites, this is a very early state of this feature and will be improved with future updates to get a better experience on more websites. For the case that a website is rendered unusable with this, it is possible to disable this per domain in the extension popup.
+
+![image](https://github.com/user-attachments/assets/bb86f9d3-2fe8-4143-a86e-df917babe59d)
 
 #### To-Do
 - [x] ~~Reduce flashing on style application~~
