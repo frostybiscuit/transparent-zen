@@ -2,9 +2,10 @@
 
 Transparent Zen is a browser extension specifically designed for Zen Browser. This extension injects styles into supported websites to make them transparent, providing a new experience.
 
-<a href="https://addons.mozilla.org/en-US/firefox/addon/transparent-zen/">
-    <img alt="Firefox Add-Ons" src="https://blog.mozilla.org/addons/files/2015/11/get-the-addon.png" height="40">
-</a>
+<p>
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/transparent-zen/"><img alt="Firefox Add-Ons" src="https://blog.mozilla.org/addons/files/2015/11/get-the-addon.png" height="42"></a>
+    <a href="https://www.buymeacoffee.com/frostybiscuit" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+</p>
 
 ## Table of Contents
 
@@ -21,44 +22,35 @@ Transparent Zen is a browser extension specifically designed for Zen Browser. Th
 - [License](#license)
 
 ## Supported Websites
-🔴 = Not working / Broken
-<br>
-🟠 = Work in Progress
-<br>
-🟢 = Working
 
 The following websites are currently supported by Transparent Zen:
 
-- 🟢 ddl-warez.cc
-- 🟢 mail.proton.me
-- 🟢 reddit.com
-- 🟢 store.steamworks.com
-- 🟢 steamcommunity.com
-- 🟢 wuwatracker.com
-- 🟢 youtube.com
-- 🟢 wikipedia.org
-- 🟢 chatgpt.com
-- 🟢 copilot.microsoft.com
-- 🟢 chess.com
-- 🟢 github.com
-- 🟢 bing.com
-- 🟢 kryptex.com
-- 🟢 leetcode.com
-- 🟢 programiz.com (only for their dark theme)
-- 🟢 nexusmods.com
-- 🟢 duckduckgo.com
-- 🟢 epicgames.com
-- 🟢 google.com
-- 🟢 notebooklm.google.com
-- 🟢 outlook.live.com
-- 🟢 mail.google.com (needs dark theme enabled)
-- 🟢 drive.google.com (needs dark theme enabled)
-- 🟢 web.whatsapp.com
-- 🟢 notion.so
-- 🟠 amazon.de
-- 🟠 lieferando.at
-- 🔴 gog.com
-- 🔴 kinguin.net
+- ddl-warez.cc
+- mail.proton.me
+- reddit.com
+- store.steamworks.com
+- steamcommunity.com
+- wuwatracker.com
+- youtube.com
+- wikipedia.org
+- chatgpt.com
+- copilot.microsoft.com
+- chess.com
+- github.com
+- bing.com
+- kryptex.com
+- leetcode.com
+- programiz.com (only for their dark theme)
+- nexusmods.com
+- duckduckgo.com
+- epicgames.com
+- google.com
+- notebooklm.google.com
+- outlook.live.com
+- mail.google.com (needs dark theme enabled)
+- drive.google.com (needs dark theme enabled)
+- web.whatsapp.com
+- notion.so
 
 #### To Do
 - [x] ~~outlook.live.com~~
@@ -87,9 +79,9 @@ While this works well on many websites, this is a very early state of this featu
 - [x] ~~Reduce flashing on style application~~
 - [ ] Add per-site configuration
 - [x] ~~Add options to configure colors for supported sites~~
-- [ ] Improve stability
+- [x] ~~Improve stability~~
 - [ ] Find a solution for hover states
-- [ ] Rework popup for expandability
+- [x] ~~Rework popup for expandability~~
 
 ## Prerequisites
 #### Windows 11
