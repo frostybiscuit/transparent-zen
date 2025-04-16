@@ -97,6 +97,12 @@ While this works well on many websites, this is a very early state of this featu
     - In MicaForEveryone add a new process rule and select "zen"
     - Activate **Blur Behind** and set the Backdrop Type to **Acrylic**
 
+#### Linux
+1. Open Zen Browser and go to `about:config`. Ensure the installed version of Zen is above release **1.11.2b**
+2. Make sure that `browser.tabs.allow_transparent_browser` and `zen.widget.linux.transparency` are set to **true**
+3. For a blurred window with **KDE PLASMA**, install [kwin-effects-forceblur](https://github.com/taj-ny/kwin-effects-forceblur) through your system repository, or build from source
+    - Follow steps shown on the project Github to enable blur, and add `zen` to the allowlist
+
 ##### TODO: Add other OS prerequisites
 
 ## Installation
