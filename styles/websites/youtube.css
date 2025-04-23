@@ -11,7 +11,7 @@ html[dark] {
   background: transparent !important;
 }
 
-#masthead-container {
+#background.ytd-masthead {
   background: var(--transparent-background-darker) !important;
   backdrop-filter: var(--backdrop-blur);
 }
@@ -88,11 +88,6 @@ a#thumbnail {
   ytd-menu-service-item-renderer:hover {
     background: none !important;
   }
-}
-
-#contents .ytd-rich-grid-renderer:has(.ytwFeedAdMetadataViewModelHostIsClickableAdComponent),
-#contents .ytd-rich-grid-renderer:has(.ytd-in-feed-ad-layout-renderer) {
-  display: none !important;
 }
 
 /* Youtube Player (incl. embeds) */
