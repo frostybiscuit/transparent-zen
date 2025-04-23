@@ -1,4 +1,4 @@
-@import url("../../dist/base.css");
+@import url("../shared/base.css");
 
 :root {
   --steam-color-blue: #06bfff;

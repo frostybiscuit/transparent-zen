@@ -1,4 +1,4 @@
-@import url("../../dist/base.css");
+@import url("../shared/base.css");
 
 header#head {
   background: var(--transparent-background-darker);
@@ -131,8 +131,13 @@ header.bg-surface-base {
   }
 }
 
+.bg-surface-low,
+.bg-surface-translucent-low {
+  background-color: var(--transparent-background);
+}
+
 #mainContent {
-  > [class="relative"] {
+  > .relative {
     > .absolute,
     > .to-surface-base {
       display: none !important;

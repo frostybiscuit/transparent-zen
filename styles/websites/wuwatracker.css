@@ -1,4 +1,4 @@
-@import url("../../dist/base.css");
+@import url("../shared/base.css");
 
 [style*="background-color:"] {
   backdrop-filter: var(--backdrop-filter);
