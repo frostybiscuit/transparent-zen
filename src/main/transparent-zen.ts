@@ -92,7 +92,7 @@ class TransparentZen {
 		const settings = (await browser.storage.local.get("transparentZenSettings")) as ExtensionSettings;
 		this.transparentZenSettings = settings.transparentZenSettings;
 		if (this.transparentZenSettings?.["enable-transparency"] && (!this.transparentZenSettings?.blacklistedDomains || this.transparentZenSettings?.blacklistedDomains?.indexOf(window.location.hostname) === -1)) {
-			browser.runtime.sendMessage({ action: "insertStyles", filePath: "dist/dynamic-transparency.css" });
+			browser.runtime.sendMessage({ action: "insertStyles", filePath: "styles/shared/dynamic-transparency.css" });
 			this.processPage();
 		} else {
 			this.removeLoadingScreen();
@@ -104,7 +104,7 @@ class TransparentZen {
 			switch (request.action) {
 				case "toggleTransparency": {
 					if (request.enabled) {
-						browser.runtime.sendMessage({ action: "insertStyles", filePath: "dist/dynamic-transparency.css" });
+						browser.runtime.sendMessage({ action: "insertStyles", filePath: "styles/shared/dynamic-transparency.css" });
 						this.processPage(true);
 					} else {
 						this.removeTransparencyRules();
@@ -279,7 +279,7 @@ class TransparentZen {
 			this.documentObserver.disconnect();
 		}
 
-		browser.runtime.sendMessage({ action: "removeStyles", filePath: "dist/dynamic-transparency.css" });
+		browser.runtime.sendMessage({ action: "removeStyles", filePath: "styles/shared/dynamic-transparency.css" });
 
 		document.body.style.removeProperty("--color-primary");
 

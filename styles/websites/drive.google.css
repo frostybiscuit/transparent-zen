@@ -1,4 +1,4 @@
-@import url("../../dist/base.css");
+@import url("../shared/base.css");
 
 #drive_main_page {
   --dt-background: transparent;
