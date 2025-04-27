@@ -56,7 +56,7 @@
     },
     {
       "name": "GitHub",
-      "matches": ["[^ ]*://[^ ]*.?github.com/[^ ]*"],
+      "matches": ["[^ ]*://github.com/[^ ]*"],
       "css": ["./styles/websites/github.css"],
       "run_at": "document_start"
     },
