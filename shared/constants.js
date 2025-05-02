@@ -1,1 +1,0 @@
-export const BROWSER_STORAGE_KEY = "transparentZenSettings";

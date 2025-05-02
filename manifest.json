@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Transparent Zen",
-  "version": "0.4.2",
+  "version": "0.5.4",
   "description": "Applies custom styles to make your favorite websites transparent. For a full list of supported websites, check https://github.com/frostybiscuit/transparent-zen?tab=readme-ov-file#supported-websites",
   "browser_specific_settings": {
     "gecko": {
@@ -19,15 +19,16 @@
     "<all_urls>"
   ],
   "web_accessible_resources": [
-    "assets/images/*.svg"
+    "assets/images/*.svg",
+    "data/*.json"
   ],
   "browser_action": {
-    "default_popup": "popup/popup.html",
+    "default_popup": "dist/popup.html",
     "default_title": "Transparent Zen"
   },
   "background": {
     "scripts": [
-      "background.js"
+      "dist/background.js"
     ]
   },
   "content_scripts": [
@@ -36,10 +37,10 @@
         "<all_urls>"
       ],
       "css": [
-        "transparent-zen.css"
+        "dist/transparent-zen.css"
       ],
       "js": [
-        "transparent-zen.js"
+        "dist/transparent-zen.js"
       ],
       "run_at": "document_start"
     }

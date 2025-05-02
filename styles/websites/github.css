@@ -1,5 +1,12 @@
 html,
 body {
+  --bgColor-default: transparent;
+  --bgColor-muted: var(--transparent-background);
+  --bgColor-inset: var(--transparent-background);
+  --borderColor-default: var(--transparent-background);
+  --overlay-bgColor: var(--transparent-background-darker);
+  --button-default-bgColor-rest: var(--transparent-background-dark);
+
   background: none !important;
 }
 
@@ -10,6 +17,37 @@ body {
 [class*="Box-"]:has(> h2):has(> nav) {
   background: var(--transparent-background-dark);
   backdrop-filter: var(--backdrop-blur);
+}
+
+.search-suggestions,
+.position-stuck {
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--transparent-background-darker) !important;
+    backdrop-filter: var(--backdrop-blur);
+    z-index: -1;
+  }
+}
+
+.TimelineItem {
+  &::before {
+    content: none !important;
+  }
+}
+
+details-dialog,
+[role="dialog"] {
+  background-color: var(--transparent-background-darker) !important;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    backdrop-filter: var(--backdrop-blur) !important;
+    z-index: -1;
+  }
 }
 
 /* Styles by u/sameera_s_w */
@@ -50,7 +88,6 @@ div.d-flex.flex-items-between.footer.container-lg.my-5.px-0 {
 .bAmAao,
 .Counter,
 .types__StyledButton-sc-ws60qy-0,
-.TextInput-wrapper,
 .feed-item-content,
 .color-bg-default,
 .input-contrast,
@@ -63,40 +100,20 @@ td {
   border: none;
 }
 
-tr:hover,
-a:hover {
-  border-radius: 20px;
-}
-
-body {
-  --bgColor-default: transparent;
-  --bgColor-muted: var(--transparent-background);
-  --bgColor-inset: var(--transparent-background);
-  --borderColor-default: var(--transparent-background);
-}
-
 footer.footer.pt-8.pb-6.f6.color-fg-muted.p-responsive {
   display: none;
 }
 
 div.prc-Dialog-Dialog-luvDS,
 .Overlay,
-.Overlay__StyledOverlay-sc-51280t-0,
-details-menu {
-  background-color: var(--transparent-background-dark);
-  backdrop-filter: var(--backdrop-blur);
+.Overlay__StyledOverlay-sc-51280t-0 {
+  background-color: var(--transparent-background-darker);
 }
 
-aside.feed-right-sidebar,
-aside.feed-left-sidebar {
-  opacity: 0;
-  transition: all 0.3s ease-in-out;
-  &:hover {
-    opacity: 1;
+.gh-header {
+  &:has(.gh-header-sticky.is-stuck) {
+    .gh-header-shadow {
+      background-color: var(--transparent-background-dark);
+    }
   }
-}
-
-.gh-header-sticky.is-stuck {
-  background-color: var(--transparent-background-dark);
-  border-radius: 1em;
 }

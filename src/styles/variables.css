@@ -29,4 +29,6 @@
   --border-radius: 5px;
   --border-radius-lg: 8px;
   --backdrop-blur: blur(20px);
+
+  --darkreader-background-ffffff: transparent;
 }

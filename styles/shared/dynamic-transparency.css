@@ -1,11 +1,15 @@
 @import url("./base.css");
 
-*:not(button):not(input):not(textarea) {
+*:not([data-tz-anchor] *):not(button *):not(a):not(button):not(input):not(textarea):not(select):not(option):not(code) {
   color: var(--color-text);
 }
 
-a {
-  color: var(--color-primary);
+code {
+  background-color: var(--transparent-background);
+
+  &[data-tz-has-background] {
+    background-color: var(--transparent-background) !important;
+  }
 }
 
 [data-tz-processed] {
@@ -28,44 +32,45 @@ a {
 
   &[data-tz-depth="0"]:not([data-tz-inside-overlay]) {
     background-color: transparent !important;
+
+    &:is(pre):has(code) {
+      background-color: var(--transparent-background) !important;
+    }
   }
 
   &[data-tz-gradient] {
     background: none !important;
   }
 
-  &[data-tz-low-lumen] {
-    color: var(--color-text) !important;
+  &[data-tz-anchor] {
+    color: var(--color-primary);
+
+    > * {
+      color: var(--color-primary);
+    }
   }
 
+  &[data-tz-low-lumen],
   &[data-tz-low-contrast] {
+    &:not(a):not(button) {
+      color: var(--color-text) !important;
+    }
+
+    a,
+    button {
+      &:not(:hover) {
+        color: var(--color-text) !important;
+      }
+    }
+  }
+
+  &[data-tz-low-contrast]:not([data-tz-inside-overlay]) {
     background-color: var(--transparent-background) !important;
-    color: var(--color-text) !important;
   }
 
   &[data-tz-overlay] {
     &[data-tz-depth] {
-      background: none !important;
-
-      &::before {
-        content: "";
-        position: absolute !important;
-        left: 0 !important;
-        top: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        background-color: var(--transparent-background-darker) !important;
-        backdrop-filter: var(--backdrop-blur) !important;
-        transform: none !important;
-        box-shadow: none !important;
-        border: 0 !important;
-        z-index: -1;
-      }
-    }
-
-    [data-tz-depth="-1"] {
       background: var(--transparent-background-darker) !important;
-      backdrop-filter: var(--backdrop-blur);
     }
   }
 }

@@ -1,4 +1,4 @@
-@import url("../global/base.css");
+@import url("../shared/base.css");
 
 /* Gmail uses obfuscated classes, making it hard to select elements, thus the hacky selectors */
 

@@ -1,4 +1,4 @@
-@import url("../global/base.css");
+@import url("../shared/base.css");
 
 #app {
   > a:first-of-type {

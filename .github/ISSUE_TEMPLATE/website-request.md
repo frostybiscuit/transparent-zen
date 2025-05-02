@@ -1,8 +1,8 @@
 ---
 name: Website request
 about: Request support for a website
-title: ''
-labels: ''
+title: "[Website]"
+labels: new website
 assignees: ''
 
 ---
@@ -11,6 +11,9 @@ assignees: ''
 e.g. subdomain.example.com
 
 **Does this website have a login with additional pages behind it?**
+Yes/No
+
+**Does this website already work with dynamic transparency?**
 Yes/No
 
 **Additional context**

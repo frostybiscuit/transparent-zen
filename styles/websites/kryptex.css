@@ -1,4 +1,4 @@
-@import url("../global/base.css");
+@import url("../shared/base.css");
 
 .bg-light {
   background-color: var(--transparent-background) !important;
@@ -163,7 +163,6 @@ input {
 
 .btn {
   &.btn-circle-icon {
-    border-image: none !important;
     border: none !important;
   }
 

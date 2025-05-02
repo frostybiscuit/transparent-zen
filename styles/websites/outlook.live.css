@@ -1,4 +1,4 @@
-@import url("../global/base.css");
+@import url("../shared/base.css");
 
 :root {
   --outlook-blue: #479ef5;
@@ -57,10 +57,8 @@
               background: var(--transparent-background) !important;
               box-shadow: none !important;
 
-              + {
-                .ms-Button {
-                  box-shadow: none !important;
-                }
+              + .ms-Button {
+                box-shadow: none !important;
               }
             }
           }

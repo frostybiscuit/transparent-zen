@@ -1,4 +1,4 @@
-@import url("../global/base.css");
+@import url("../shared/base.css");
 @import url("./proton.css");
 
 .spotlight,
@@ -85,9 +85,12 @@
 .message-container {
   background: none !important;
 
-  .message-header,
-  .message-content {
+  .message-header {
     background: var(--transparent-background) !important;
+  }
+
+  .message-content {
+    background: rgba(255, 255, 255, 0.5) !important;
   }
 }
 

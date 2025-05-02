@@ -2,9 +2,14 @@
 
 Transparent Zen is a browser extension specifically designed for Zen Browser. This extension injects styles into supported websites to make them transparent, providing a new experience.
 
-<a href="https://addons.mozilla.org/en-US/firefox/addon/transparent-zen/">
-    <img alt="Firefox Add-Ons" src="https://blog.mozilla.org/addons/files/2015/11/get-the-addon.png" height="40">
-</a>
+<p>
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/transparent-zen/"><img alt="Firefox Add-Ons" src="https://blog.mozilla.org/addons/files/2015/11/get-the-addon.png" height="42"></a>
+    <a href="https://www.buymeacoffee.com/frostybiscuit" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+</p>
+
+![image](https://github.com/user-attachments/assets/98340649-945a-439c-a5a3-d9794434369c)
+![image](https://github.com/user-attachments/assets/daed97cd-9533-4b17-83da-4107defece39)
+![image](https://github.com/user-attachments/assets/df0adf7d-2b71-4e2c-90ab-011bb5958de4)
 
 ## Table of Contents
 
@@ -21,44 +26,35 @@ Transparent Zen is a browser extension specifically designed for Zen Browser. Th
 - [License](#license)
 
 ## Supported Websites
-🔴 = Not working / Broken
-<br>
-🟠 = Work in Progress
-<br>
-🟢 = Working
 
 The following websites are currently supported by Transparent Zen:
 
-- 🟢 ddl-warez.cc
-- 🟢 mail.proton.me
-- 🟢 reddit.com
-- 🟢 store.steamworks.com
-- 🟢 steamcommunity.com
-- 🟢 wuwatracker.com
-- 🟢 youtube.com
-- 🟢 wikipedia.org
-- 🟢 chatgpt.com
-- 🟢 copilot.microsoft.com
-- 🟢 chess.com
-- 🟢 github.com
-- 🟢 bing.com
-- 🟢 kryptex.com
-- 🟢 leetcode.com
-- 🟢 programiz.com (only for their dark theme)
-- 🟢 nexusmods.com
-- 🟢 duckduckgo.com
-- 🟢 epicgames.com
-- 🟢 google.com
-- 🟢 notebooklm.google.com
-- 🟢 outlook.live.com
-- 🟢 mail.google.com (needs dark theme enabled)
-- 🟢 drive.google.com (needs dark theme enabled)
-- 🟢 web.whatsapp.com
-- 🟢 notion.so
-- 🟠 amazon.de
-- 🟠 lieferando.at
-- 🔴 gog.com
-- 🔴 kinguin.net
+- ddl-warez.cc
+- mail.proton.me
+- reddit.com
+- store.steamworks.com
+- steamcommunity.com
+- wuwatracker.com
+- youtube.com
+- wikipedia.org
+- chatgpt.com
+- copilot.microsoft.com
+- chess.com
+- github.com
+- bing.com
+- kryptex.com
+- leetcode.com
+- programiz.com (only for their dark theme)
+- nexusmods.com
+- duckduckgo.com
+- epicgames.com
+- google.com
+- notebooklm.google.com
+- outlook.live.com
+- mail.google.com (needs dark theme enabled)
+- drive.google.com (needs dark theme enabled)
+- web.whatsapp.com
+- notion.so
 
 #### To Do
 - [x] ~~outlook.live.com~~
@@ -79,17 +75,19 @@ The following websites are currently supported by Transparent Zen:
 - [ ] x.com
 
 ## Dynamic Transparency
-With 0.2.0 Transparent Zen now has the option to make any website transparent by crawling the website and setting styles as good as possible.
+Transparent Zen has the option to make any website transparent by crawling the website and setting styles as good as possible.
 
 While this works well on many websites, this is a very early state of this feature and will be improved with future updates to get a better experience on more websites. For the case that a website is rendered unusable with this, it is possible to disable this per domain in the extension popup.
+
+![image](https://github.com/user-attachments/assets/bb86f9d3-2fe8-4143-a86e-df917babe59d)
 
 #### To-Do
 - [x] ~~Reduce flashing on style application~~
 - [ ] Add per-site configuration
 - [x] ~~Add options to configure colors for supported sites~~
-- [ ] Improve stability
+- [x] ~~Improve stability~~
 - [ ] Find a solution for hover states
-- [ ] Rework popup for expandability
+- [x] ~~Rework popup for expandability~~
 
 ## Prerequisites
 #### Windows 11
@@ -98,6 +96,12 @@ While this works well on many websites, this is a very early state of this featu
 3. Install [MicaForEveryone](https://github.com/MicaForEveryone/MicaForEveryone) (optional)
     - In MicaForEveryone add a new process rule and select "zen"
     - Activate **Blur Behind** and set the Backdrop Type to **Acrylic**
+
+#### Linux
+1. Open Zen Browser and go to `about:config`. Ensure the installed version of Zen is above release **1.11.2b**
+2. Make sure that `browser.tabs.allow_transparent_browser` and `zen.widget.linux.transparency` are set to **true**
+3. For a blurred window with **KDE PLASMA**, install [kwin-effects-forceblur](https://github.com/taj-ny/kwin-effects-forceblur) through your system repository, or build from source
+    - Follow steps shown on the project Github to enable blur, and add `zen` to the allowlist
 
 ##### TODO: Add other OS prerequisites
 
@@ -116,6 +120,19 @@ Once installed, Transparent Zen will automatically apply transparent styles to t
 I highly recommend darkening the browser theme slightly by right-clicking the Zen Browser Toolbar and selecting **Change Theme Colors**. I'm personally using the hex code **#00000066** which darkens the browser background slightly while maintaining readability. But of course, feel free to play around to find the best color to your liking!
 
 ##### ⚠️ Since Zen Browser 1.8.1b you need to set `zen.theme.gradient.show-custom-colors` to **true** in `about:config` in order to be able to set a hex code for the theme color
+
+For a really clean experience I also recommend to remove the light background behind the "website rendering area" which was added with a recent update. To do that, just add this snippet to your `userChrome.css`:
+
+```css
+:root:not([inDOMFullscreen="true"]):not([chromehidden~="location"]):not([chromehidden~="toolbar"]) {
+  & #tabbrowser-tabbox #tabbrowser-tabpanels .browserSidebarContainer {
+    & browser[transparent="true"] {
+      background: none !important;
+    }
+  }
+}
+```
+If you're unsure where to find the `userChrome.css`, you can follow steps 1-5 here: https://www.userchrome.org/how-create-userchrome-css.html
 
 ## Contributing
 

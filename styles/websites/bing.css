@@ -1,4 +1,4 @@
-@import url("../global/base.css");
+@import url("../shared/base.css");
 
 #hp_app {
   .hp_body {
@@ -231,7 +231,6 @@ header,
 #d_ans > .b_vPanel,
 #df_listaa > .b_vPanel,
 .b_dark .te_wrap {
-  background-color: transparent !important;
   background: none !important;
 }
 /* END: Styles from u/RitwikSHS10 */
