@@ -11,7 +11,12 @@ html[dark] {
   background: transparent !important;
 }
 
+#frosted-glass {
+  display: none !important;
+}
+
 #background.ytd-masthead {
+  display: block !important;
   background: var(--transparent-background-darker) !important;
   backdrop-filter: var(--backdrop-blur);
 }
