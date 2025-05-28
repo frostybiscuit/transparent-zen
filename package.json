@@ -1,6 +1,6 @@
 {
   "name": "transparent-zen",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "A browser extension for Zen Browser to inject custom styles to make your favorite websites transparent",
   "scripts": {
     "start": "vite",
@@ -17,6 +17,9 @@
   "type": "module",
   "author": "FrostyBiscuit",
   "license": "MIT",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@vitejs/plugin-vue": "^5.2.3",

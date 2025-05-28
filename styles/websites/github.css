@@ -4,6 +4,7 @@ body {
   --bgColor-muted: var(--transparent-background);
   --bgColor-inset: var(--transparent-background);
   --borderColor-default: var(--transparent-background);
+  --page-header-bgColor: var(--transparent-background);
   --overlay-bgColor: var(--transparent-background-darker);
   --button-default-bgColor-rest: var(--transparent-background-dark);
 
@@ -35,6 +36,14 @@ body {
   &::before {
     content: none !important;
   }
+}
+
+.HeaderMktg {
+  background-color: var(--transparent-background-dark) !important;
+}
+
+.UnderlineNav {
+  box-shadow: none !important;
 }
 
 details-dialog,
