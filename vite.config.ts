@@ -3,7 +3,7 @@ import { dirname, resolve } from "node:path";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-	root: "src/popup",
+	root: "src/",
 	base: "",
 	build: {
 		sourcemap: true,
@@ -12,6 +12,7 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				popup: resolve(dirname("./"), "src/popup/popup.html"),
+				settings: resolve(dirname("./"), "src/settings/settings.html"),
 				background: resolve(dirname("./"), "src/worker/background.ts"),
 				"transparent-zen": resolve(dirname("./"), "src/main/transparent-zen.ts"),
 			},

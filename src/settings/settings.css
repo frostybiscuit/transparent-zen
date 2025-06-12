@@ -1,0 +1,131 @@
+@import url("../styles/variables.css");
+@import url("../styles/fonts.css");
+
+:root {
+  --font-regular: "Open Sans Regular", sans-serif;
+  --font-medium: "Open Sans Medium", sans-serif;
+  --font-bold: "Open Sans Bold", sans-serif;
+}
+
+body {
+  font-family: var(--font-regular);
+  color: var(--color-text);
+
+  &::before,
+  &::after {
+    content: "";
+    background-image: url("../../../assets/images/zen_logo.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;
+    filter: invert(1);
+    opacity: 0.02;
+    width: 80vw;
+    aspect-ratio: 1/1;
+  }
+
+  &::before {
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+  }
+
+  &::after {
+    bottom: 0;
+    left: 0;
+    transform: translate(-50%, 50%);
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  #page-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+
+    .logo {
+      margin-right: 20px;
+    }
+
+    .headline {
+      margin: 0;
+    }
+
+    .version {
+      background: rgb(from var(--color-primary) r g b / 0.5);
+      font-size: 14px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      margin-left: 10px;
+    }
+  }
+}
+
+main {
+  .settings {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+
+    section {
+      background-color: var(--transparent-background);
+      border-radius: var(--border-radius-lg);
+      padding: 20px;
+
+      .headline {
+        font-family: var(--font-bold);
+        font-size: 24px;
+        margin: 0 0 10px;
+      }
+
+      .description {
+        font-family: var(--font-regular);
+        font-size: 16px;
+        color: var(--color-text-alt);
+        margin: 0 0 32px;
+      }
+
+      .setting {
+        &:not(:last-child) {
+          margin-bottom: 24px;
+        }
+
+        .label,
+        label {
+          font-family: var(--font-bold);
+          font-size: 18px;
+        }
+
+        .value {
+          margin-left: 10px;
+        }
+
+        .value-list {
+          display: flex;
+          flex-wrap: wrap;
+          list-style: none;
+          margin: 10px 0 0;
+          padding: 0;
+          gap: 5px;
+
+          li {
+            background-color: var(--transparent-background-dark);
+            border-radius: var(--border-radius-lg);
+            padding: 5px 10px;
+          }
+
+          .empty-list-text {
+            color: var(--color-text-alt);
+            font-style: italic;
+          }
+        }
+      }
+    }
+  }
+}

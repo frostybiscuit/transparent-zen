@@ -145,6 +145,10 @@ const pickColor = (name: string) => {
 
 	saveSettings(toRaw(extensionSettings.value));
 };
+
+const openSettingsPage = () => {
+	browser.runtime.openOptionsPage();
+};
 </script>
 
 <template>
@@ -218,6 +222,9 @@ const pickColor = (name: string) => {
             @input="changeSetting">
         </label>
       </form>
+			<div class="button-wrapper">
+				<button @click="openSettingsPage">Show all settings</button>
+			</div>
       <section id="supported-websites">
         <h3 class="headline">Officially Supported Websites:</h3>
         <ul data-content="supported-sites" :class="{open: showAllWebsites}">

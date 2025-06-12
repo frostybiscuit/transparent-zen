@@ -14,6 +14,45 @@ body {
   font-family: var(--font-regular);
   color: var(--color-text);
 
+  a {
+    color: var(--color-primary);
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  button {
+    display: inline-flex;
+    background-color: var(--color-primary);
+    font-size: 16px;
+    padding: 8px 16px;
+    border: 0;
+    margin: 0;
+  }
+
+  .button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 16px 0;
+
+    button {
+      width: 100%;
+      max-width: 200px;
+      font-family: var(--font-medium);
+      justify-content: center;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgb(from var(--color-primary) calc(r - 30) calc(g - 30) calc(b - 30));
+      }
+    }
+  }
+
   .container {
     display: flex;
     flex-direction: column;
@@ -259,18 +298,6 @@ body {
             &:hover {
               background-color: rgb(from var(--color-primary) calc(r - 30) calc(g - 30) calc(b - 30));
             }
-          }
-        }
-      }
-
-      #extension-description {
-        a {
-          color: var(--color-primary);
-          font-weight: bold;
-          text-decoration: none;
-
-          &:hover {
-            text-decoration: underline;
           }
         }
       }
