@@ -12,16 +12,8 @@
     "48": "assets/images/logo_48.png",
     "96": "assets/images/logo_96.png"
   },
-  "permissions": [
-    "activeTab",
-    "storage",
-    "tabs",
-    "<all_urls>"
-  ],
-  "web_accessible_resources": [
-    "assets/images/*.svg",
-    "data/*.json"
-  ],
+  "permissions": ["activeTab", "storage", "tabs", "<all_urls>"],
+  "web_accessible_resources": ["assets/images/*.svg", "data/*.json"],
   "browser_action": {
     "default_popup": "dist/popup/popup.html",
     "default_title": "Transparent Zen"
@@ -31,21 +23,13 @@
     "open_in_tab": true
   },
   "background": {
-    "scripts": [
-      "dist/background.js"
-    ]
+    "scripts": ["dist/background.js"]
   },
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "css": [
-        "dist/transparent-zen.css"
-      ],
-      "js": [
-        "dist/transparent-zen.js"
-      ],
+      "matches": ["<all_urls>"],
+      "css": ["dist/transparent-zen.css"],
+      "js": ["dist/transparent-zen.js"],
       "run_at": "document_start"
     }
   ]
