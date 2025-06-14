@@ -2,10 +2,10 @@
 
 <p>
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
-    <a href="https://github.com/amnweb/yasb"><img src="https://img.shields.io/github/languages/top/frostybiscuit/transparent-zen"></a>
-    <a href="https://github.com/amnweb/yasb/issues"><img src="https://img.shields.io/github/issues/frostybiscuit/transparent-zen?label=Issues"></a>
-    <a href="https://github.com/amnweb/yasb/releases"><img src="https://img.shields.io/github/downloads/frostybiscuit/transparent-zen/total?label=Total%20Downloads"></a>
-    <a href="https://github.com/amnweb/yasb/releases/latest"><img src="https://img.shields.io/github/v/release/frostybiscuit/transparent-zen?label=Latest%20Release"></a>
+    <a href="https://github.com/frostybiscuit/transparent-zen"><img src="https://img.shields.io/github/languages/top/frostybiscuit/transparent-zen"></a>
+    <a href="https://github.com/frostybiscuit/transparent-zen/issues"><img src="https://img.shields.io/github/issues/frostybiscuit/transparent-zen?label=Issues"></a>
+    <a href="https://github.com/frostybiscuit/transparent-zen/releases"><img src="https://img.shields.io/github/downloads/frostybiscuit/transparent-zen/total?label=Total%20Downloads"></a>
+    <a href="https://github.com/frostybiscuit/transparent-zen/releases/latest"><img src="https://img.shields.io/github/v/release/frostybiscuit/transparent-zen?label=Latest%20Release"></a>
 </p>
 
 Transparent Zen is a browser extension specifically designed for Zen Browser. This extension injects styles into supported websites to make them transparent, providing a new experience.
