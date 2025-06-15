@@ -82,7 +82,7 @@ body.embedded-search-default-theme .newtab-heading {
     .related-searches__lists {
       .related-searches__list {
         .related-searches__item {
-          background: var(--transparent-background) !important;
+          background: none !important;
         }
       }
     }
@@ -92,7 +92,9 @@ body.embedded-search-default-theme .newtab-heading {
   div:has(> .related-searches) {
     + div {
       > div > div {
-        background: var(--transparent-background) !important;
+        background: none !important;
+        border: none !important;
+        box-sizing: none !important;
       }
     }
   }
