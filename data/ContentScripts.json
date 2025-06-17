@@ -4,157 +4,183 @@
       "name": "Steam Store & Community",
       "matches": ["[^ ]*://[^ ]*.?steampowered.com/[^ ]*", "[^ ]*://[^ ]*.?steamcommunity.com/[^ ]*"],
       "css": ["./styles/websites/steam.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.steampowered.com.ico"
     },
     {
       "name": "Bing",
       "matches": ["[^ ]*://[^ ]*.?bing.com/[^ ]*"],
       "css": ["./styles/websites/bing.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.bing.com.ico"
     },
     {
       "name": "DDL-Warez",
       "matches": ["[^ ]*://[^ ]*.?ddl-warez.cc/[^ ]*"],
       "css": ["./styles/websites/ddl-warez.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/ddl-warez.cc.ico"
     },
     {
       "name": "Epic Games",
       "matches": ["[^ ]*://[^ ]*.?epicgames.com/[^ ]*"],
       "css": ["./styles/websites/epicgames.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.epicgames.com.ico"
     },
     {
       "name": "Kryptex",
       "matches": ["[^ ]*://[^ ]*.?kryptex.com/[^ ]*"],
       "css": ["./styles/websites/kryptex.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.kryptex.com.ico"
     },
     {
       "name": "Proton Mail",
       "matches": ["[^ ]*://mail.proton.me/[^ ]*"],
       "css": ["./styles/websites/mail.proton.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/mail.proton.me.ico"
     },
     {
       "name": "WuwaTracker",
       "matches": ["[^ ]*://[^ ]*.?wuwatracker.com/[^ ]*"],
       "css": ["./styles/websites/wuwatracker.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.wuwatracker.com.ico"
     },
     {
       "name": "YouTube",
       "matches": ["[^ ]*://www.youtube.com/[^ ]*"],
       "css": ["./styles/websites/youtube.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.youtube.com.ico"
     },
     {
       "name": "YouTube Music",
       "matches": ["[^ ]*://music.youtube.com/[^ ]*"],
       "css": ["./styles/websites/music.youtube.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://music.youtube.com/favicon.ico"
     },
     {
       "name": "GitHub",
       "matches": ["[^ ]*://github.com/[^ ]*"],
       "css": ["./styles/websites/github.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://github.githubassets.com/favicons/favicon-dark.png"
     },
     {
       "name": "Reddit",
       "matches": ["[^ ]*://[^ ]*.?reddit.com/[^ ]*"],
       "css": ["./styles/websites/reddit.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.reddit.com.ico"
     },
     {
       "name": "NexusMods",
       "matches": ["[^ ]*://[^ ]*.?nexusmods.com/[^ ]*"],
       "css": ["./styles/websites/nexusmods.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.nexusmods.com.ico"
     },
     {
       "name": "Wikipedia",
       "matches": ["[^ ]*://[^ ]*.?wikipedia.org/[^ ]*"],
       "css": ["./styles/websites/wikipedia.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.wikipedia.org.ico"
     },
     {
       "name": "Microsoft Copilot",
       "matches": ["[^ ]*://copilot.microsoft.com/[^ ]*"],
       "css": ["./styles/websites/copilot.microsoft.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/copilot.microsoft.com.ico"
     },
     {
       "name": "ChatGPT",
       "matches": ["[^ ]*://[^ ]*.?chatgpt.com/[^ ]*"],
       "css": ["./styles/websites/chatgpt.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.chatgpt.com.ico"
     },
     {
       "name": "Chess.com",
       "matches": ["[^ ]*://[^ ]*.?chess.com/[^ ]*"],
       "css": ["./styles/websites/chess.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.chess.com.ico"
     },
     {
       "name": "Leetcode",
       "matches": ["[^ ]*://[^ ]*.?leetcode.com/[^ ]*"],
       "css": ["./styles/websites/leetcode.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://leetcode.com/favicon.ico"
     },
     {
       "name": "Programiz",
       "matches": ["[^ ]*://[^ ]*.?programiz.com/[^ ]*"],
       "css": ["./styles/websites/programiz.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.programiz.com.ico"
     },
     {
       "name": "DuckDuckGo",
       "matches": ["[^ ]*://[^ ]*.?duckduckgo.com/[^ ]*"],
       "css": ["./styles/websites/duckduckgo.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.duckduckgo.com.ico"
     },
     {
       "name": "Google",
       "matches": ["[^ ]*://google.com/[^ ]*"],
       "css": ["./styles/websites/google.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.google.com.ico"
     },
     {
       "name": "Google NotebookLM",
       "matches": ["[^ ]*://notebooklm.google.com/[^ ]*"],
       "css": ["./styles/websites/notebooklm.google.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://notebooklm.google.com/_/static/branding/v5/dark_mode/favicon/favicon-32x32.png"
     },
     {
       "name": "Outlook Mail",
       "matches": ["[^ ]*://outlook.live.com/[^ ]*"],
       "css": ["./styles/websites/outlook.live.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/outlook.live.com.ico"
     },
     {
       "name": "Gmail",
       "matches": ["[^ ]*://mail.google.com/[^ ]*"],
       "css": ["./styles/websites/mail.google.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/mail.google.com.ico"
     },
     {
       "name": "Google Drive",
       "matches": ["[^ ]*://drive.google.com/[^ ]*"],
       "css": ["./styles/websites/drive.google.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png"
     },
     {
       "name": "WhatsApp Web",
       "matches": ["[^ ]*://web.whatsapp.com/[^ ]*"],
       "css": ["./styles/websites/web.whatsapp.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
     },
     {
       "name": "Notion",
       "matches": ["[^ ]*://[^ ]*.?notion.so/[^ ]*"],
       "css": ["./styles/websites/notion.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.notion.so.ico"
     }
   ]
 }

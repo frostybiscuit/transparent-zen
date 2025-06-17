@@ -1,6 +1,6 @@
 {
   "name": "transparent-zen",
-  "version": "0.5.7",
+  "version": "0.6.0",
   "description": "A browser extension for Zen Browser to inject custom styles to make your favorite websites transparent",
   "scripts": {
     "start": "vite",

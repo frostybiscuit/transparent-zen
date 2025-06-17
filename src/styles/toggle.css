@@ -1,0 +1,30 @@
+.toggle {
+  position: relative;
+  width: 30px;
+  height: 15px;
+  border-radius: var(--border-radius-lg);
+  border: 0;
+  background-color: var(--color-text);
+  cursor: pointer;
+
+  &.active {
+    &::after {
+      background-color: var(--color-green);
+      transform: translateX(calc(100% + 4px));
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    display: block;
+    height: 12px;
+    width: 12px;
+    background-color: var(--color-red);
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transform: translateX(0);
+    transition: background-color 250ms, transform 250ms;
+  }
+}

@@ -1,4 +1,7 @@
+@import url("../styles/colorpicker.css");
 @import url("../styles/variables.css");
+@import url("../styles/buttons.css");
+@import url("../styles/toggle.css");
 @import url("../styles/fonts.css");
 
 :root {
@@ -8,16 +11,23 @@
 }
 
 body {
-  width: 350px;
+  width: 400px;
   padding: 0;
   margin: 0;
   font-family: var(--font-regular);
   color: var(--color-text);
 
+  a {
+    color: var(--color-primary);
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   .container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
     background-image: linear-gradient(var(--color-bg), var(--color-primary));
 
     &::before {
@@ -58,17 +68,24 @@ body {
     }
 
     #extension-body {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
       padding: 16px;
       z-index: 1;
+
+      > section {
+        .headline {
+          margin: 0 0 12px;
+          font-size: 20px;
+        }
+      }
 
       #extension-settings {
         display: flex;
         flex-direction: column;
         gap: 8px;
-
-        .headline {
-          margin: 0;
-        }
 
         .setting {
           display: flex;
@@ -169,7 +186,7 @@ body {
           gap: 4px;
 
           &:not(.open) {
-            height: 300px;
+            height: 292px;
             overflow: hidden;
 
             li {
@@ -207,85 +224,26 @@ body {
             font-size: 16px;
             gap: 8px;
 
-            > button {
-              position: relative;
-              width: 30px;
-              height: 15px;
-              border-radius: var(--border-radius-lg);
-              border: 0;
-              background-color: var(--color-text);
-              cursor: pointer;
+            .website-name {
+              display: inline-flex;
+              align-items: center;
+              gap: 8px;
 
-              &.active {
-                &::after {
-                  background-color: var(--color-green);
-                  transform: translateX(calc(100% + 2px));
-                }
-              }
-
-              &::after {
-                content: "";
-                position: absolute;
-                display: block;
-                height: 13px;
-                width: 13px;
-                background-color: var(--color-red);
-                border-radius: 50%;
-                top: 1px;
-                left: 1px;
-                transform: translateX(0);
-                transition: background-color 250ms, transform 250ms;
+              .website-favicon {
+                width: 20px;
               }
             }
-          }
-        }
-
-        .section-controls {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-top: 8px;
-
-          .show-all {
-            background-color: var(--color-primary);
-            border: 0;
-            outline: 0;
-            border-radius: var(--border-radius);
-            padding: 4px 8px;
-            font-size: 16px;
-            font-family: var(--font-medium);
-            cursor: pointer;
-
-            &:hover {
-              background-color: rgb(from var(--color-primary) calc(r - 30) calc(g - 30) calc(b - 30));
-            }
-          }
-        }
-      }
-
-      #extension-description {
-        a {
-          color: var(--color-primary);
-          font-weight: bold;
-          text-decoration: none;
-
-          &:hover {
-            text-decoration: underline;
           }
         }
       }
     }
-  }
 
-  .vc-colorpicker {
-    background: none !important;
-
-    &::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-color: var(--transparent-background);
-      backdrop-filter: var(--backdrop-blur);
+    #extension-footer {
+      background-color: var(--transparent-background-darker);
+      text-align: center;
+      position: relative;
+      padding: 16px;
+      z-index: 1;
     }
   }
 }

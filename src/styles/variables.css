@@ -29,4 +29,8 @@
   --border-radius: 5px;
   --border-radius-lg: 8px;
   --backdrop-blur: blur(20px);
+
+  /* SVG Filters */
+  /* https://codepen.io/sosuke/pen/Pjoqqp */
+  --svg-white: invert(100%) sepia(0%) saturate(0%) hue-rotate(91deg) brightness(103%) contrast(108%);
 }
