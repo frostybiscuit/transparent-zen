@@ -1,11 +1,11 @@
 import type { ExtensionSettings } from "../types/ExtensionSettings";
 
 export const DEFAULT_SETTINGS: ExtensionSettings["transparentZenSettings"] = {
-	"enable-transparency": false,
-	"text-color": "#FFFFFF",
-	"primary-color": "#82C7FF",
-	"background-color": "rgba(17, 17, 17, 0.5)",
-	"transparency-depth": 2,
+	enableTransparency: false,
+	textColor: "#FFFFFF",
+	primaryColor: "#82C7FF",
+	backgroundColor: "rgba(17, 17, 17, 0.5)",
+	transparencyDepth: 2,
 	backgroundImage: null,
 	backgroundImageBrightness: 100,
 	backgroundImageOpacity: 50,

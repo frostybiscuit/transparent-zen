@@ -30,6 +30,12 @@ class TransparentZen {
 			});
 	}
 
+	//TODO: Remove this after a few releases
+	async migrateOldSettings(settings: ExtensionSettings["transparentZenSettings"]): Promise<ExtensionSettings["transparentZenSettings"]> {
+		const newSettings = await browser.runtime.sendMessage({ action: "migrateOldSettings", settings });
+		return newSettings;
+	}
+
 	checkIfWebsiteAlreadySupported(): Promise<SupportedWebsite | false> {
 		const contentScriptsUrl = browser.runtime.getURL("data/ContentScripts.json");
 		return new Promise((resolve) => {
@@ -54,7 +60,7 @@ class TransparentZen {
 
 	async initSupportedWebsite(contentScript: SupportedWebsite) {
 		const settings = (await browser.storage.local.get("transparentZenSettings")) as ExtensionSettings;
-		this.transparentZenSettings = settings.transparentZenSettings;
+		this.transparentZenSettings = await this.migrateOldSettings(settings.transparentZenSettings);
 		if (
 			!this.transparentZenSettings?.disabledWebsites ||
 			this.transparentZenSettings?.disabledWebsites?.findIndex((website) => {
@@ -90,8 +96,8 @@ class TransparentZen {
 
 	async initDynamicTransparency() {
 		const settings = (await browser.storage.local.get("transparentZenSettings")) as ExtensionSettings;
-		this.transparentZenSettings = settings.transparentZenSettings;
-		if (this.transparentZenSettings?.["enable-transparency"] && (!this.transparentZenSettings?.blacklistedDomains || this.transparentZenSettings?.blacklistedDomains?.indexOf(window.location.hostname) === -1)) {
+		this.transparentZenSettings = await this.migrateOldSettings(settings.transparentZenSettings);
+		if (this.transparentZenSettings?.enableTransparency && (!this.transparentZenSettings?.blacklistedDomains || this.transparentZenSettings?.blacklistedDomains?.indexOf(window.location.hostname) === -1)) {
 			browser.runtime.sendMessage({ action: "insertStyles", filePath: "styles/shared/dynamic-transparency.css" });
 			this.processPage();
 		} else {
@@ -124,6 +130,31 @@ class TransparentZen {
 				}
 				case "changeBackgroundColor": {
 					this.applyCustomProperty("--transparent-background", request.value as string);
+					break;
+				}
+				case "changeBackgroundImage": {
+					if (request.value) {
+						const backgroundImage = request.value as Blob;
+						this.blobToDataURL(backgroundImage).then((dataUrl) => {
+							this.applyCustomProperty("--custom-background-image", `url(${dataUrl})`);
+							document.documentElement?.classList.add("tz-custom-background");
+						});
+					} else {
+						this.applyCustomProperty("--custom-background-image", "none");
+						document.documentElement?.classList.remove("tz-custom-background");
+					}
+					break;
+				}
+				case "changeBackgroundImageOpacity": {
+					this.applyCustomProperty("--custom-background-image-opacity", ((request.value as number) / 100).toString());
+					break;
+				}
+				case "changeBackgroundImageBlur": {
+					this.applyCustomProperty("--custom-background-image-blur", `blur(${request.value}px)`);
+					break;
+				}
+				case "changeBackgroundImageBrightness": {
+					this.applyCustomProperty("--custom-background-image-brightness", `brightness(${(request.value as number) / 100})`);
 					break;
 				}
 			}
@@ -188,14 +219,14 @@ class TransparentZen {
 	}
 
 	initExtensionSettingsStyles() {
-		if (this.transparentZenSettings?.["primary-color"]) {
-			this.applyCustomProperty("--color-primary", this.transparentZenSettings["primary-color"]);
+		if (this.transparentZenSettings?.primaryColor) {
+			this.applyCustomProperty("--color-primary", this.transparentZenSettings.primaryColor);
 		}
-		if (this.transparentZenSettings?.["text-color"]) {
-			this.applyCustomProperty("--color-text", this.transparentZenSettings["text-color"]);
+		if (this.transparentZenSettings?.textColor) {
+			this.applyCustomProperty("--color-text", this.transparentZenSettings.textColor);
 		}
-		if (this.transparentZenSettings?.["background-color"]) {
-			this.applyCustomProperty("--transparent-background", this.transparentZenSettings["background-color"]);
+		if (this.transparentZenSettings?.backgroundColor) {
+			this.applyCustomProperty("--transparent-background", this.transparentZenSettings.backgroundColor);
 		}
 		if (this.transparentZenSettings?.backgroundImage) {
 			this.blobToDataURL(this.transparentZenSettings.backgroundImage).then((dataUrl) => {
@@ -229,7 +260,7 @@ class TransparentZen {
 		});
 	}
 
-	applyTransparencyRules(currentElement: HTMLElement = document.body, depth = 0, maxDepth = this.transparentZenSettings?.["transparency-depth"] || 2, insideOverlay = false) {
+	applyTransparencyRules(currentElement: HTMLElement = document.body, depth = 0, maxDepth = this.transparentZenSettings?.transparencyDepth || 2, insideOverlay = false) {
 		const styleMap = window.getComputedStyle(currentElement);
 		const hasBackground = styleMap.backgroundColor !== "rgba(0, 0, 0, 0)" && styleMap.backgroundColor !== "transparent" && styleMap.backgroundColor !== "var(--transparent-background)";
 		const hasGradient = styleMap.background.indexOf("gradient(") >= 0;

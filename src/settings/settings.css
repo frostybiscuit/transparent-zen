@@ -312,6 +312,16 @@ main {
               @media (max-width: 768px) {
                 width: 100%;
               }
+
+              .website-name {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+
+                .website-favicon {
+                  width: 20px;
+                }
+              }
             }
           }
         }

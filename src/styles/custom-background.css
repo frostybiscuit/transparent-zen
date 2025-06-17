@@ -11,6 +11,7 @@
       background-size: cover !important;
       opacity: var(--custom-background-image-opacity, 0.5) !important;
       filter: var(--custom-background-image-blur, blur(4px)) var(--custom-background-image-brightness, brightness(1)) !important;
+      z-index: -1 !important;
     }
   }
 }

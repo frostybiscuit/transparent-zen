@@ -8,4 +8,5 @@ export type SupportedWebsite = {
 	js?: Array<string>;
 	css?: Array<string>;
 	run_at?: "document_start" | "document_end" | "document_idle";
+	favicon?: string;
 };

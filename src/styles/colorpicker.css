@@ -5,7 +5,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background-color: var(--transparent-background);
+    background-color: var(--transparent-background-darker);
     backdrop-filter: var(--backdrop-blur);
   }
 }

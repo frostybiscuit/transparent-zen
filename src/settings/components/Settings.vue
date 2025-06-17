@@ -3,6 +3,7 @@ import { computed, nextTick, onMounted, ref, toRaw, useTemplateRef, watch } from
 import { ColorPicker } from "vue3-colorpicker";
 import type { Browser } from "webextension-polyfill-ts";
 import { DEFAULT_SETTINGS, GITHUB_ENDPOINTS } from "../../shared/Constants";
+import { getValidColorOrFallback } from "../../shared/Helper";
 import { getActivePageDomain, sendMessageToActiveTabs, sendMessageToWorker } from "../../shared/MessageHelper";
 import { getContentScripts, loadSettings, saveSettings } from "../../shared/StorageHelper";
 import type { SupportedWebsite } from "../../types/ContentScripts";
@@ -14,6 +15,9 @@ declare const browser: Browser;
 const manifest: Manifest = browser.runtime.getManifest();
 
 const backgroundImageUrl = computed(() => URL.createObjectURL(extensionSettings.value?.backgroundImage as Blob));
+const sortedWebsites = computed(() => {
+	return supportedWebsites.value?.sort((a, b) => a.name.localeCompare(b.name)) ?? [];
+});
 
 const newDisabledDomainInput = useTemplateRef("newDisabledDomainInput");
 
@@ -30,16 +34,16 @@ const colorPickerPrimaryColor = ref("");
 const colorPickerBackgroundColor = ref("");
 
 // biome-ignore format: readability
-watch(() => extensionSettings.value?.["text-color"], newValue => {
-	colorPickerTextColor.value = newValue?.length ? newValue : DEFAULT_SETTINGS["text-color"];
+watch(() => extensionSettings.value?.textColor, newValue => {
+	colorPickerTextColor.value = newValue?.length ? newValue : DEFAULT_SETTINGS.textColor;
 });
 // biome-ignore format: readability
-watch(() => extensionSettings.value?.["primary-color"], newValue => {
-	colorPickerPrimaryColor.value = newValue?.length ? newValue : DEFAULT_SETTINGS["primary-color"];
+watch(() => extensionSettings.value?.primaryColor, newValue => {
+	colorPickerPrimaryColor.value = newValue?.length ? newValue : DEFAULT_SETTINGS.primaryColor;
 });
 // biome-ignore format: readability
-watch(() => extensionSettings.value?.["background-color"], newValue => {
-	colorPickerBackgroundColor.value = newValue?.length ? newValue : DEFAULT_SETTINGS["background-color"];
+watch(() => extensionSettings.value?.backgroundColor, newValue => {
+	colorPickerBackgroundColor.value = newValue?.length ? newValue : DEFAULT_SETTINGS.backgroundColor;
 });
 
 onMounted(() => {
@@ -70,16 +74,19 @@ onMounted(() => {
 
 const getValueOrDefault = (key: keyof typeof DEFAULT_SETTINGS): string | number | null => {
 	switch (key) {
-		case "background-color":
-		case "primary-color":
-		case "text-color": {
+		case "backgroundColor":
+		case "primaryColor":
+		case "textColor": {
 			if (extensionSettings.value?.[key]?.length) {
 				return extensionSettings.value[key];
 			}
 			return DEFAULT_SETTINGS[key];
 		}
 
-		case "transparency-depth": {
+		case "transparencyDepth":
+		case "backgroundImageOpacity":
+		case "backgroundImageBlur":
+		case "backgroundImageBrightness": {
 			if (extensionSettings.value?.[key] !== undefined) {
 				return extensionSettings.value[key] as number;
 			}
@@ -87,7 +94,7 @@ const getValueOrDefault = (key: keyof typeof DEFAULT_SETTINGS): string | number 
 		}
 
 		default: {
-			return "";
+			return null;
 		}
 	}
 };
@@ -95,15 +102,15 @@ const getValueOrDefault = (key: keyof typeof DEFAULT_SETTINGS): string | number 
 const pickColor = (name: string) => {
 	if (!extensionSettings.value) return;
 	switch (name) {
-		case "text-color":
+		case "textColor":
 			extensionSettings.value[name] = colorPickerTextColor.value;
 			sendMessageToActiveTabs({ action: "changeTextColor", value: colorPickerTextColor.value });
 			break;
-		case "primary-color":
+		case "primaryColor":
 			extensionSettings.value[name] = colorPickerPrimaryColor.value;
 			sendMessageToActiveTabs({ action: "changePrimaryColor", value: colorPickerPrimaryColor.value });
 			break;
-		case "background-color":
+		case "backgroundColor":
 			extensionSettings.value[name] = colorPickerBackgroundColor.value;
 			sendMessageToActiveTabs({ action: "changeBackgroundColor", value: colorPickerBackgroundColor.value });
 			break;
@@ -124,6 +131,37 @@ const toggleSupportedWebsite = (website: SupportedWebsite) => {
 	} else {
 		extensionSettings.value.disabledWebsites.splice(toggledWebsiteIndex, 1);
 		sendMessageToWorker({ action: "insertStyles", filePath: rawWebsite.css?.[0], domains: rawWebsite.matches });
+	}
+
+	saveSettings(toRaw(extensionSettings.value));
+};
+
+const changeSetting = async (event: Event) => {
+	if (!extensionSettings.value) return;
+
+	const input = event.target as HTMLInputElement;
+	switch (input.name) {
+		case "enable-transparency":
+			sendMessageToActiveTabs({ action: "toggleTransparency", enabled: input.checked });
+			break;
+		case "text-color":
+			sendMessageToActiveTabs({ action: "changeTextColor", value: getValidColorOrFallback(input.value, DEFAULT_SETTINGS.textColor) });
+			break;
+		case "primary-color":
+			sendMessageToActiveTabs({ action: "changePrimaryColor", value: getValidColorOrFallback(input.value, DEFAULT_SETTINGS.primaryColor) });
+			break;
+		case "background-color":
+			sendMessageToActiveTabs({ action: "changeBackgroundColor", value: getValidColorOrFallback(input.value, DEFAULT_SETTINGS.backgroundColor) });
+			break;
+		case "background-image-opacity":
+			sendMessageToActiveTabs({ action: "changeBackgroundImageOpacity", value: getValueOrDefault("backgroundImageOpacity") as number });
+			break;
+		case "background-image-blur":
+			sendMessageToActiveTabs({ action: "changeBackgroundImageBlur", value: getValueOrDefault("backgroundImageBlur") as number });
+			break;
+		case "background-image-brightness":
+			sendMessageToActiveTabs({ action: "changeBackgroundImageBrightness", value: getValueOrDefault("backgroundImageBrightness") as number });
+			break;
 	}
 
 	saveSettings(toRaw(extensionSettings.value));
@@ -166,7 +204,7 @@ const hideNewBlacklistedDomainInput = () => {
 const toggleDynamicTransparency = () => {
 	if (!extensionSettings.value) return;
 
-	extensionSettings.value["enable-transparency"] = !extensionSettings.value["enable-transparency"];
+	extensionSettings.value.enableTransparency = !extensionSettings.value.enableTransparency;
 	saveSettings(toRaw(extensionSettings.value));
 };
 
@@ -176,6 +214,7 @@ const uploadBackgroundImage = (event: Event) => {
 	const target = event.target as HTMLInputElement;
 	if (target.files && target.files.length > 0) {
 		extensionSettings.value.backgroundImage = target.files[0];
+		sendMessageToActiveTabs({ action: "changeBackgroundImage", value: extensionSettings.value.backgroundImage });
 		saveSettings(toRaw(extensionSettings.value));
 	}
 };
@@ -184,89 +223,13 @@ const removeBackgroundImage = () => {
 	if (!extensionSettings.value) return;
 
 	extensionSettings.value.backgroundImage = null;
-	saveSettings(toRaw(extensionSettings.value));
-};
-
-const changeTransparencyDepth = (event: Event) => {
-	if (!extensionSettings.value) return;
-
-	const target = event.target as HTMLInputElement;
-	const value = Number.parseInt(target.value, 10);
-	if (target.value === "") {
-		extensionSettings.value["transparency-depth"] = null;
-		saveSettings(toRaw(extensionSettings.value));
-		return;
-	}
-
-	if (!Number.isNaN(value) && value >= 1 && value <= 10) {
-		extensionSettings.value["transparency-depth"] = value;
-		saveSettings(toRaw(extensionSettings.value));
-	}
-};
-
-const changeBackgroundImageOpacity = (event: Event) => {
-	if (!extensionSettings.value) return;
-
-	const target = event.target as HTMLInputElement;
-	const value = Number.parseInt(target.value, 10);
-
-	if (!Number.isNaN(value) && value >= 1 && value <= 100) {
-		extensionSettings.value.backgroundImageOpacity = value;
-		saveSettings(toRaw(extensionSettings.value));
-	}
-};
-
-const changeBackgroundImageBlur = (event: Event) => {
-	if (!extensionSettings.value) return;
-
-	const target = event.target as HTMLInputElement;
-	const value = Number.parseInt(target.value, 10);
-
-	if (!Number.isNaN(value) && value >= 1 && value <= 100) {
-		extensionSettings.value.backgroundImageBlur = value;
-		saveSettings(toRaw(extensionSettings.value));
-	}
-};
-
-const changeBackgroundImageBrightness = (event: Event) => {
-	if (!extensionSettings.value) return;
-
-	const target = event.target as HTMLInputElement;
-	const value = Number.parseInt(target.value, 10);
-
-	if (!Number.isNaN(value) && value >= 1 && value <= 100) {
-		extensionSettings.value.backgroundImageBrightness = value;
-		saveSettings(toRaw(extensionSettings.value));
-	}
-};
-
-const changeTextColor = (event: Event) => {
-	if (!extensionSettings.value) return;
-
-	const target = event.target as HTMLInputElement;
-	extensionSettings.value["text-color"] = target.value;
-	saveSettings(toRaw(extensionSettings.value));
-};
-
-const changePrimaryColor = (event: Event) => {
-	if (!extensionSettings.value) return;
-
-	const target = event.target as HTMLInputElement;
-	extensionSettings.value["primary-color"] = target.value;
-	saveSettings(toRaw(extensionSettings.value));
-};
-
-const changeBackgroundColor = (event: Event) => {
-	if (!extensionSettings.value) return;
-
-	const target = event.target as HTMLInputElement;
-	extensionSettings.value["background-color"] = target.value;
+	sendMessageToActiveTabs({ action: "changeBackgroundImage", value: "" });
 	saveSettings(toRaw(extensionSettings.value));
 };
 </script>
 
 <template>
-  <header :style="{ '--color-primary': getValueOrDefault('primary-color') ?? '' }">
+  <header :style="{ '--color-primary': getValueOrDefault('primaryColor') as string ?? '' }">
     <div class="container">
       <div id="page-header">
         <img class="logo" src="../../../assets/images/logo_48.png" alt="Transparent Zen Logo">
@@ -275,7 +238,7 @@ const changeBackgroundColor = (event: Event) => {
       </div>
     </div>
   </header>
-  <main v-if="extensionSettings" :style="{ '--color-primary': getValueOrDefault('primary-color') ?? '' }">
+  <main v-if="extensionSettings" :style="{ '--color-primary': getValueOrDefault('primaryColor') as string ?? '' }">
     <div class="container">
       <div class="settings">
         <section v-if="outdatedVersion" class="info-banner">
@@ -292,8 +255,11 @@ const changeBackgroundColor = (event: Event) => {
           <div class="setting">
             <span class="label">Supported Websites</span>
             <ul class="value-list" id="supported-websites-list">
-              <li v-for="website in supportedWebsites">
-                <span>{{ website.name }}</span>
+              <li v-for="website in sortedWebsites" :key="website.name">
+                <span class="website-name">
+                  <img class="website-favicon" :src="website.favicon" alt="" role="presentation">
+                  {{ website.name }}
+                </span>
                 <button type="button" class="toggle" :class="{active: extensionSettings.disabledWebsites.findIndex((site) => site.name === website.name) === -1}" @click="toggleSupportedWebsite(website)"></button>
               </li>
             </ul>
@@ -323,9 +289,10 @@ const changeBackgroundColor = (event: Event) => {
               <input
                 type="range"
                 min="0" max="100"
-                v-model="extensionSettings.backgroundImageOpacity"
+                name="background-image-opacity"
+                v-model.number="extensionSettings.backgroundImageOpacity"
                 :placeholder="String(DEFAULT_SETTINGS.backgroundImageOpacity)"
-                @change="changeBackgroundImageOpacity">
+                @change="changeSetting">
               <span class="range-value">{{ extensionSettings.backgroundImageOpacity }}%</span>
             </div>
           </div>
@@ -335,9 +302,10 @@ const changeBackgroundColor = (event: Event) => {
               <input
                 type="range"
                 min="0" max="100"
-                v-model="extensionSettings.backgroundImageBlur"
+                name="background-image-blur"
+                v-model.number="extensionSettings.backgroundImageBlur"
                 :placeholder="String(DEFAULT_SETTINGS.backgroundImageBlur)"
-                @change="changeBackgroundImageBlur">
+                @change="changeSetting">
               <span class="range-value">{{ extensionSettings.backgroundImageBlur }}px</span>
             </div>
           </div>
@@ -347,9 +315,10 @@ const changeBackgroundColor = (event: Event) => {
               <input
                 type="range"
                 min="0" max="100"
-                v-model="extensionSettings.backgroundImageBrightness"
+                name="background-image-brightness"
+                v-model.number="extensionSettings.backgroundImageBrightness"
                 :placeholder="String(DEFAULT_SETTINGS.backgroundImageBrightness)"
-                @change="changeBackgroundImageBrightness">
+                @change="changeSetting">
               <span class="range-value">{{ extensionSettings.backgroundImageBrightness }}%</span>
             </div>
           </div>
@@ -358,24 +327,25 @@ const changeBackgroundColor = (event: Event) => {
         <section>
           <h2 class="headline">
             <span>Dynamic Transparency</span>
-            <button type="button" class="toggle" :class="{active: extensionSettings['enable-transparency']}" @click="toggleDynamicTransparency"></button>
+            <button type="button" class="toggle" :class="{active: extensionSettings.enableTransparency}" @click="toggleDynamicTransparency"></button>
           </h2>
           <p class="description">
             Enabling this will enable an experimental approach to make any website transparent by crawling the site to remove backgrounds and adapt colors to keep it as readable and usable as possible.<br/>
             <strong>Please keep in mind that this might not work for some websites, especially with more complex elements as well as overlays and modals!</strong>
           </p>
-          <div class="setting" :class="{disabled: !extensionSettings['enable-transparency']}">
+          <div class="setting" :class="{disabled: !extensionSettings.enableTransparency}">
             <span class="label">Background Layers</span>
             <div class="value">
               <input
                 type="number"
                 min="1" max="10"
-                v-model="extensionSettings['transparency-depth']"
-                :placeholder="String(DEFAULT_SETTINGS['transparency-depth'])"
-                @change="changeTransparencyDepth">
+                name="transparency-depth"
+                v-model.number="extensionSettings.transparencyDepth"
+                :placeholder="String(DEFAULT_SETTINGS.transparencyDepth)"
+                @change="changeSetting">
             </div>
           </div>
-          <div class="setting" :class="{disabled: !extensionSettings['enable-transparency']}">
+          <div class="setting" :class="{disabled: !extensionSettings.enableTransparency}">
             <span class="label">Blacklisted Domains</span>
             <ul class="value-list">
               <li v-if="extensionSettings.blacklistedDomains?.length" v-for="domain in extensionSettings.blacklistedDomains">
@@ -403,10 +373,10 @@ const changeBackgroundColor = (event: Event) => {
               <div class="color-picker-container">
                 <input
                   type="text"
-                  v-model="extensionSettings['text-color']"
-                  :placeholder="DEFAULT_SETTINGS['text-color']"
-                  @change="changeTextColor">
-                <ColorPicker theme="black" v-model:pureColor="colorPickerTextColor" @update:pureColor="pickColor('text-color')" />
+                  v-model="extensionSettings.textColor"
+                  :placeholder="DEFAULT_SETTINGS.textColor"
+                  @change="changeSetting">
+                <ColorPicker theme="black" v-model:pureColor="colorPickerTextColor" @update:pureColor="pickColor('textColor')" />
               </div>
             </span>
           </div>
@@ -416,10 +386,10 @@ const changeBackgroundColor = (event: Event) => {
               <div class="color-picker-container">
                 <input
                   type="text"
-                  v-model="extensionSettings['primary-color']"
-                  :placeholder="DEFAULT_SETTINGS['primary-color']"
-                  @change="changePrimaryColor">
-                <ColorPicker theme="black" v-model:pureColor="colorPickerPrimaryColor" @update:pureColor="pickColor('primary-color')" />
+                  v-model="extensionSettings.primaryColor"
+                  :placeholder="DEFAULT_SETTINGS.primaryColor"
+                  @change="changeSetting">
+                <ColorPicker theme="black" v-model:pureColor="colorPickerPrimaryColor" @update:pureColor="pickColor('primaryColor')" />
               </div>
             </span>
           </div>
@@ -429,10 +399,10 @@ const changeBackgroundColor = (event: Event) => {
               <div class="color-picker-container">
                 <input
                   type="text"
-                  v-model="extensionSettings['background-color']"
-                  :placeholder="DEFAULT_SETTINGS['background-color']"
-                  @change="changeBackgroundColor">
-                <ColorPicker theme="black" v-model:pureColor="colorPickerBackgroundColor" @update:pureColor="pickColor('background-color')" />
+                  v-model="extensionSettings.backgroundColor"
+                  :placeholder="DEFAULT_SETTINGS.backgroundColor"
+                  @change="changeSetting">
+                <ColorPicker theme="black" v-model:pureColor="colorPickerBackgroundColor" @update:pureColor="pickColor('backgroundColor')" />
               </div>
             </span>
           </div>

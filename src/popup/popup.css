@@ -223,6 +223,16 @@ body {
             justify-content: space-between;
             font-size: 16px;
             gap: 8px;
+
+            .website-name {
+              display: inline-flex;
+              align-items: center;
+              gap: 8px;
+
+              .website-favicon {
+                width: 20px;
+              }
+            }
           }
         }
       }
