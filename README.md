@@ -18,7 +18,7 @@ Transparent Zen is a browser extension specifically designed for Zen Browser. Th
 ![image](https://github.com/user-attachments/assets/98340649-945a-439c-a5a3-d9794434369c)
 ![image](https://github.com/user-attachments/assets/daed97cd-9533-4b17-83da-4107defece39)
 ![image](https://github.com/user-attachments/assets/df0adf7d-2b71-4e2c-90ab-011bb5958de4)
-<img src="https://github.com/frostybiscuit/transparent-zen/blob/master/assets/images/github/Preview_SettingsPage.gif?raw=true">
+<img src="https://github.com/frostybiscuit/transparent-zen/blob/master/assets/images/github/Preview_SettingsPage.gif">
 
 ## Table of Contents
 
