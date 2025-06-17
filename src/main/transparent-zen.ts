@@ -115,15 +115,15 @@ class TransparentZen {
 					return Promise.resolve(window.location.hostname);
 				}
 				case "changePrimaryColor": {
-					this.applyColorProperty("--color-primary", request.value as string);
+					this.applyCustomProperty("--color-primary", request.value as string);
 					break;
 				}
 				case "changeTextColor": {
-					this.applyColorProperty("--color-text", request.value as string);
+					this.applyCustomProperty("--color-text", request.value as string);
 					break;
 				}
 				case "changeBackgroundColor": {
-					this.applyColorProperty("--transparent-background", request.value as string);
+					this.applyCustomProperty("--transparent-background", request.value as string);
 					break;
 				}
 			}
@@ -189,14 +189,44 @@ class TransparentZen {
 
 	initExtensionSettingsStyles() {
 		if (this.transparentZenSettings?.["primary-color"]) {
-			this.applyColorProperty("--color-primary", this.transparentZenSettings["primary-color"]);
+			this.applyCustomProperty("--color-primary", this.transparentZenSettings["primary-color"]);
 		}
 		if (this.transparentZenSettings?.["text-color"]) {
-			this.applyColorProperty("--color-text", this.transparentZenSettings["text-color"]);
+			this.applyCustomProperty("--color-text", this.transparentZenSettings["text-color"]);
 		}
 		if (this.transparentZenSettings?.["background-color"]) {
-			this.applyColorProperty("--transparent-background", this.transparentZenSettings["background-color"]);
+			this.applyCustomProperty("--transparent-background", this.transparentZenSettings["background-color"]);
 		}
+		if (this.transparentZenSettings?.backgroundImage) {
+			this.blobToDataURL(this.transparentZenSettings.backgroundImage).then((dataUrl) => {
+				this.applyCustomProperty("--custom-background-image", `url(${dataUrl})`);
+				document.documentElement?.classList.add("tz-custom-background");
+			});
+			if (this.transparentZenSettings.backgroundImageOpacity) {
+				const opacity = this.transparentZenSettings.backgroundImageOpacity / 100;
+				this.applyCustomProperty("--custom-background-image-opacity", opacity.toString());
+			}
+			if (this.transparentZenSettings.backgroundImageBlur) {
+				this.applyCustomProperty("--custom-background-image-blur", `blur(${this.transparentZenSettings.backgroundImageBlur}px)`);
+			}
+			if (this.transparentZenSettings.backgroundImageBrightness) {
+				const brightness = this.transparentZenSettings.backgroundImageBrightness / 100;
+				this.applyCustomProperty("--custom-background-image-brightness", `brightness(${brightness})`);
+			}
+		}
+	}
+
+	blobToDataURL(blob: Blob): Promise<string> {
+		return new Promise((resolve, reject) => {
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				resolve(reader.result as string);
+			};
+			reader.onerror = (error) => {
+				reject(error);
+			};
+			reader.readAsDataURL(blob);
+		});
 	}
 
 	applyTransparencyRules(currentElement: HTMLElement = document.body, depth = 0, maxDepth = this.transparentZenSettings?.["transparency-depth"] || 2, insideOverlay = false) {
@@ -270,7 +300,7 @@ class TransparentZen {
 		}
 	}
 
-	applyColorProperty(property: string, color: string) {
+	applyCustomProperty(property: string, color: string) {
 		document.body.style.setProperty(property, color);
 	}
 
@@ -282,6 +312,10 @@ class TransparentZen {
 		browser.runtime.sendMessage({ action: "removeStyles", filePath: "styles/shared/dynamic-transparency.css" });
 
 		document.body.style.removeProperty("--color-primary");
+		document.body.style.removeProperty("--color-text");
+		document.body.style.removeProperty("--color-background");
+		document.body.style.removeProperty("--custom-background-image");
+		document.documentElement?.classList.remove("tz-custom-background");
 
 		const processedElements = document.querySelectorAll("[data-tz-processed]");
 		for (const element of processedElements) {

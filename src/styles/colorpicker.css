@@ -1,0 +1,11 @@
+.vc-colorpicker {
+  background: none !important;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--transparent-background);
+    backdrop-filter: var(--backdrop-blur);
+  }
+}

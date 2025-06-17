@@ -1,0 +1,16 @@
+.tz-custom-background {
+  body {
+    &::before {
+      content: "" !important;
+      position: fixed !important;
+      inset: 0 !important;
+      background-image: var(--custom-background-image) !important;
+      background-position: center center !important;
+      background-attachment: scroll !important;
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
+      opacity: var(--custom-background-image-opacity, 0.5) !important;
+      filter: var(--custom-background-image-blur, blur(4px)) var(--custom-background-image-brightness, brightness(1)) !important;
+    }
+  }
+}

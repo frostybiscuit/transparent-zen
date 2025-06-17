@@ -6,7 +6,11 @@ export type ExtensionSettings = {
 		"text-color": string;
 		"primary-color": string;
 		"background-color": string;
-		"transparency-depth": number;
+		"transparency-depth": number | null;
+		backgroundImage: File | Blob | null;
+		backgroundImageBlur: number;
+		backgroundImageOpacity: number;
+		backgroundImageBrightness: number;
 		disabledWebsites: Array<SupportedWebsite>;
 		blacklistedDomains: Array<string>;
 	};
