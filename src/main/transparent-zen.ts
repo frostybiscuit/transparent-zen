@@ -267,6 +267,23 @@ class TransparentZen {
 		let nextDepth = depth;
 		let isInsideOverlay = insideOverlay;
 
+		// Set Azure DevOps specific CSS properties
+		if (currentElement === document.body)
+		{
+			if (currentElement.className.includes('ms-vss-web-vsts')) {
+				const root = document.documentElement;
+
+				root.style.setProperty('--palette-neutral-0', '0, 0, 0, 0');
+				root.style.setProperty('--palette-neutral-2', '0, 0, 0, 0');
+				root.style.setProperty('--palette-neutral-4', '0, 0, 0, 0');
+				root.style.setProperty('--palette-neutral-6', '0, 0, 0, 0');
+				root.style.setProperty('--palette-neutral-8', '0, 0, 0, 0');
+				root.style.setProperty('--palette-neutral-10', '0, 0, 0, 0');
+
+				console.info('Azure DevOps detected - Applied transparent palette');
+			}
+		}
+		
 		if (currentElement.tagName === "A") {
 			currentElement.dataset.tzProcessed = "true";
 			currentElement.dataset.tzAnchor = "true";
