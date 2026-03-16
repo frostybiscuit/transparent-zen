@@ -1,14 +1,29 @@
-:root{
-    --main-surface-primary: rgba(0,0,0,0.1);
-    --sidebar-surface-primary: rgba(0,0,0,0.2)
+:root {
+  --bg-primary: transparent;
+  --sidebar-bg: transparent;
+  --sidebar-mask-bg: transparent;
+  --sidebar-login-pane-bg: transparent;
+  --sidebar-surface-primary: transparent;
 }
 
-.dark{
-    --sidebar-surface-tertiary: background: rgba(0,0,0,0.1) !important;
+#stage-slideover-sidebar {
+  border: 0;
+
+  [data-scrolled-from-top] {
+    background-color: rgba(0, 0, 0, 0.2);
+
+    > .sticky:first-of-type {
+      background-color: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+    }
+  }
 }
-nav{
-    background: rgba(0,0,0,0.1);
+
+.popover {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
 }
-.bg-token-message-surface{
-    background-color: rgba(0,0,0,0.2) !important;
+
+.bg-token-message-surface {
+  background-color: rgba(0, 0, 0, 0.2) !important;
 }
