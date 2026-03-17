@@ -1,0 +1,142 @@
+@import url("../shared/base.css");
+
+:root {
+  --discord-purple: #505bdd;
+  --background-gradient-highest: transparent;
+}
+
+body {
+  background-color: transparent !important;
+
+  .page-wrapper {
+    .main-wrapper {
+      background: transparent !important;
+    }
+  }
+
+  #app-mount {
+    background-color: transparent !important;
+
+    [class^="loading__"] {
+      background-color: transparent !important;
+    }
+
+    [class^="app__"],
+    [class^="bg__"] {
+      background-color: transparent !important;
+    }
+
+    [class^="sidebar__"] {
+      &::after {
+        content: none !important;
+      }
+
+      [class^="panels__"] {
+        background-color: var(--transparent-background) !important;
+        backdrop-filter: var(--backdrop-blur);
+      }
+
+      [class*="guilds__"] {
+        background-color: transparent !important;
+      }
+
+      [class^="sidebarList__"] {
+        nav {
+          background-color: transparent !important;
+        }
+
+        [class^="privateChannels_"] {
+          background-color: transparent !important;
+
+          [class^="scroller__"] {
+            background-color: transparent !important;
+          }
+        }
+      }
+    }
+
+    [class^="chat_"] {
+      background-color: transparent !important;
+
+      [class^="title_"] {
+        background-color: transparent !important;
+
+        [class^="children__"] {
+          &::after {
+            content: none !important;
+          }
+        }
+      }
+
+      [class^="messagesWrapper__"] {
+        [class^="scrollerInner__"] {
+          [class^="wrapper_"] {
+            background-color: transparent !important;
+          }
+        }
+      }
+
+      [class^="chatGradient__"] {
+        display: none !important;
+      }
+
+      [class^="channelTextArea_"] {
+        background-color: var(--transparent-background) !important;
+        backdrop-filter: var(--backdrop-blur);
+      }
+    }
+
+    main {
+      .theme-dark {
+        background-color: transparent !important;
+      }
+
+      [class^="tabBody__"] {
+        background-color: transparent !important;
+
+        [class^="nowPlayingColumn__"] {
+          background-color: transparent !important;
+        }
+      }
+
+      + [class^="container_"] {
+        background-color: transparent !important;
+      }
+    }
+
+    aside {
+      margin: var(--custom-chat-input-margin-bottom);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+
+      &[class^="membersWrap_"] {
+        margin: 0;
+        border-radius: 0;
+        overflow: visible;
+
+        [class^="members_"] {
+          background-color: transparent !important;
+
+          [class^="member__"] {
+            background-color: var(--transparent-background);
+            margin-bottom: 2px;
+          }
+        }
+      }
+
+      [class^="outer_"] {
+        background-color: transparent !important;
+        background-image: linear-gradient(rgb(from var(--profile-gradient-primary-color) r g b / 0.25), rgb(from var(--profile-gradient-secondary-color) r g b / 0.25)) !important;
+      }
+    }
+
+    [class^="searchResultsWrap_"] {
+      background-color: transparent !important;
+    }
+  }
+}
+
+.footer_new {
+  background-color: transparent !important;
+  background-image: linear-gradient(to bottom, transparent, rgb(from var(--discord-purple) r g b / 0.5)) !important;
+}

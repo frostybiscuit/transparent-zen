@@ -7,7 +7,6 @@ export default {
 		"scripts/",
 		"builds/",
 		"src/",
-		"dist/*.map",
 		".github/",
 		".git/",
 		"assets/images/github",
