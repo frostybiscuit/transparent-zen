@@ -1,10 +1,13 @@
 @import url("./animations.css");
 
 :root {
-  transition: background 250ms;
+  transition: background-color 250ms;
 
   body {
-    transition: visibility 250ms, opacity 250ms, background 250ms;
+    transition:
+      visibility 250ms,
+      opacity 250ms,
+      background-color 250ms;
     visibility: visible;
     opacity: 1;
   }

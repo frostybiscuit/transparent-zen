@@ -181,6 +181,13 @@
       "css": ["./styles/websites/notion.css"],
       "run_at": "document_start",
       "favicon": "https://icons.duckduckgo.com/ip3/www.notion.so.ico"
+    },
+    {
+      "name": "Discord",
+      "matches": ["[^ ]*://[^ ]*.?discord.com/[^ ]*"],
+      "css": ["./styles/websites/discord.css"],
+      "run_at": "document_start",
+      "favicon": "https://icons.duckduckgo.com/ip3/www.discord.com.ico"
     }
   ]
 }
