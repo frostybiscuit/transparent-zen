@@ -5,23 +5,18 @@
   "description": "Applies custom styles to make your favorite websites transparent. For a full list of supported websites, check https://github.com/frostybiscuit/transparent-zen?tab=readme-ov-file#supported-websites",
   "browser_specific_settings": {
     "gecko": {
-      "id": "{74186d10-f6f2-4f73-b33a-83bb72e50654}"
+      "id": "{74186d10-f6f2-4f73-b33a-83bb72e50654}",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   },
   "icons": {
     "48": "assets/images/logo_48.png",
     "96": "assets/images/logo_96.png"
   },
-  "permissions": [
-    "activeTab",
-    "storage",
-    "tabs",
-    "<all_urls>"
-  ],
-  "web_accessible_resources": [
-    "assets/images/*.svg",
-    "data/*.json"
-  ],
+  "permissions": ["activeTab", "storage", "tabs", "<all_urls>"],
+  "web_accessible_resources": ["assets/images/*.svg", "data/*.json"],
   "browser_action": {
     "default_popup": "dist/popup/popup.html",
     "default_title": "Transparent Zen"
@@ -31,21 +26,13 @@
     "open_in_tab": true
   },
   "background": {
-    "scripts": [
-      "dist/background.js"
-    ]
+    "scripts": ["dist/background.js"]
   },
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "css": [
-        "dist/transparent-zen.css"
-      ],
-      "js": [
-        "dist/transparent-zen.js"
-      ],
+      "matches": ["<all_urls>"],
+      "css": ["dist/transparent-zen.css"],
+      "js": ["dist/transparent-zen.js"],
       "run_at": "document_start"
     }
   ]

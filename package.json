@@ -28,7 +28,7 @@
     "vite": "^6.2.5",
     "vue": "^3.5.13",
     "vue-tsc": "^2.2.8",
-    "web-ext": "^8.4.0",
+    "web-ext": "^10.0.0",
     "webextension-polyfill-ts": "^0.26.0"
   },
   "dependencies": {
