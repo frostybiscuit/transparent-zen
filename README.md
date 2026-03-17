@@ -64,6 +64,7 @@ The following websites are currently supported by Transparent Zen:
 - drive.google.com (needs dark theme enabled)
 - web.whatsapp.com
 - notion.so
+- discord.com
 
 #### To Do
 - [x] ~~outlook.live.com~~
