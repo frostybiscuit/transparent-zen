@@ -1,11 +1,16 @@
 {
   "manifest_version": 2,
   "name": "Transparent Zen",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Applies custom styles to make your favorite websites transparent. For a full list of supported websites, check https://github.com/frostybiscuit/transparent-zen?tab=readme-ov-file#supported-websites",
   "browser_specific_settings": {
     "gecko": {
-      "id": "{74186d10-f6f2-4f73-b33a-83bb72e50654}"
+      "id": "{74186d10-f6f2-4f73-b33a-83bb72e50654}",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
     }
   },
   "icons": {

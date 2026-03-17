@@ -2,7 +2,25 @@ import "dotenv/config";
 
 export default {
 	artifactsDir: "builds",
-	ignoreFiles: ["node_modules/", "scripts/", "builds/", "src/", "dist/*.map", ".github/", ".git/", ".gitignore", ".env", "package.json", "package-lock.json", "README.md", "tsconfig.json", "vite.config.ts", "web-ext-config.mjs", "biome.json"],
+	ignoreFiles: [
+		"node_modules/",
+		"scripts/",
+		"builds/",
+		"src/",
+		"dist/*.map",
+		".github/",
+		".git/",
+		"assets/images/github",
+		".gitignore",
+		".env",
+		"package.json",
+		"package-lock.json",
+		"README.md",
+		"tsconfig.json",
+		"vite.config.ts",
+		"web-ext-config.mjs",
+		"biome.json",
+	],
 	build: {
 		overwriteDest: true,
 	},
