@@ -24,12 +24,14 @@ browser.runtime.onMessage.addListener((message: Message) => {
 });
 
 async function applyStyles(filePath?: string, domains?: Array<string>) {
-	const tabs = await browser.tabs.query({
-		currentWindow: true,
-		active: true,
-	});
+	const tabs = await browser.tabs.query({});
+	const current_window = await browser.windows.getCurrent();
 
 	for (const tab of tabs) {
+		if (!tab.id || !tab.url) continue;
+		if (tab.discarded) continue;
+		if (tabs.length > 20 && tab.windowId !== current_window.id) continue;
+		if (tabs.length > 40 && !tab.active) continue;
 		if (domains) {
 			for (const domain of domains) {
 				const regex = new RegExp(domain);
