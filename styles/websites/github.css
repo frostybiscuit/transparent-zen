@@ -126,3 +126,7 @@ div.prc-Dialog-Dialog-luvDS,
     }
   }
 }
+
+.cm-editor,.cm-gutters,.cm-content {
+   background: transparent !important;
+}
