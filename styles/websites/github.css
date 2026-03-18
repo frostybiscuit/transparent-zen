@@ -7,7 +7,6 @@ body {
   --page-header-bgColor: var(--transparent-background);
   --overlay-bgColor: var(--transparent-background-darker);
   --button-default-bgColor-rest: var(--transparent-background-dark);
-
   background: none !important;
 }
 
@@ -125,4 +124,16 @@ div.prc-Dialog-Dialog-luvDS,
       background-color: var(--transparent-background-dark);
     }
   }
+}
+
+.cm-editor,.cm-gutters,.cm-content {
+  background: transparent !important;
+}
+
+.feed-background {
+  background-color: transparent !important;
+}
+
+.TimelineItem-badge {
+  background-color: transparent;
 }
