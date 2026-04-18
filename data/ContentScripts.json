@@ -188,6 +188,12 @@
       "css": ["./styles/websites/discord.css"],
       "run_at": "document_start",
       "favicon": "https://icons.duckduckgo.com/ip3/www.discord.com.ico"
+    },{
+      "name": "Google Gemini",
+      "matches": ["[^ ]*://gemini.google.com/[^ ]*"],
+      "css": ["./styles/websites/gemini.google.css"],
+      "run_at": "document_start",
+      "favicon": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Google_Gemini_icon_2025.svg"
     }
   ]
 }
