@@ -2,7 +2,7 @@
 
 :root,
 :where(.theme-host):where(.dark-theme) {
-  --bard-color-synthetic--chat-window-surface: var(--transparent-background-dark);
+  --bard-color-synthetic--chat-window-surface: #00000000 !important;
   --gem-sys-color--on-surface: var(--color-text);
   --gem-sys-color--surface: var(--transparent-background);
   --gem-sys-color--surface-bright: var(--transparent-background);
