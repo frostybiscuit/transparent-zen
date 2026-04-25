@@ -1,7 +1,11 @@
 @import url("./base.css");
 
-*:not([data-tz-anchor] *):not(button *):not(a):not(button):not(input):not(textarea):not(select):not(option):not(code) {
-  color: var(--color-text);
+*:not([data-tz-anchor] *) {
+  &:not(a):not(button):not(input):not(textarea):not(select):not(option):not(code):not(pre) {
+    &:not(a *):not(button *):not(code *):not(pre *) {
+      color: var(--color-text);
+    }
+  }
 }
 
 code {
@@ -54,13 +58,6 @@ code {
   &[data-tz-low-contrast] {
     &:not(a):not(button) {
       color: var(--color-text) !important;
-    }
-
-    a,
-    button {
-      &:not(:hover) {
-        color: var(--color-text) !important;
-      }
     }
   }
 
