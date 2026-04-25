@@ -3,6 +3,7 @@
 :root {
   --main-background: transparent !important;
   --yt-spec-base-background: transparent !important;
+  --yt-sys-color-baseline--base-background: transparent !important;
   --second-background: transparent !important;
 }
 
@@ -127,7 +128,7 @@ a#thumbnail {
       background-color: rgb(from var(--color-white) r g b / 0.25) !important;
 
       .ytp-play-progress {
-        background-color: var(--color-primary) !important;
+        background: var(--color-primary) !important;
       }
 
       .ytp-load-progress,

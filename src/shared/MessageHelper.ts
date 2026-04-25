@@ -8,6 +8,29 @@ export const sendMessageToWorker = (message: Message): void => {
 	browser.runtime.sendMessage(message);
 };
 
+export const sendMessageToAllTabs = async (message: Message) => {
+	const tabs = await browser.tabs.query({ currentWindow: true });
+
+	for (const tab of tabs) {
+		if (!tab.url?.startsWith("moz-extension://")) {
+			browser.tabs.sendMessage(tab.id as number, message);
+		}
+	}
+};
+
+export const sendMessageToDomainTabs = async (domain: string, message: Message) => {
+	const tabs = await browser.tabs.query({ currentWindow: true });
+
+	for (const tab of tabs) {
+		if (!tab.url) return;
+
+		const tabUrl = new URL(tab.url);
+		if (tabUrl.hostname === domain) {
+			browser.tabs.sendMessage(tab.id as number, message);
+		}
+	}
+};
+
 export const sendMessageToActiveTabs = async (message: Message): Promise<Array<Response> | null> => {
 	const tabs = await browser.tabs.query({
 		currentWindow: true,
