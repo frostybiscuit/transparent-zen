@@ -1,17 +1,21 @@
 <script setup lang="ts">
+import { css } from "@codemirror/lang-css";
+import { oneDark } from "@codemirror/theme-one-dark";
 import { computed, onMounted, ref, toRaw, watch } from "vue";
+import { Codemirror } from "vue-codemirror";
 import { ColorPicker } from "vue3-colorpicker";
 import type { Browser } from "webextension-polyfill-ts";
 import { DEFAULT_SETTINGS } from "../../shared/Constants";
 import { getValidColorOrFallback } from "../../shared/Helper";
-import { getActivePageDomain, sendMessageToActiveTabs, sendMessageToWorker } from "../../shared/MessageHelper";
+import { getActivePageDomain, sendMessageToActiveTabs, sendMessageToAllTabs, sendMessageToDomainTabs, sendMessageToWorker } from "../../shared/MessageHelper";
 import { getContentScripts, loadSettings, saveSettings } from "../../shared/StorageHelper";
 import type { SupportedWebsite } from "../../types/ContentScripts";
-import type { ExtensionSettings } from "../../types/ExtensionSettings";
+import type { ExtensionSettings, SiteSpecificSetting } from "../../types/ExtensionSettings";
 import type { Manifest } from "../../types/Manifest";
 
 declare const browser: Browser;
 let inputDebounce: number;
+let customStylesSavingDebounce: number;
 
 const manifest: Manifest = browser.runtime.getManifest();
 
@@ -20,6 +24,7 @@ const supportedWebsites = ref<Array<SupportedWebsite>>([]);
 const showAllWebsites = ref(false);
 const currentDomain = ref<string>();
 const domainDisabled = ref(false);
+const siteSpecificSettings = ref<SiteSpecificSetting>({ domain: "", enabled: false, customStyles: "", backgroundSelectors: [] });
 
 const colorPickerTextColor = ref("");
 const colorPickerPrimaryColor = ref("");
@@ -55,8 +60,14 @@ onMounted(() => {
 		});
 		currentDomain.value = await getActivePageDomain();
 		if (currentDomain.value !== undefined && currentDomain.value !== null) {
-			if (extensionSettings.value?.blacklistedDomains) {
-				domainDisabled.value = extensionSettings.value?.blacklistedDomains.indexOf(currentDomain.value) >= 0;
+			if (extensionSettings.value.blacklistedDomains) {
+				domainDisabled.value = extensionSettings.value.blacklistedDomains.indexOf(currentDomain.value) >= 0;
+			}
+			if (extensionSettings.value.siteSpecificSettings) {
+				const settings = extensionSettings.value.siteSpecificSettings.find((setting) => setting.domain === currentDomain.value);
+				if (settings) {
+					siteSpecificSettings.value = settings;
+				}
 			}
 		}
 	});
@@ -71,20 +82,27 @@ const changeSetting = (event: Event) => {
 		const input = event.target as HTMLInputElement;
 		switch (input.name) {
 			case "enable-transparency":
-				sendMessageToActiveTabs({ action: "toggleTransparency", enabled: input.checked });
+				sendMessageToAllTabs({ action: "toggleTransparency", enabled: input.checked });
+				break;
+			case "lightweight-transparency":
+				sendMessageToAllTabs({ action: "toggleLightweight", enabled: input.checked });
 				break;
 			case "blacklist-domain":
 				await toggleDomainBlacklist(input.checked);
 				sendMessageToActiveTabs({ action: "toggleTransparency", enabled: !input.checked });
 				break;
+			case "site-specific-settings":
+				await toggleSiteSpecificSettings(input.checked);
+				sendMessageToActiveTabs({ action: "toggleSiteSpecificSettings", value: input.checked });
+				break;
 			case "text-color":
-				sendMessageToActiveTabs({ action: "changeTextColor", value: getValidColorOrFallback(input.value, DEFAULT_SETTINGS.textColor) });
+				sendMessageToAllTabs({ action: "changeTextColor", value: getValidColorOrFallback(input.value, DEFAULT_SETTINGS.textColor) });
 				break;
 			case "primary-color":
-				sendMessageToActiveTabs({ action: "changePrimaryColor", value: getValidColorOrFallback(input.value, DEFAULT_SETTINGS.primaryColor) });
+				sendMessageToAllTabs({ action: "changePrimaryColor", value: getValidColorOrFallback(input.value, DEFAULT_SETTINGS.primaryColor) });
 				break;
 			case "background-color":
-				sendMessageToActiveTabs({ action: "changeBackgroundColor", value: getValidColorOrFallback(input.value, DEFAULT_SETTINGS.backgroundColor) });
+				sendMessageToAllTabs({ action: "changeBackgroundColor", value: getValidColorOrFallback(input.value, DEFAULT_SETTINGS.backgroundColor) });
 				break;
 		}
 
@@ -104,6 +122,48 @@ const toggleDomainBlacklist = async (enabled: boolean) => {
 	} else {
 		extensionSettings.value?.blacklistedDomains.splice(indexOfDomain, 1);
 	}
+};
+
+const toggleSiteSpecificSettings = async (enabled: boolean) => {
+	if (!extensionSettings.value) return false;
+
+	const domain = await getActivePageDomain();
+	if (!domain) return false;
+
+	const indexOfDomain = extensionSettings.value.siteSpecificSettings.findIndex((setting) => setting.domain === domain);
+	if (indexOfDomain === -1) {
+		const newEntry: SiteSpecificSetting = {
+			domain,
+			enabled,
+			customStyles: "",
+			backgroundSelectors: [],
+		};
+		siteSpecificSettings.value = newEntry;
+		extensionSettings.value.siteSpecificSettings.push(newEntry);
+	} else if (indexOfDomain >= 0) {
+		if (siteSpecificSettings.value) siteSpecificSettings.value.enabled = enabled;
+		extensionSettings.value.siteSpecificSettings[indexOfDomain].enabled = enabled;
+	}
+
+	saveSettings(toRaw(extensionSettings.value));
+	sendMessageToDomainTabs(domain, { action: "toggleSiteSpecificSettings", value: enabled });
+};
+
+const saveCustomStyles = (value: string) => {
+	if (customStylesSavingDebounce) clearTimeout(customStylesSavingDebounce);
+
+	customStylesSavingDebounce = setTimeout(() => {
+		const stylesheet = new CSSStyleSheet();
+		stylesheet.replace(value).then(() => {
+			if (!extensionSettings.value) return;
+			const domainIndex = extensionSettings.value.siteSpecificSettings.findIndex((setting) => setting.domain === currentDomain.value);
+			if (domainIndex >= 0) {
+				extensionSettings.value.siteSpecificSettings[domainIndex].customStyles = value;
+				saveSettings(toRaw(extensionSettings.value));
+				sendMessageToDomainTabs(currentDomain.value ?? "", { action: "changeCustomStyles", value });
+			}
+		});
+	}, 1000);
 };
 
 const toggleSupportedWebsite = (website: SupportedWebsite) => {
@@ -166,10 +226,35 @@ const openSettingsPage = () => {
 					</label>
 					<div class="settings-group" data-depends-on="enable-transparency" v-show="extensionSettings.enableTransparency">
 						<label class="setting">
+							<input type="checkbox" name="lightweight-transparency" v-model="extensionSettings.lightweightTransparency" @input="changeSetting">
+							<span class="custom-checkbox"></span>
+							Lightweight Transparency
+						</label>
+						<label class="setting">
 							<input type="checkbox" name="blacklist-domain" :checked="domainDisabled" @input="changeSetting">
 							<span class="custom-checkbox"></span>
 							Disable for this domain
 						</label>
+					</div>
+					<label class="setting">
+						<input type="checkbox" name="site-specific-settings" :checked="siteSpecificSettings.enabled" @input="changeSetting">
+						<span class="custom-checkbox"></span>
+						Add site specific settings
+					</label>
+					<div class="settings-group" v-show="siteSpecificSettings.enabled">
+						<div class="setting">
+							<label>Custom Styles</label>
+							<Codemirror
+								v-model="siteSpecificSettings.customStyles"
+								:indentWithTab="true"
+								:tabSize="2"
+								:extensions="[css(), oneDark]"
+								@change="saveCustomStyles"
+							/>
+						</div>
+						<div class="setting">
+							<button @click="openSettingsPage()">Configure site specific settings</button>
+						</div>
 					</div>
 					<div class="setting">
 						<label for="text-color">Text Color</label>

@@ -4,6 +4,7 @@ export type Message = {
 	action:
 		| "updateSettings"
 		| "toggleTransparency"
+		| "toggleLightweight"
 		| "getDomain"
 		| "changePrimaryColor"
 		| "changeTextColor"
@@ -12,9 +13,10 @@ export type Message = {
 		| "changeBackgroundImageOpacity"
 		| "changeBackgroundImageBlur"
 		| "changeBackgroundImageBrightness"
+		| "changeCustomStyles"
+		| "toggleSiteSpecificSettings"
 		| "insertStyles"
-		| "removeStyles"
-		| "migrateOldSettings";
+		| "removeStyles";
 	data?: unknown;
 	enabled?: boolean;
 	value?: string | number | boolean | Blob;

@@ -160,14 +160,10 @@ main {
         }
 
         .value {
-          display: inline-flex;
-          margin-left: 8px;
+          display: flex;
+          margin-top: 8px;
 
           &:has(input) {
-            width: 100%;
-            margin-left: 0;
-            margin-top: 8px;
-
             &:has(input[type="range"]) {
               align-items: center;
               gap: 8px;
@@ -212,6 +208,42 @@ main {
               }
             }
           }
+
+          &:has(select) {
+            select {
+              width: 350px;
+              max-width: 100%;
+              padding: 5px 10px;
+              background-color: var(--transparent-background);
+              color: var(--color-text);
+              font-size: 18px;
+              border: 0;
+              outline: 0;
+              border-radius: var(--border-radius);
+            }
+          }
+
+          &:has(.v-codemirror) {
+            height: 400px;
+
+            &.has-error {
+              .cm-editor {
+                outline: 1px solid var(--color-red);
+              }
+            }
+
+            .cm-editor {
+              background-color: var(--transparent-background);
+              border-radius: var(--border-radius-lg);
+              width: 100%;
+
+              .cm-gutters {
+                background-color: var(--transparent-background);
+                border-top-left-radius: var(--border-radius-lg);
+                border-bottom-left-radius: var(--border-radius-lg);
+              }
+            }
+          }
         }
 
         .value-list {
@@ -228,6 +260,19 @@ main {
             background-color: var(--transparent-background-dark);
             border-radius: var(--border-radius-lg);
             padding: 5px 10px;
+
+            &.selectable {
+              cursor: pointer;
+
+              &:hover,
+              &.selected {
+                outline: 2px solid var(--color-primary);
+              }
+
+              &.selected {
+                font-weight: bold;
+              }
+            }
 
             &:hover {
               .remove-button {
@@ -259,7 +304,10 @@ main {
               margin-left: 0;
               width: 0;
               opacity: 0;
-              transition: width 0.25s ease-in-out, margin 0.25s ease-in-out, opacity 0.25s ease-in-out;
+              transition:
+                width 0.25s ease-in-out,
+                margin 0.25s ease-in-out,
+                opacity 0.25s ease-in-out;
 
               img {
                 display: block;
@@ -369,7 +417,9 @@ main {
               backdrop-filter: blur(4px);
               visibility: visible;
               opacity: 0;
-              transition: visibility 0.25s ease-in-out, opacity 0.25s ease-in-out;
+              transition:
+                visibility 0.25s ease-in-out,
+                opacity 0.25s ease-in-out;
 
               img {
                 filter: var(--svg-white);

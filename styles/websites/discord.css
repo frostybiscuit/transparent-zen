@@ -80,6 +80,10 @@ body {
         display: none !important;
       }
 
+      [class*="formWithLoadedChatInput"] {
+        margin-top: 0;
+      }
+
       [class^="channelTextArea_"] {
         background-color: var(--transparent-background) !important;
         backdrop-filter: var(--backdrop-blur);

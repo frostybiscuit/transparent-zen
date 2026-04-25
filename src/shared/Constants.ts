@@ -2,6 +2,7 @@ import type { ExtensionSettings } from "../types/ExtensionSettings";
 
 export const DEFAULT_SETTINGS: ExtensionSettings["transparentZenSettings"] = {
 	enableTransparency: false,
+	lightweightTransparency: false,
 	textColor: "#FFFFFF",
 	primaryColor: "#82C7FF",
 	backgroundColor: "rgba(17, 17, 17, 0.5)",
@@ -12,6 +13,7 @@ export const DEFAULT_SETTINGS: ExtensionSettings["transparentZenSettings"] = {
 	backgroundImageBlur: 4,
 	disabledWebsites: [],
 	blacklistedDomains: [],
+	siteSpecificSettings: [],
 };
 
 export const GITHUB_ENDPOINTS = {

@@ -1,13 +1,16 @@
 <script setup lang="ts">
+import { css } from "@codemirror/lang-css";
+import { oneDark } from "@codemirror/theme-one-dark";
 import { computed, nextTick, onMounted, ref, toRaw, useTemplateRef, watch } from "vue";
+import { Codemirror } from "vue-codemirror";
 import { ColorPicker } from "vue3-colorpicker";
 import type { Browser } from "webextension-polyfill-ts";
 import { DEFAULT_SETTINGS, GITHUB_ENDPOINTS } from "../../shared/Constants";
 import { getValidColorOrFallback } from "../../shared/Helper";
-import { getActivePageDomain, sendMessageToActiveTabs, sendMessageToWorker } from "../../shared/MessageHelper";
+import { getActivePageDomain, sendMessageToActiveTabs, sendMessageToDomainTabs, sendMessageToWorker } from "../../shared/MessageHelper";
 import { getContentScripts, loadSettings, saveSettings } from "../../shared/StorageHelper";
 import type { SupportedWebsite } from "../../types/ContentScripts";
-import type { ExtensionSettings } from "../../types/ExtensionSettings";
+import type { ExtensionSettings, SiteSpecificSetting } from "../../types/ExtensionSettings";
 import type { Manifest } from "../../types/Manifest";
 
 declare const browser: Browser;
@@ -20,18 +23,25 @@ const sortedWebsites = computed(() => {
 });
 
 const newDisabledDomainInput = useTemplateRef("newDisabledDomainInput");
+const newSiteSpecificSettingsDomainInput = useTemplateRef("newSiteSpecificSettingsDomainInput");
 
 const extensionSettings = ref<ExtensionSettings["transparentZenSettings"] | null>(null);
 const supportedWebsites = ref<Array<SupportedWebsite>>([]);
-const editingBlacklistedDomains = ref(false);
+const editingBlacklistedDomains = ref<boolean>(false);
+const editingSiteSpecificDomains = ref<boolean>(false);
 const newDisabledDomain = ref<string>("");
+const newSiteSpecificSettingsDomain = ref<string>("");
+const selectedSiteSpecificSettings = ref<SiteSpecificSetting>();
+const customStylesError = ref<boolean>(false);
 const currentDomain = ref<string>();
-const domainDisabled = ref(false);
+const domainDisabled = ref<boolean>(false);
 const latestVersion = ref<string>("");
 const outdatedVersion = ref<boolean>(false);
 const colorPickerTextColor = ref("");
 const colorPickerPrimaryColor = ref("");
 const colorPickerBackgroundColor = ref("");
+
+let customStylesSavingDebounce: number;
 
 // biome-ignore format: readability
 watch(() => extensionSettings.value?.textColor, newValue => {
@@ -167,6 +177,88 @@ const changeSetting = async (event: Event) => {
 	saveSettings(toRaw(extensionSettings.value));
 };
 
+const removeSiteSpecificSettingsDomain = (domain: string) => {
+	if (!extensionSettings.value) return;
+
+	const index = extensionSettings.value.siteSpecificSettings.findIndex((setting) => setting.domain === domain);
+	if (index >= 0) {
+		extensionSettings.value.siteSpecificSettings.splice(index, 1);
+		saveSettings(toRaw(extensionSettings.value));
+		sendMessageToDomainTabs(domain, { action: "toggleSiteSpecificSettings", value: false });
+	}
+};
+
+const addSiteSpecificSettingsDomain = () => {
+	if (!extensionSettings.value) return;
+
+	if (newSiteSpecificSettingsDomain.value?.length && extensionSettings.value.siteSpecificSettings.findIndex((setting) => setting.domain === newSiteSpecificSettingsDomain.value) === -1) {
+		extensionSettings.value.siteSpecificSettings.push({
+			domain: newSiteSpecificSettingsDomain.value,
+			enabled: true,
+			customStyles: "",
+		} as SiteSpecificSetting);
+		saveSettings(toRaw(extensionSettings.value));
+	}
+
+	newSiteSpecificSettingsDomain.value = "";
+};
+
+const showNewSiteSpecificSettingsDomainInput = () => {
+	editingSiteSpecificDomains.value = true;
+	nextTick(() => {
+		newSiteSpecificSettingsDomainInput.value?.focus();
+	});
+};
+
+const hideNewSiteSpecificSettingsDomainInput = () => {
+	editingSiteSpecificDomains.value = false;
+	newSiteSpecificSettingsDomain.value = "";
+};
+
+const selectSiteSpecificSettingsDomain = (domain: string) => {
+	if (!extensionSettings.value) return;
+
+	const selectedSettings = extensionSettings.value.siteSpecificSettings.find((setting) => setting.domain === domain);
+	if (selectedSettings) {
+		selectedSiteSpecificSettings.value = selectedSettings;
+	}
+};
+
+const toggleSiteSpecificSettings = () => {
+	if (!extensionSettings.value || !selectedSiteSpecificSettings.value) return;
+
+	const domainIndex = extensionSettings.value.siteSpecificSettings.findIndex((setting) => setting.domain === selectedSiteSpecificSettings.value?.domain);
+	if (domainIndex >= 0) {
+		selectedSiteSpecificSettings.value.enabled = !selectedSiteSpecificSettings.value.enabled;
+		extensionSettings.value.siteSpecificSettings[domainIndex].enabled = selectedSiteSpecificSettings.value.enabled;
+		saveSettings(toRaw(extensionSettings.value));
+		sendMessageToDomainTabs(selectedSiteSpecificSettings.value?.domain ?? "", { action: "toggleSiteSpecificSettings", value: selectedSiteSpecificSettings.value.enabled });
+	}
+};
+
+const saveCustomStyles = (value: string) => {
+	if (customStylesSavingDebounce) clearTimeout(customStylesSavingDebounce);
+
+	customStylesSavingDebounce = setTimeout(() => {
+		const stylesheet = new CSSStyleSheet();
+		stylesheet
+			.replace(value)
+			.then(() => {
+				if (!extensionSettings.value) return;
+				customStylesError.value = false;
+				const domainIndex = extensionSettings.value.siteSpecificSettings.findIndex((setting) => setting.domain === selectedSiteSpecificSettings.value?.domain);
+				if (domainIndex >= 0) {
+					extensionSettings.value.siteSpecificSettings[domainIndex].customStyles = value;
+					saveSettings(toRaw(extensionSettings.value));
+					sendMessageToDomainTabs(selectedSiteSpecificSettings.value?.domain ?? "", { action: "changeCustomStyles", value });
+				}
+			})
+			.catch(() => {
+				customStylesError.value = true;
+			});
+	}, 1000);
+};
+
 const removeBlacklistedDomain = (domain: string) => {
 	if (!extensionSettings.value) return;
 
@@ -208,6 +300,13 @@ const toggleDynamicTransparency = () => {
 	saveSettings(toRaw(extensionSettings.value));
 };
 
+const toggleLightweightTransparency = () => {
+	if (!extensionSettings.value) return;
+
+	extensionSettings.value.lightweightTransparency = !extensionSettings.value.lightweightTransparency;
+	saveSettings(toRaw(extensionSettings.value));
+};
+
 const uploadBackgroundImage = (event: Event) => {
 	if (!extensionSettings.value) return;
 
@@ -229,7 +328,7 @@ const removeBackgroundImage = () => {
 </script>
 
 <template>
-  <header :style="{ '--color-primary': getValueOrDefault('primaryColor') as string ?? '' }">
+  <header :style="{ '--color-primary': getValueOrDefault('primaryColor') as string }">
     <div class="container">
       <div id="page-header">
         <img class="logo" src="../../../assets/images/logo_48.png" alt="Transparent Zen Logo">
@@ -238,7 +337,7 @@ const removeBackgroundImage = () => {
       </div>
     </div>
   </header>
-  <main v-if="extensionSettings" :style="{ '--color-primary': getValueOrDefault('primaryColor') as string ?? '' }">
+  <main v-if="extensionSettings" :style="{ '--color-primary': getValueOrDefault('primaryColor') as string }">
     <div class="container">
       <div class="settings">
         <section v-if="outdatedVersion" class="info-banner">
@@ -334,6 +433,12 @@ const removeBackgroundImage = () => {
             <strong>Please keep in mind that this might not work for some websites, especially with more complex elements as well as overlays and modals!</strong>
           </p>
           <div class="setting" :class="{disabled: !extensionSettings.enableTransparency}">
+            <span class="label">Lightweight Transparency</span>
+            <div class="value">
+              <button type="button" class="toggle" :class="{active: extensionSettings.lightweightTransparency}" @click="toggleLightweightTransparency"></button>
+            </div>
+          </div>
+          <div class="setting" :class="{disabled: !extensionSettings.enableTransparency}">
             <span class="label">Background Layers</span>
             <div class="value">
               <input
@@ -405,6 +510,49 @@ const removeBackgroundImage = () => {
                 <ColorPicker theme="black" v-model:pureColor="colorPickerBackgroundColor" @update:pureColor="pickColor('backgroundColor')" />
               </div>
             </span>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="headline">Site-Specific Settings</h2>
+          <p class="description">Add additional CSS selectors for elements with a background-color as well as custom CSS styles for specific sites</p>
+          <!-- TODO: add a dropdown together with and input to select/add domains -->
+          <!-- TODO: add an array of background selectors as well as custom styles -->
+          <!-- TODO: add quick settings for the popup -->
+          <div class="setting">
+            <span class="label">Configured Domains</span>
+            <ul class="value-list">
+              <li class="selectable" v-if="extensionSettings.siteSpecificSettings?.length" v-for="setting in extensionSettings.siteSpecificSettings" :class="{selected: setting.domain === selectedSiteSpecificSettings?.domain}" @click="selectSiteSpecificSettingsDomain(setting.domain)">
+                {{ setting.domain }}
+                <button type="button" class="remove-button" @click="removeSiteSpecificSettingsDomain(setting.domain)">
+                  <img src="../../../assets/icons/x-mark.svg" alt="Remove Domain" />
+                </button>
+              </li>
+              <li class="add-domain">
+                <button v-if="!editingSiteSpecificDomains" type="button" class="add-button" @click="showNewSiteSpecificSettingsDomainInput">
+                  <img src="../../../assets/icons/plus.svg" alt="Add Domain" />
+                </button>
+                <input v-else type="text" placeholder="www.example.com" v-model="newSiteSpecificSettingsDomain" @change="addSiteSpecificSettingsDomain" @blur="hideNewSiteSpecificSettingsDomainInput" ref="newSiteSpecificSettingsDomainInput" />
+              </li>
+            </ul>
+          </div>
+          <div class="setting" v-if="selectedSiteSpecificSettings">
+            <span class="label">Settings Enabled</span>
+            <div class="value">
+              <button type="button" class="toggle" :class="{active: selectedSiteSpecificSettings.enabled}" @click="toggleSiteSpecificSettings"></button>
+            </div>
+          </div>
+          <div class="setting" v-if="selectedSiteSpecificSettings">
+            <span class="label">Custom Styles</span>
+            <div class="value" :class="{'has-error': customStylesError}">
+              <Codemirror
+                v-model="(selectedSiteSpecificSettings.customStyles as string)"
+                :indentWithTab="true"
+                :tabSize="2"
+                :extensions="[css(), oneDark]"
+                @change="saveCustomStyles"
+              />
+            </div>
           </div>
         </section>
       </div>

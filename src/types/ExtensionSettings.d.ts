@@ -3,6 +3,7 @@ import type { SupportedWebsite } from "./ContentScripts";
 export type ExtensionSettings = {
 	transparentZenSettings: {
 		enableTransparency: boolean;
+		lightweightTransparency: boolean;
 		textColor: string;
 		primaryColor: string;
 		backgroundColor: string;
@@ -13,6 +14,7 @@ export type ExtensionSettings = {
 		backgroundImageBrightness: number;
 		disabledWebsites: Array<SupportedWebsite>;
 		blacklistedDomains: Array<string>;
+		siteSpecificSettings: Array<SiteSpecificSetting>;
 
 		//* Deprecated settings
 		"enable-transparency"?: boolean;
@@ -22,4 +24,11 @@ export type ExtensionSettings = {
 		"transparency-depth"?: number | null;
 		"blacklist-domain"?: boolean;
 	};
+};
+
+export type SiteSpecificSetting = {
+	domain: string;
+	enabled: boolean;
+	backgroundSelectors: Array<string>;
+	customStyles: string;
 };
