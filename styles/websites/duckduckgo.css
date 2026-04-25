@@ -17,7 +17,7 @@
   --theme-searchbox-bg--focused: var(--transparent-background-darker);
   --theme-searchbox-bg--mobile: var(--transparent-background-darker);
 
-  [class^="home_root"] {
+  [class^="homepage-skeleton_root"] {
     --theme-bg-home: transparent;
     --theme-bg-cta-cards: var(--transparent-background);
     --theme-bg-home-searchbox: var(--transparent-background-dark);
