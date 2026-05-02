@@ -161,6 +161,8 @@ class TransparentZen {
 					break;
 				}
 				case "toggleLightweight": {
+					if (this.isSupportedWebsite) break;
+
 					if (request.enabled) {
 						this.removeTransparencyRules();
 						browser.runtime.sendMessage({ action: "insertStyles", filePath: "styles/shared/dynamic-transparency.css" });
