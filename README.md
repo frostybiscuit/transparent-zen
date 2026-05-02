@@ -26,11 +26,11 @@ Transparent Zen is a browser extension specifically designed for Zen Browser. Th
 - [Supported Websites](#supported-websites)
 - [Dynamic Transparency](#dynamic-transparency)
 - [Prerequisites](#prerequisites)
-    - [Windows 11](#windows-11)
+  - [Windows 11](#windows-11)
 - [Installation](#installation)
-    - [Dark Reader](#dark-reader)
+  - [Dark Reader](#dark-reader)
 - [Usage](#usage)
-    - [Customization](#customization)
+  - [Customization](#customization)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -67,6 +67,7 @@ The following websites are currently supported by Transparent Zen:
 - discord.com
 
 #### To Do
+
 - [x] ~~outlook.live.com~~
 - [x] ~~notebooklm.google.com~~
 - [x] ~~web.whatsapp.com~~
@@ -85,6 +86,7 @@ The following websites are currently supported by Transparent Zen:
 - [ ] x.com
 
 ## Dynamic Transparency
+
 Transparent Zen has the option to make any website transparent by crawling the website and setting styles as good as possible.
 
 While this works well on many websites, this is a very early state of this feature and will be improved with future updates to get a better experience on more websites. For the case that a website is rendered unusable with this, it is possible to disable this per domain in the extension popup.
@@ -92,26 +94,30 @@ While this works well on many websites, this is a very early state of this featu
 ![image](https://github.com/user-attachments/assets/bb86f9d3-2fe8-4143-a86e-df917babe59d)
 
 #### To-Do
+
 - [x] ~~Reduce flashing on style application~~
-- [ ] Add per-site configuration
+- [x] Add per-site configuration
 - [x] ~~Add options to configure colors for supported sites~~
 - [x] ~~Improve stability~~
 - [ ] Find a solution for hover states
 - [x] ~~Rework popup for expandability~~
 
 ## Prerequisites
+
 #### Windows 11
+
 1. Open Zen Browser and go to `about:config`
 2. Make sure that `browser.tabs.allow_transparent_browser`, `widget.transparent-windows` and `widget.windows.mica` are all set to **true**
 3. Install [MicaForEveryone](https://github.com/MicaForEveryone/MicaForEveryone) (optional)
-    - In MicaForEveryone add a new process rule and select "zen"
-    - Activate **Blur Behind** and set the Backdrop Type to **Acrylic**
+   - In MicaForEveryone add a new process rule and select "zen"
+   - Activate **Blur Behind** and set the Backdrop Type to **Acrylic**
 
 #### Linux
+
 1. Open Zen Browser and go to `about:config`. Ensure the installed version of Zen is above release **1.11.2b**
 2. Make sure that `browser.tabs.allow_transparent_browser` and `zen.widget.linux.transparency` are set to **true**
 3. For a blurred window with **KDE PLASMA**, install [kwin-effects-forceblur](https://github.com/taj-ny/kwin-effects-forceblur) through your system repository, or build from source
-    - Follow steps shown on the project Github to enable blur, and add `zen` to the allowlist
+   - Follow steps shown on the project Github to enable blur, and add `zen` to the allowlist
 
 ##### TODO: Add other OS prerequisites
 
@@ -120,6 +126,7 @@ While this works well on many websites, this is a very early state of this featu
 To install Transparent Zen, you can either download it from the [Firefox Add-Ons Store](https://addons.mozilla.org/en-US/firefox/addon/transparent-zen) or grab the latest release from github and manually install it through the Zen Browser settings.
 
 #### Dark Reader
+
 If you are using Dark Reader, ensure that it is disabled for the websites you want to view as transparent.
 
 ## Usage
@@ -127,6 +134,7 @@ If you are using Dark Reader, ensure that it is disabled for the websites you wa
 Once installed, Transparent Zen will automatically apply transparent styles to the supported websites listed above. No further configuration is required.
 
 #### Customization
+
 I highly recommend darkening the browser theme slightly by right-clicking the Zen Browser Toolbar and selecting **Change Theme Colors**. I'm personally using the hex code **#00000066** which darkens the browser background slightly while maintaining readability. But of course, feel free to play around to find the best color to your liking!
 
 ##### ⚠️ Since Zen Browser 1.8.1b you need to set `zen.theme.gradient.show-custom-colors` to **true** in `about:config` in order to be able to set a hex code for the theme color
@@ -142,6 +150,7 @@ For a really clean experience I also recommend to remove the light background be
   }
 }
 ```
+
 If you're unsure where to find the `userChrome.css`, you can follow steps 1-5 here: https://www.userchrome.org/how-create-userchrome-css.html
 
 ## Contributing

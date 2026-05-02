@@ -12,14 +12,38 @@ html[dark] {
   background: transparent !important;
 }
 
+ytd-app {
+  background: none !important;
+}
+
 #frosted-glass {
   display: none !important;
 }
 
 #background.ytd-masthead {
   display: block !important;
-  background: var(--transparent-background-darker) !important;
-  backdrop-filter: var(--backdrop-blur);
+  background: none !important;
+}
+
+#voice-search-button {
+  background-color: var(--transparent-background-darker) !important;
+}
+
+#masthead {
+  #end {
+    #buttons {
+      background: var(--transparent-background-dark);
+      backdrop-filter: var(--backdrop-blur);
+      border-radius: 16px;
+
+      > ytd-button-renderer {
+        button {
+          background: none !important;
+          backdrop-filter: none !important;
+        }
+      }
+    }
+  }
 }
 
 #home-chips,
