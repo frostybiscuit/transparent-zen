@@ -4,6 +4,7 @@ export type ExtensionSettings = {
 	transparentZenSettings: {
 		enableTransparency: boolean;
 		lightweightTransparency: boolean;
+		enableWhitelist: boolean;
 		textColor: string;
 		primaryColor: string;
 		backgroundColor: string;
@@ -15,14 +16,6 @@ export type ExtensionSettings = {
 		disabledWebsites: Array<SupportedWebsite>;
 		blacklistedDomains: Array<string>;
 		siteSpecificSettings: Array<SiteSpecificSetting>;
-
-		//* Deprecated settings
-		"enable-transparency"?: boolean;
-		"text-color"?: string;
-		"primary-color"?: string;
-		"background-color"?: string;
-		"transparency-depth"?: number | null;
-		"blacklist-domain"?: boolean;
 	};
 };
 

@@ -4,6 +4,7 @@ export type Message = {
 	action:
 		| "updateSettings"
 		| "toggleTransparency"
+		| "toggleWhitelist"
 		| "toggleLightweight"
 		| "getDomain"
 		| "changePrimaryColor"
