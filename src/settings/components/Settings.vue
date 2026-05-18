@@ -307,6 +307,13 @@ const toggleLightweightTransparency = () => {
 	saveSettings(toRaw(extensionSettings.value));
 };
 
+const toggleWhitelist = () => {
+	if (!extensionSettings.value) return;
+
+	extensionSettings.value.enableWhitelist = !extensionSettings.value.enableWhitelist;
+	saveSettings(toRaw(extensionSettings.value));
+};
+
 const uploadBackgroundImage = (event: Event) => {
 	if (!extensionSettings.value) return;
 
@@ -439,6 +446,12 @@ const removeBackgroundImage = () => {
             </div>
           </div>
           <div class="setting" :class="{disabled: !extensionSettings.enableTransparency}">
+            <span class="label">Whitelist instead of Blacklist</span>
+            <div class="value">
+              <button type="button" class="toggle" :class="{active: extensionSettings.enableWhitelist}" @click="toggleWhitelist"></button>
+            </div>
+          </div>
+          <div class="setting" :class="{disabled: !extensionSettings.enableTransparency}">
             <span class="label">Background Layers</span>
             <div class="value">
               <input
@@ -451,7 +464,14 @@ const removeBackgroundImage = () => {
             </div>
           </div>
           <div class="setting" :class="{disabled: !extensionSettings.enableTransparency}">
-            <span class="label">Blacklisted Domains</span>
+            <span class="label">
+              <template v-if="extensionSettings.enableWhitelist">
+                Whitelisted Domains
+              </template>
+              <template v-else>
+                Blacklisted Domains
+              </template>
+            </span>
             <ul class="value-list">
               <li v-if="extensionSettings.blacklistedDomains?.length" v-for="domain in extensionSettings.blacklistedDomains">
                 {{ domain }}
@@ -516,9 +536,6 @@ const removeBackgroundImage = () => {
         <section>
           <h2 class="headline">Site-Specific Settings</h2>
           <p class="description">Add additional CSS selectors for elements with a background-color as well as custom CSS styles for specific sites</p>
-          <!-- TODO: add a dropdown together with and input to select/add domains -->
-          <!-- TODO: add an array of background selectors as well as custom styles -->
-          <!-- TODO: add quick settings for the popup -->
           <div class="setting">
             <span class="label">Configured Domains</span>
             <ul class="value-list">

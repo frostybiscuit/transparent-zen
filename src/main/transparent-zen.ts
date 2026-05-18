@@ -97,10 +97,15 @@ class TransparentZen {
 	async initDynamicTransparency() {
 		const settings = (await browser.storage.local.get("transparentZenSettings")) as ExtensionSettings;
 		this.transparentZenSettings = settings.transparentZenSettings;
-		if (this.transparentZenSettings?.enableTransparency && (!this.transparentZenSettings?.blacklistedDomains || this.transparentZenSettings?.blacklistedDomains?.indexOf(window.location.hostname) === -1)) {
-			browser.runtime.sendMessage({ action: "insertStyles", filePath: "styles/shared/dynamic-transparency.css" });
-			if (!this.transparentZenSettings.lightweightTransparency) {
-				this.processPage();
+		if (this.transparentZenSettings?.enableTransparency) {
+			const isInBlacklist = this.transparentZenSettings?.blacklistedDomains?.indexOf(window.location.hostname) >= 0;
+			if (!this.transparentZenSettings?.blacklistedDomains || (!this.transparentZenSettings.enableWhitelist && !isInBlacklist) || (this.transparentZenSettings.enableWhitelist && isInBlacklist)) {
+				browser.runtime.sendMessage({ action: "insertStyles", filePath: "styles/shared/dynamic-transparency.css" });
+				if (!this.transparentZenSettings.lightweightTransparency) {
+					this.processPage();
+				} else {
+					this.removeLoadingScreen();
+				}
 			} else {
 				this.removeLoadingScreen();
 			}
@@ -168,6 +173,30 @@ class TransparentZen {
 						browser.runtime.sendMessage({ action: "insertStyles", filePath: "styles/shared/dynamic-transparency.css" });
 					} else {
 						this.processPage(true);
+					}
+					break;
+				}
+				case "toggleWhitelist": {
+					if (!this.transparentZenSettings?.blacklistedDomains || this.isSupportedWebsite) break;
+
+					if (request.enabled) {
+						if (this.transparentZenSettings?.blacklistedDomains.indexOf(window.location.hostname) >= 0) {
+							browser.runtime.sendMessage({ action: "insertStyles", filePath: "styles/shared/dynamic-transparency.css" });
+							if (!this.transparentZenSettings?.lightweightTransparency) {
+								this.processPage(true);
+							}
+						} else {
+							this.removeTransparencyRules();
+						}
+					} else {
+						if (this.transparentZenSettings?.blacklistedDomains.indexOf(window.location.hostname) >= 0) {
+							this.removeTransparencyRules();
+						} else {
+							browser.runtime.sendMessage({ action: "insertStyles", filePath: "styles/shared/dynamic-transparency.css" });
+							if (!this.transparentZenSettings?.lightweightTransparency) {
+								this.processPage(true);
+							}
+						}
 					}
 					break;
 				}

@@ -84,12 +84,15 @@ const changeSetting = (event: Event) => {
 			case "enable-transparency":
 				sendMessageToAllTabs({ action: "toggleTransparency", enabled: input.checked });
 				break;
+			case "enable-whitelist":
+				sendMessageToAllTabs({ action: "toggleWhitelist", enabled: input.checked });
+				break;
 			case "lightweight-transparency":
 				sendMessageToAllTabs({ action: "toggleLightweight", enabled: input.checked });
 				break;
 			case "blacklist-domain":
 				await toggleDomainBlacklist(input.checked);
-				sendMessageToActiveTabs({ action: "toggleTransparency", enabled: !input.checked });
+				sendMessageToActiveTabs({ action: "toggleTransparency", enabled: extensionSettings.value?.enableWhitelist ? input.checked : !input.checked });
 				break;
 			case "site-specific-settings":
 				await toggleSiteSpecificSettings(input.checked);
@@ -231,9 +234,19 @@ const openSettingsPage = () => {
 							Lightweight Transparency
 						</label>
 						<label class="setting">
+							<input type="checkbox" name="enable-whitelist" v-model="extensionSettings.enableWhitelist" @input="changeSetting">
+							<span class="custom-checkbox"></span>
+							Whitelist instead of Blacklist
+						</label>
+						<label class="setting">
 							<input type="checkbox" name="blacklist-domain" :checked="domainDisabled" @input="changeSetting">
 							<span class="custom-checkbox"></span>
-							Disable for this domain
+							<template v-if="extensionSettings.enableWhitelist">
+								Enable for this domain
+							</template>
+							<template v-else>
+								Disable for this domain
+							</template>
 						</label>
 					</div>
 					<label class="setting">

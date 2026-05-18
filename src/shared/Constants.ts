@@ -2,6 +2,7 @@ import type { ExtensionSettings } from "../types/ExtensionSettings";
 
 export const DEFAULT_SETTINGS: ExtensionSettings["transparentZenSettings"] = {
 	enableTransparency: false,
+	enableWhitelist: false,
 	lightweightTransparency: false,
 	textColor: "#FFFFFF",
 	primaryColor: "#82C7FF",
