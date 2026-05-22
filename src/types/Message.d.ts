@@ -16,6 +16,8 @@ export type Message = {
 		| "changeBackgroundImageBrightness"
 		| "changeCustomStyles"
 		| "toggleSiteSpecificSettings"
+		| "toggleInspector"
+		| "addCustomBackground"
 		| "insertStyles"
 		| "removeStyles";
 	data?: unknown;

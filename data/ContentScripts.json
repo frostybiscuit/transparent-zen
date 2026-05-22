@@ -19,7 +19,7 @@
 			"matches": ["[^ ]*://[^ ]*.?ddl-warez.cc/[^ ]*"],
 			"css": ["./styles/websites/ddl-warez.css"],
 			"run_at": "document_start",
-			"favicon": "https://icons.duckduckgo.com/ip3/ddl-warez.cc.ico"
+			"favicon": "https://ddl-warez.cc/wp-content/uploads/logo.png"
 		},
 		{
 			"name": "Epic Games",
@@ -96,7 +96,7 @@
 			"matches": ["[^ ]*://copilot.microsoft.com/[^ ]*"],
 			"css": ["./styles/websites/copilot.microsoft.css"],
 			"run_at": "document_start",
-			"favicon": "https://icons.duckduckgo.com/ip3/copilot.microsoft.com.ico"
+			"favicon": "https://copilot.microsoft.com/static/cmc/favicon.ico"
 		},
 		{
 			"name": "ChatGPT",

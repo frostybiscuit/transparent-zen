@@ -206,6 +206,11 @@ const pickColor = (name: string) => {
 	saveSettings(toRaw(extensionSettings.value));
 };
 
+const enableWebInspector = () => {
+	sendMessageToActiveTabs({ action: "toggleInspector", enabled: true });
+	window.close();
+};
+
 const openSettingsPage = () => {
 	browser.runtime.openOptionsPage();
 };
@@ -256,6 +261,12 @@ const openSettingsPage = () => {
 					</label>
 					<div class="settings-group" v-show="siteSpecificSettings.enabled">
 						<div class="setting">
+							<button @click="enableWebInspector()">
+								Hide additional background elements
+								<img class="icon" src="../../../assets/icons/html.svg" alt="" role="presentation">
+							</button>
+						</div>
+						<div class="setting">
 							<label>Custom Styles</label>
 							<Codemirror
 								v-model="siteSpecificSettings.customStyles"
@@ -264,9 +275,6 @@ const openSettingsPage = () => {
 								:extensions="[css(), oneDark]"
 								@change="saveCustomStyles"
 							/>
-						</div>
-						<div class="setting">
-							<button @click="openSettingsPage()">Configure site specific settings</button>
 						</div>
 					</div>
 					<div class="setting">
@@ -319,7 +327,10 @@ const openSettingsPage = () => {
 					</label>
 				</form>
 				<div class="button-wrapper">
-					<button @click="openSettingsPage">Show all settings</button>
+					<button @click="openSettingsPage">
+						Show all settings
+						<img class="icon" src="../../../assets/icons/arrow-right.svg" alt="" role="presentation">
+					</button>
 				</div>
 			</section>
       <section id="supported-websites">
