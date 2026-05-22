@@ -2,13 +2,14 @@ import type { Browser } from "webextension-polyfill-ts";
 import type { ContentScripts, SupportedWebsite } from "../types/ContentScripts";
 import type { ExtensionSettings, SiteSpecificSetting } from "../types/ExtensionSettings";
 import type { Message } from "../types/Message";
+import { WebInspector } from "./modules/WebInspector";
 import "./transparent-zen.css";
 
 declare const browser: Browser;
 
 class TransparentZen {
 	BLACKLISTED_ELEMENTS = ["BUTTON", "INPUT", "TEXTAREA", "CODE"];
-	BLACKLISTED_CLASSES = ["button", "btn"];
+	BLACKLISTED_CLASSES = ["button", "btn", "tz-toast-messages", "tz-inspector"];
 	transparentZenSettings: ExtensionSettings["transparentZenSettings"] | undefined;
 	siteSpecificSettings: SiteSpecificSetting | null = null;
 	isSupportedWebsite = false;
@@ -28,6 +29,7 @@ class TransparentZen {
 					await this.initSupportedWebsite(contentScript);
 					this.initSiteSpecificSettings();
 				}
+				if (this.transparentZenSettings) new WebInspector(this.transparentZenSettings);
 			})
 			.catch((error) => {
 				console.error("Error checking supported websites:", error);
@@ -125,10 +127,34 @@ class TransparentZen {
 				if (setting.domain === window.location.hostname) {
 					this.siteSpecificSettings = setting;
 					if (setting.enabled) {
+						this.applyCustomBackgrounds();
 						this.applyCustomStyles();
 					}
 				}
 			}
+		}
+	}
+
+	applyCustomBackgrounds() {
+		if (!this.siteSpecificSettings) return;
+
+		if (this.siteSpecificSettings.backgroundSelectors.length) {
+			let customStyles = document.getElementById("tz-custom-backgrounds") as HTMLStyleElement | null;
+			if (!customStyles) {
+				customStyles = document.createElement("style");
+				customStyles.id = "tz-custom-backgrounds";
+				document.head.append(customStyles);
+			}
+			customStyles.textContent = `
+				${this.siteSpecificSettings.backgroundSelectors.join(",")} {
+					background-color: transparent !important;
+
+					&[data-tz-processed] {
+						&[data-tz-depth] {
+							background-color: transparent !important;
+						}
+					}
+				}`;
 		}
 	}
 

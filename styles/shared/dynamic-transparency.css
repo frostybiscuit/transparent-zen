@@ -1,4 +1,5 @@
 @import url("./base.css");
+@import url("./web-inspector.css");
 
 *:not([data-tz-anchor] *) {
   &:not(a):not(button):not(input):not(textarea):not(select):not(option):not(code):not(pre) {

@@ -185,6 +185,7 @@ const removeSiteSpecificSettingsDomain = (domain: string) => {
 		extensionSettings.value.siteSpecificSettings.splice(index, 1);
 		saveSettings(toRaw(extensionSettings.value));
 		sendMessageToDomainTabs(domain, { action: "toggleSiteSpecificSettings", value: false });
+		selectedSiteSpecificSettings.value = undefined;
 	}
 };
 
@@ -233,6 +234,19 @@ const toggleSiteSpecificSettings = () => {
 		extensionSettings.value.siteSpecificSettings[domainIndex].enabled = selectedSiteSpecificSettings.value.enabled;
 		saveSettings(toRaw(extensionSettings.value));
 		sendMessageToDomainTabs(selectedSiteSpecificSettings.value?.domain ?? "", { action: "toggleSiteSpecificSettings", value: selectedSiteSpecificSettings.value.enabled });
+	}
+};
+
+const removeSiteSpecificSettingsBackgroundSelector = (selectedBackgroundSelector: string) => {
+	if (!extensionSettings.value || !selectedSiteSpecificSettings.value) return;
+
+	const domainIndex = extensionSettings.value.siteSpecificSettings.findIndex((setting) => setting.domain === selectedSiteSpecificSettings.value?.domain);
+	if (domainIndex >= 0) {
+		const selectorIndex = extensionSettings.value.siteSpecificSettings[domainIndex].backgroundSelectors.findIndex((selector) => selector === selectedBackgroundSelector);
+		if (selectorIndex >= 0) {
+			extensionSettings.value.siteSpecificSettings[domainIndex].backgroundSelectors.splice(selectorIndex, 1);
+			saveSettings(toRaw(extensionSettings.value));
+		}
 	}
 };
 
@@ -558,6 +572,20 @@ const removeBackgroundImage = () => {
             <div class="value">
               <button type="button" class="toggle" :class="{active: selectedSiteSpecificSettings.enabled}" @click="toggleSiteSpecificSettings"></button>
             </div>
+          </div>
+          <div class="setting" v-if="selectedSiteSpecificSettings">
+            <span class="label">Custom Background Selectors</span>
+            <ul class="value-list">
+              <li v-if="selectedSiteSpecificSettings.backgroundSelectors?.length" v-for="selector in selectedSiteSpecificSettings.backgroundSelectors">
+                {{ selector }}
+                <button type="button" class="remove-button" @click="removeSiteSpecificSettingsBackgroundSelector(selector)">
+                  <img src="../../../assets/icons/x-mark.svg" alt="Remove Background Selector" />
+                </button>
+              </li>
+              <li v-else>
+                No selectors available
+              </li>
+            </ul>
           </div>
           <div class="setting" v-if="selectedSiteSpecificSettings">
             <span class="label">Custom Styles</span>
