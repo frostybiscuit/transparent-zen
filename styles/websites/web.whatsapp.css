@@ -13,8 +13,23 @@
 }
 
 #whatsapp-web {
+  --splashscreen-startup-background: transparent !important;
+  --splashscreen-startup-background-rgb: transparent !important;
+
   .dark {
     --WDS-background-wash-inset: transparent;
+    --WDS-surface-emphasized: transparent;
+    --WDS-surface-default: transparent;
+    --chatlist-panel-background: transparent;
+
+    @media (prefers-color-scheme: dark) {
+      * {
+        --WDS-systems-chat-background-wallpaper: transparent;
+        --WDS-background-elevated-wash-inset: transparent;
+        --WDS-surface-emphasized: transparent;
+        --WDS-surface-default: transparent;
+      }
+    }
   }
 
   #app {
@@ -25,7 +40,7 @@
     --navbar-border: transparent;
     --panel-background-lighter: transparent;
     --panel-header-background: transparent;
-    --search-container-background: var(--transparent-background);
+    --search-container-background: transparent;
     --search-input-container-background: transparent;
     --filters-container-background: var(--transparent-background);
     --butterbar-default-background: var(--transparent-background);
@@ -35,6 +50,33 @@
     --conversation-panel-background: var(--transparent-background);
     --rich-text-panel-background: var(--transparent-background);
     --compose-input-background: var(--transparent-background);
+
+    .html-div[role="menu"] {
+      > * {
+        --WDS-surface-default: var(--transparent-background-darker);
+      }
+    }
+
+    .app-wrapper-web {
+      --WDS-background-wash-inset: transparent !important;
+
+      [data-testid="wa-web-loading-screen"] {
+        div:has(> span > svg) {
+          &::after {
+            content: none;
+          }
+        }
+      }
+    }
+
+    [data-testid="drawer-left"],
+    [data-testid="drawer-right"] {
+      > div > span:not(:empty),
+      > span:not(:empty) {
+        background-color: var(--transparent-background-darker) !important;
+        backdrop-filter: var(--backdrop-blur);
+      }
+    }
 
     .two {
       /* Toolbar / Navigation pane */
