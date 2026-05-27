@@ -1,6 +1,48 @@
+:root {
+  --color-app-background-100: transparent;
+}
+
 * {
   background: none !important;
 }
+
+.bg-current {
+  background-color: currentColor !important;
+}
+
+#app {
+  background-color: transparent !important;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: transparent !important;
+  }
+
+  #sidebar-container {
+    .sticky {
+      background-color: var(--transparent-background-darker) !important;
+      backdrop-filter: var(--backdrop-blur);
+      border-radius: 16px;
+
+      &::before {
+        content: none;
+      }
+    }
+  }
+
+  [data-testid="composer-content"] {
+    background-color: var(--transparent-background-darker) !important;
+    backdrop-filter: var(--backdrop-blur);
+  }
+
+  #popoverPortal {
+    [role="menu"] {
+      background-color: var(--transparent-background-darker) !important;
+      backdrop-filter: var(--backdrop-blur);
+    }
+  }
+}
+
+/* Likely obsolete */
 .dark\:bg-midnight-750:is([data-theme="dark"] *) {
   background-color: rgb(29 36 57 / var(--tw-bg-opacity)) !important;
 }
