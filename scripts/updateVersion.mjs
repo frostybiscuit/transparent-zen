@@ -9,7 +9,7 @@ if (!process.argv[2]) {
 	process.exit(1);
 }
 
-const [MAJOR, MINOR, PATCH] = Manifest.version.split(".").map(Number);
+const [MAJOR, MINOR, PATCH, HOTFIX] = Manifest.version.split(".").map(Number);
 
 switch (process.argv[2]) {
 	case "major":
@@ -20,6 +20,9 @@ switch (process.argv[2]) {
 		break;
 	case "patch":
 		Manifest.version = Package.version = `${MAJOR}.${MINOR}.${PATCH + 1}`;
+		break;
+	case "hotfix":
+		Manifest.version = Package.version = `${MAJOR}.${MINOR}.${PATCH}.${(HOTFIX || 0) + 1}`;
 		break;
 }
 

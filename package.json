@@ -1,11 +1,12 @@
 {
   "name": "transparent-zen",
-  "version": "0.9.2",
+  "version": "0.9.2.1",
   "description": "A browser extension for Zen Browser to inject custom styles to make your favorite websites transparent",
   "scripts": {
     "start": "vite",
     "build": "npm run build:extension && web-ext build --config web-ext-config.mjs",
     "build:extension": "vue-tsc && vite build",
+    "build:hotfix": "node ./scripts/updateVersion.mjs hotfix && npm run build",
     "build:patch": "node ./scripts/updateVersion.mjs patch && npm run build",
     "build:minor": "node ./scripts/updateVersion.mjs minor && npm run build",
     "build:major": "node ./scripts/updateVersion.mjs major && npm run build",
