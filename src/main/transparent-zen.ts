@@ -2,42 +2,49 @@ import type { Browser } from "webextension-polyfill-ts";
 import type { ContentScripts, SupportedWebsite } from "../types/ContentScripts";
 import type { ExtensionSettings, SiteSpecificSetting } from "../types/ExtensionSettings";
 import type { Message } from "../types/Message";
+import { DynamicTransparency } from "./modules/DynamicTransparency";
+import { SupportedSite } from "./modules/SupportedSite";
 import { WebInspector } from "./modules/WebInspector";
 import "./transparent-zen.css";
 
 declare const browser: Browser;
 
 class TransparentZen {
-	BLACKLISTED_ELEMENTS = ["BUTTON", "INPUT", "TEXTAREA", "CODE"];
-	BLACKLISTED_CLASSES = ["button", "btn", "tz-toast-messages", "tz-inspector"];
-	transparentZenSettings: ExtensionSettings["transparentZenSettings"] | undefined;
-	siteSpecificSettings: SiteSpecificSetting | null = null;
-	isSupportedWebsite = false;
-	documentObserver: MutationObserver | undefined;
+	private dynamicTransparency: DynamicTransparency | undefined;
+	private supportedSite: SupportedSite | undefined;
+	private webInspector: WebInspector | undefined;
+	private transparentZenSettings: ExtensionSettings["transparentZenSettings"] | undefined;
+	private siteSpecificSettings: SiteSpecificSetting | null = null;
+	private isSupportedWebsite = false;
 
 	constructor() {
-		this.initLoadingScreen();
-		this.checkIfWebsiteAlreadySupported()
-			.then(async (contentScript) => {
-				if (!contentScript) {
-					console.info("Website is not supported by Transparent Zen");
-					await this.initDynamicTransparency();
-					this.initSiteSpecificSettings();
-					this.initBrowserEvents();
-				} else {
-					console.info("Website is supported by Transparent Zen");
-					await this.initSupportedWebsite(contentScript);
-					this.initSiteSpecificSettings();
-				}
-				if (this.transparentZenSettings) new WebInspector(this.transparentZenSettings);
-			})
-			.catch((error) => {
-				console.error("Error checking supported websites:", error);
-				this.removeLoadingScreen();
-			});
+		browser.storage.local.get("transparentZenSettings").then((settings) => {
+			this.transparentZenSettings = (settings as ExtensionSettings).transparentZenSettings;
+			this.dynamicTransparency = new DynamicTransparency(this.transparentZenSettings, this.removeLoadingScreen, this.initExtensionSettingsStyles.bind(this));
+			this.supportedSite = new SupportedSite(this.transparentZenSettings, this.removeLoadingScreen, this.initExtensionSettingsStyles.bind(this), this.initBrowserEvents.bind(this));
+			this.webInspector = new WebInspector(this.transparentZenSettings);
+			this.initLoadingScreen();
+			this.checkIfWebsiteAlreadySupported()
+				.then(async (contentScript) => {
+					if (!contentScript) {
+						console.info("Website is not supported by Transparent Zen");
+						await this.dynamicTransparency?.initDynamicTransparency();
+						this.initSiteSpecificSettings();
+						this.initBrowserEvents();
+					} else {
+						console.info("Website is supported by Transparent Zen");
+						await this.supportedSite?.initSupportedWebsite(contentScript);
+						this.initSiteSpecificSettings();
+					}
+				})
+				.catch((error) => {
+					console.error("Error checking supported websites:", error);
+					this.removeLoadingScreen();
+				});
+		});
 	}
 
-	checkIfWebsiteAlreadySupported(): Promise<SupportedWebsite | false> {
+	private checkIfWebsiteAlreadySupported(): Promise<SupportedWebsite | false> {
 		const contentScriptsUrl = browser.runtime.getURL("data/ContentScripts.json");
 		return new Promise((resolve) => {
 			fetch(contentScriptsUrl).then(async (response) => {
@@ -60,82 +67,7 @@ class TransparentZen {
 		});
 	}
 
-	async initSupportedWebsite(contentScript: SupportedWebsite) {
-		const settings = (await browser.storage.local.get("transparentZenSettings")) as ExtensionSettings;
-		this.transparentZenSettings = settings.transparentZenSettings;
-		if (
-			!this.transparentZenSettings?.disabledWebsites ||
-			this.transparentZenSettings?.disabledWebsites?.findIndex((website) => {
-				for (const match of website.matches) {
-					const regex = new RegExp(match);
-					if (regex.test(window.location.href)) {
-						return true;
-					}
-				}
-				return false;
-			}) === -1
-		) {
-			browser.runtime.sendMessage({ action: "insertStyles", filePath: contentScript.css?.[0], domains: contentScript.matches });
-			this.initBrowserEvents();
-		}
-		if (document.readyState === "complete") {
-			this.initExtensionSettingsStyles();
-			this.removeLoadingScreen();
-		} else if (document.readyState === "interactive") {
-			document.addEventListener("readystatechange", () => {
-				if (document.readyState === "complete") {
-					this.initExtensionSettingsStyles();
-					this.removeLoadingScreen();
-				}
-			});
-		} else {
-			document.addEventListener("DOMContentLoaded", () => {
-				this.initExtensionSettingsStyles();
-				this.removeLoadingScreen();
-			});
-		}
-	}
-
-	async initDynamicTransparency() {
-		const settings = (await browser.storage.local.get("transparentZenSettings")) as ExtensionSettings;
-		this.transparentZenSettings = settings.transparentZenSettings;
-		if (this.transparentZenSettings?.enableTransparency) {
-			const isInBlacklist = this.transparentZenSettings?.blacklistedDomains?.indexOf(window.location.hostname) >= 0;
-			if (!this.transparentZenSettings?.blacklistedDomains || (!this.transparentZenSettings.enableWhitelist && !isInBlacklist) || (this.transparentZenSettings.enableWhitelist && isInBlacklist)) {
-				browser.runtime.sendMessage({ action: "insertStyles", filePath: "styles/shared/dynamic-transparency.css" });
-				if (!this.transparentZenSettings.lightweightTransparency) {
-					this.processPage();
-				} else {
-					this.removeLoadingScreen();
-				}
-			} else {
-				this.removeLoadingScreen();
-			}
-		} else {
-			this.removeLoadingScreen();
-		}
-	}
-
-	async initSiteSpecificSettings() {
-		if (!this.transparentZenSettings) {
-			const settings = (await browser.storage.local.get("transparentZenSettings")) as ExtensionSettings;
-			this.transparentZenSettings = settings.transparentZenSettings;
-		}
-
-		if (this.transparentZenSettings?.siteSpecificSettings.length) {
-			for (const setting of this.transparentZenSettings.siteSpecificSettings) {
-				if (setting.domain === window.location.hostname) {
-					this.siteSpecificSettings = setting;
-					if (setting.enabled) {
-						this.applyCustomBackgrounds();
-						this.applyCustomStyles();
-					}
-				}
-			}
-		}
-	}
-
-	applyCustomBackgrounds() {
+	private applyCustomBackgrounds(): void {
 		if (!this.siteSpecificSettings) return;
 
 		if (this.siteSpecificSettings.backgroundSelectors.length) {
@@ -158,7 +90,7 @@ class TransparentZen {
 		}
 	}
 
-	applyCustomStyles() {
+	private applyCustomStyles(): void {
 		if (!this.siteSpecificSettings) return;
 
 		let customStyles = document.getElementById("tz-custom-styles") as HTMLStyleElement | null;
@@ -170,12 +102,12 @@ class TransparentZen {
 		customStyles.textContent = this.siteSpecificSettings.customStyles;
 	}
 
-	removeCustomStyles() {
+	private removeCustomStyles(): void {
 		const customStyles = document.getElementById("tz-custom-styles") as HTMLStyleElement | null;
 		customStyles?.remove();
 	}
 
-	initBrowserEvents() {
+	private initBrowserEvents(): void {
 		browser.runtime.onMessage.addListener((request: Message) => {
 			switch (request.action) {
 				case "toggleTransparency": {
@@ -184,10 +116,10 @@ class TransparentZen {
 					if (request.enabled) {
 						browser.runtime.sendMessage({ action: "insertStyles", filePath: "styles/shared/dynamic-transparency.css" });
 						if (!this.transparentZenSettings?.lightweightTransparency) {
-							this.processPage(true);
+							this.dynamicTransparency?.processPage(true);
 						}
 					} else {
-						this.removeTransparencyRules();
+						this.dynamicTransparency?.removeTransparencyRules();
 					}
 					break;
 				}
@@ -195,10 +127,10 @@ class TransparentZen {
 					if (this.isSupportedWebsite) break;
 
 					if (request.enabled) {
-						this.removeTransparencyRules();
+						this.dynamicTransparency?.removeTransparencyRules();
 						browser.runtime.sendMessage({ action: "insertStyles", filePath: "styles/shared/dynamic-transparency.css" });
 					} else {
-						this.processPage(true);
+						this.dynamicTransparency?.processPage(true);
 					}
 					break;
 				}
@@ -209,20 +141,28 @@ class TransparentZen {
 						if (this.transparentZenSettings?.blacklistedDomains.indexOf(window.location.hostname) >= 0) {
 							browser.runtime.sendMessage({ action: "insertStyles", filePath: "styles/shared/dynamic-transparency.css" });
 							if (!this.transparentZenSettings?.lightweightTransparency) {
-								this.processPage(true);
+								this.dynamicTransparency?.processPage(true);
 							}
 						} else {
-							this.removeTransparencyRules();
+							this.dynamicTransparency?.removeTransparencyRules();
 						}
 					} else {
 						if (this.transparentZenSettings?.blacklistedDomains.indexOf(window.location.hostname) >= 0) {
-							this.removeTransparencyRules();
+							this.dynamicTransparency?.removeTransparencyRules();
 						} else {
 							browser.runtime.sendMessage({ action: "insertStyles", filePath: "styles/shared/dynamic-transparency.css" });
 							if (!this.transparentZenSettings?.lightweightTransparency) {
-								this.processPage(true);
+								this.dynamicTransparency?.processPage(true);
 							}
 						}
+					}
+					break;
+				}
+				case "toggleInspector": {
+					if (request.enabled) {
+						this.webInspector?.enableInspector();
+					} else {
+						this.webInspector?.disableInspector();
 					}
 					break;
 				}
@@ -297,64 +237,39 @@ class TransparentZen {
 		});
 	}
 
-	processPage(reInit = false) {
-		const initializePage = () => {
-			this.initExtensionSettingsStyles();
-			this.applyTransparencyRules();
-
-			let debounce: number;
-			let initialized = false;
-			this.documentObserver = new MutationObserver(() => {
-				if (debounce) {
-					clearTimeout(debounce);
-				}
-				debounce = setTimeout(() => {
-					this.applyTransparencyRules();
-					if (!initialized) {
-						this.removeLoadingScreen();
-						initialized = true;
-					}
-				}, 100);
-			});
-
-			this.documentObserver.observe(document.body, {
-				childList: true,
-				subtree: true,
-			});
-		};
-
-		if (reInit) {
-			initializePage();
-		}
-
-		document.addEventListener("DOMContentLoaded", () => {
-			initializePage();
-		});
-
-		document.addEventListener("readystatechange", () => {
-			if (document.readyState === "complete") {
-				this.removeLoadingScreen();
-			}
-		});
-
-		if (document.readyState === "complete") {
-			this.removeLoadingScreen();
-		}
-	}
-
-	initLoadingScreen() {
+	private initLoadingScreen(): void {
 		document.documentElement?.style.setProperty("--zen-logo-path", `url(${browser.runtime.getURL("assets/images/zen_logo.svg")})`);
 		document.documentElement?.classList.add("tz-hidden");
 	}
 
-	removeLoadingScreen() {
+	private removeLoadingScreen(): void {
 		setTimeout(() => {
 			document.documentElement.classList.remove("tz-hidden");
 			document.documentElement.style.removeProperty("--zen-logo-path");
 		}, 500);
 	}
 
-	initExtensionSettingsStyles() {
+	private async initSiteSpecificSettings(): Promise<void> {
+		if (!this.transparentZenSettings) {
+			const settings = (await browser.storage.local.get("transparentZenSettings")) as ExtensionSettings;
+			this.transparentZenSettings = settings.transparentZenSettings;
+		}
+
+		if (this.transparentZenSettings?.siteSpecificSettings.length) {
+			for (const setting of this.transparentZenSettings.siteSpecificSettings) {
+				if (setting.domain === window.location.hostname) {
+					this.siteSpecificSettings = setting;
+					if (setting.enabled) {
+						this.applyCustomBackgrounds();
+						this.applyCustomStyles();
+					}
+				}
+			}
+		}
+	}
+
+	private initExtensionSettingsStyles(): void {
+		document.documentElement.classList.add("tz-initialized");
 		if (this.transparentZenSettings?.primaryColor) {
 			this.applyCustomProperty("--color-primary", this.transparentZenSettings.primaryColor);
 		}
@@ -383,7 +298,7 @@ class TransparentZen {
 		}
 	}
 
-	blobToDataURL(blob: Blob): Promise<string> {
+	private blobToDataURL(blob: Blob): Promise<string> {
 		return new Promise((resolve, reject) => {
 			const reader = new FileReader();
 			reader.onloadend = () => {
@@ -396,155 +311,9 @@ class TransparentZen {
 		});
 	}
 
-	applyTransparencyRules(currentElement: HTMLElement = document.body, depth = 0, maxDepth = this.transparentZenSettings?.transparencyDepth || 2, insideOverlay = false) {
-		const styleMap = window.getComputedStyle(currentElement);
-		const hasBackground = styleMap.backgroundColor !== "rgba(0, 0, 0, 0)" && styleMap.backgroundColor !== "transparent" && styleMap.backgroundColor !== "var(--transparent-background)";
-		const hasGradient = styleMap.background.indexOf("gradient(") >= 0;
-		let nextDepth = depth;
-		let isInsideOverlay = insideOverlay;
-
-		if (currentElement.tagName === "A") {
-			currentElement.dataset.tzProcessed = "true";
-			currentElement.dataset.tzAnchor = "true";
-			if (styleMap.backgroundColor && styleMap.backgroundColor !== "rgba(0, 0, 0, 0)" && styleMap.backgroundColor !== "transparent") {
-				const hasLowContrast = this.hasLowContrast(styleMap.backgroundColor, styleMap.color);
-				if (hasLowContrast) {
-					currentElement.dataset.tzProcessed = "true";
-					currentElement.dataset.tzLowContrast = "true";
-				}
-			}
-		}
-
-		if (currentElement.tagName === "CODE") {
-			if (hasBackground) {
-				currentElement.dataset.tzHasBackground = "true";
-			}
-		}
-
-		if (this.BLACKLISTED_ELEMENTS.includes(currentElement.tagName)) return;
-		for (const blacklistedClass of this.BLACKLISTED_CLASSES) {
-			if (currentElement.className.indexOf?.(blacklistedClass) !== -1) {
-				return;
-			}
-		}
-
-		if (hasBackground) {
-			if (depth === 0 && isInsideOverlay) {
-				currentElement.dataset.tzInsideOverlay = "true";
-			}
-
-			if (styleMap.color && this.hasTextNodes(currentElement)) {
-				const hasLowContrast = this.hasLowContrast(styleMap.backgroundColor, styleMap.color);
-				if (hasLowContrast) {
-					currentElement.dataset.tzProcessed = "true";
-					currentElement.dataset.tzLowContrast = "true";
-				}
-			}
-		}
-
-		if (styleMap.color && this.hasLowLumen(styleMap.color)) {
-			currentElement.dataset.tzProcessed = "true";
-			currentElement.dataset.tzLowLumen = "true";
-		}
-
-		if (hasGradient) {
-			currentElement.dataset.tzProcessed = "true";
-			currentElement.dataset.tzGradient = "true";
-		}
-
-		if (depth <= 1) {
-			const parentStyleMap = currentElement.parentElement ? window.getComputedStyle(currentElement.parentElement) : null;
-			if (styleMap.position === "fixed" || styleMap.position === "absolute" || styleMap.position === "sticky" || parentStyleMap?.position === "fixed" || parentStyleMap?.position === "absolute" || parentStyleMap?.position === "sticky") {
-				currentElement.dataset.tzProcessed = "true";
-				currentElement.dataset.tzOverlay = "true";
-				isInsideOverlay = true;
-			}
-		}
-
-		if (hasBackground && depth <= maxDepth && !currentElement.dataset.tzDepth) {
-			currentElement.dataset.tzProcessed = "true";
-			currentElement.dataset.tzDepth = depth.toString();
-			nextDepth++;
-		}
-
-		for (const child of currentElement.children) {
-			this.applyTransparencyRules(child as HTMLElement, nextDepth, maxDepth, isInsideOverlay);
-		}
-	}
-
-	applyCustomProperty(property: string, color: string) {
+	private applyCustomProperty(property: string, color: string): void {
 		document.body.style.setProperty(property, color);
 	}
-
-	removeTransparencyRules() {
-		if (this.documentObserver) {
-			this.documentObserver.disconnect();
-		}
-
-		browser.runtime.sendMessage({ action: "removeStyles", filePath: "styles/shared/dynamic-transparency.css" });
-
-		document.body.style.removeProperty("--color-primary");
-		document.body.style.removeProperty("--color-text");
-		document.body.style.removeProperty("--color-background");
-		document.body.style.removeProperty("--custom-background-image");
-		document.documentElement?.classList.remove("tz-custom-background");
-
-		const processedElements = document.querySelectorAll("[data-tz-processed]");
-		for (const element of processedElements) {
-			element.removeAttribute("data-tz-processed");
-			element.removeAttribute("data-tz-depth");
-			element.removeAttribute("data-tz-overlay");
-			element.removeAttribute("data-tz-low-contrast");
-			element.removeAttribute("data-tz-low-lumen");
-			element.removeAttribute("data-tz-gradient");
-			element.removeAttribute("data-tz-inside-overlay");
-			element.removeAttribute("data-tz-anchor");
-		}
-	}
-
-	hasTextNodes = (element: HTMLElement) => {
-		const textNodes = [...element.childNodes].filter((node) => node.nodeType === Node.TEXT_NODE && node.nodeValue?.trim() !== "");
-		return textNodes.length > 0;
-	};
-
-	hasLowLumen = (rgb: string) => {
-		if (rgb.match(/^rgb/)) {
-			const color = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
-			if (!color) return false;
-
-			const r = color[1];
-			const g = color[2];
-			const b = color[3];
-
-			return this.getLuminance(r, g, b) < 0.5;
-		}
-
-		return false;
-	};
-
-	hasLowContrast = (backgroundColor: string, textColor: string) => {
-		if (backgroundColor.match(/^rgb/) && textColor.match(/^rgb/)) {
-			const backgroundRgb = backgroundColor.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
-			const textRgb = textColor.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
-
-			if (!backgroundRgb || !textRgb) return false;
-
-			const backgroundLumen = this.getLuminance(backgroundRgb[1], backgroundRgb[2], backgroundRgb[3]);
-			const textLumen = this.getLuminance(textRgb[1], textRgb[2], textRgb[3]);
-
-			return (Math.max(backgroundLumen, textLumen) + 0.05) / (Math.min(backgroundLumen, textLumen) + 0.05) < 4.5;
-		}
-
-		return false;
-	};
-
-	getLuminance = (r: string, g: string, b: string) => {
-		const [R, G, B] = [r, g, b].map((color) => {
-			const normalizedColor = Number.parseInt(color) / 255;
-			return normalizedColor <= 0.03928 ? normalizedColor / 12.92 : ((normalizedColor + 0.055) / 1.055) ** 2.4;
-		});
-		return 0.2126 * R + 0.7152 * G + 0.0722 * B;
-	};
 }
 
 new TransparentZen();

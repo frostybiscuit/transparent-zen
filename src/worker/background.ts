@@ -11,13 +11,13 @@ browser.runtime.onMessage.addListener((message: Message) => {
 		}
 
 		case "removeStyles": {
-			browser.tabs.removeCSS({ file: message.filePath });
+			removeStyles(message.filePath);
 			break;
 		}
 	}
 });
 
-async function applyStyles(filePath?: string, domains?: Array<string>) {
+async function applyStyles(filePath?: string, domains?: Array<string>): Promise<void> {
 	const tabs = await browser.tabs.query({ currentWindow: true });
 
 	for (const tab of tabs) {
@@ -34,5 +34,13 @@ async function applyStyles(filePath?: string, domains?: Array<string>) {
 		} else if (!tab.url.startsWith("moz-extension://")) {
 			browser.tabs.insertCSS(tab.id, { file: filePath });
 		}
+	}
+}
+
+async function removeStyles(filePath?: string): Promise<void> {
+	const tabs = await browser.tabs.query({ currentWindow: true });
+
+	for (const tab of tabs) {
+		browser.tabs.removeCSS(tab.id, { file: filePath });
 	}
 }
