@@ -1,6 +1,5 @@
 import type { Browser } from "webextension-polyfill-ts";
 import type { ExtensionSettings } from "../../types/ExtensionSettings";
-import type { Message } from "../../types/Message";
 
 declare const browser: Browser;
 type ToastMessageType = "info" | "warning" | "error" | "success";
@@ -23,7 +22,20 @@ export class WebInspector {
 		this.initializeEvents();
 	}
 
-	private initializeInspector() {
+	public enableInspector(): void {
+		this.inspectorOutline?.classList.add("active");
+		document.addEventListener("mousemove", this.setOutlineBounds, { passive: true });
+		document.addEventListener("click", this.selectHighlightedElement, { once: true });
+	}
+
+	public disableInspector(): void {
+		this.inspectorOutline?.classList.remove("active");
+		this.inspectorOutline?.removeAttribute("style");
+		document.removeEventListener("mousemove", this.setOutlineBounds);
+		document.removeEventListener("click", this.selectHighlightedElement);
+	}
+
+	private initializeInspector(): void {
 		document.addEventListener("DOMContentLoaded", () => {
 			this.inspectorOutline = document.createElement("div");
 			this.inspectorOutline.classList.add("tz-inspector");
@@ -31,20 +43,7 @@ export class WebInspector {
 		});
 	}
 
-	private initializeEvents() {
-		browser.runtime.onMessage.addListener((request: Message) => {
-			switch (request.action) {
-				case "toggleInspector": {
-					if (request.enabled) {
-						this.enableInspector();
-					} else {
-						this.disableInspector();
-					}
-					break;
-				}
-			}
-		});
-
+	public initializeEvents(): void {
 		document.addEventListener("keyup", (event: KeyboardEvent) => {
 			if (event.key === "Escape") {
 				this.disableInspector();
@@ -52,7 +51,7 @@ export class WebInspector {
 		});
 	}
 
-	private selectHighlightedElement(event: MouseEvent) {
+	private selectHighlightedElement(event: MouseEvent): void {
 		event.preventDefault();
 		const target = event.target as HTMLElement;
 		const tagName = target.tagName.toLowerCase();
@@ -80,7 +79,7 @@ export class WebInspector {
 		this.disableInspector();
 	}
 
-	private setOutlineBounds(event: MouseEvent) {
+	private setOutlineBounds(event: MouseEvent): void {
 		if (this.currentInspectorTarget === event.target) return;
 
 		this.currentInspectorTarget = event.target as HTMLElement;
@@ -93,20 +92,7 @@ export class WebInspector {
 		}
 	}
 
-	private enableInspector() {
-		this.inspectorOutline?.classList.add("active");
-		document.addEventListener("mousemove", this.setOutlineBounds, { passive: true });
-		document.addEventListener("click", this.selectHighlightedElement, { once: true });
-	}
-
-	private disableInspector() {
-		this.inspectorOutline?.classList.remove("active");
-		this.inspectorOutline?.removeAttribute("style");
-		document.removeEventListener("mousemove", this.setOutlineBounds);
-		document.removeEventListener("click", this.selectHighlightedElement);
-	}
-
-	private addBackgroundSelector(selector: string) {
+	private addBackgroundSelector(selector: string): void {
 		const siteSpecificSettingIndex = this.transparentZenSettings.siteSpecificSettings?.findIndex((setting) => setting.domain === window.location.hostname);
 		if (siteSpecificSettingIndex >= 0) {
 			if (this.transparentZenSettings.siteSpecificSettings[siteSpecificSettingIndex].backgroundSelectors.indexOf(selector) === -1) {
@@ -116,13 +102,13 @@ export class WebInspector {
 		}
 	}
 
-	private saveSettings(settings: ExtensionSettings["transparentZenSettings"] | null) {
-		if (!settings) return false;
+	private saveSettings(settings: ExtensionSettings["transparentZenSettings"] | null): void {
+		if (!settings) return;
 
 		browser.storage.local.set({ transparentZenSettings: settings });
 	}
 
-	private initializeToastMessages() {
+	private initializeToastMessages(): void {
 		document.addEventListener("DOMContentLoaded", () => {
 			this.toastMessageContainer = document.createElement("ul");
 			this.toastMessageContainer.classList.add("tz-toast-messages");
@@ -130,7 +116,7 @@ export class WebInspector {
 		});
 	}
 
-	private createToastMessage(message: string, type: ToastMessageType = "info") {
+	private createToastMessage(message: string, type: ToastMessageType = "info"): void {
 		const toastMessage = document.createElement("li");
 		toastMessage.classList.add("tz-toast-message", type);
 		toastMessage.dataset.id = this.toastMessageId.toString();
