@@ -18,29 +18,28 @@ class TransparentZen {
 	private isSupportedWebsite = false;
 
 	constructor() {
-		browser.storage.local.get("transparentZenSettings").then((settings) => {
-			this.transparentZenSettings = (settings as ExtensionSettings).transparentZenSettings;
-			this.dynamicTransparency = new DynamicTransparency(this.transparentZenSettings, this.removeLoadingScreen, this.initExtensionSettingsStyles.bind(this));
-			this.supportedSite = new SupportedSite(this.transparentZenSettings, this.removeLoadingScreen, this.initExtensionSettingsStyles.bind(this), this.initBrowserEvents.bind(this));
-			this.webInspector = new WebInspector(this.transparentZenSettings);
-			this.initLoadingScreen();
-			this.checkIfWebsiteAlreadySupported()
-				.then(async (contentScript) => {
-					if (!contentScript) {
-						console.info("Website is not supported by Transparent Zen");
-						await this.dynamicTransparency?.initDynamicTransparency();
-						this.initSiteSpecificSettings();
-						this.initBrowserEvents();
-					} else {
-						console.info("Website is supported by Transparent Zen");
-						await this.supportedSite?.initSupportedWebsite(contentScript);
-						this.initSiteSpecificSettings();
-					}
-				})
-				.catch((error) => {
-					console.error("Error checking supported websites:", error);
-					this.removeLoadingScreen();
-				});
+		this.initLoadingScreen();
+		// biome-ignore format: readability
+		this.checkIfWebsiteAlreadySupported().then(contentScript => {
+			browser.storage.local.get("transparentZenSettings").then(async (settings) => {
+				this.transparentZenSettings = (settings as ExtensionSettings).transparentZenSettings;
+				if (!contentScript) {
+					console.info("Website is not supported by Transparent Zen");
+					this.webInspector = new WebInspector(this.transparentZenSettings);
+					this.dynamicTransparency = new DynamicTransparency(this.transparentZenSettings, this.removeLoadingScreen, this.initExtensionSettingsStyles.bind(this));
+					await this.dynamicTransparency?.initDynamicTransparency();
+					this.initSiteSpecificSettings();
+					this.initBrowserEvents();
+				} else {
+					console.info("Website is supported by Transparent Zen");
+					this.supportedSite = new SupportedSite(this.transparentZenSettings, this.removeLoadingScreen, this.initExtensionSettingsStyles.bind(this), this.initBrowserEvents.bind(this));
+					await this.supportedSite?.initSupportedWebsite(contentScript);
+					this.initSiteSpecificSettings();
+				}
+			}).catch((error) => {
+				console.error("Error checking supported websites:", error);
+				this.removeLoadingScreen();
+			});
 		});
 	}
 
