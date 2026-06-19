@@ -1,6 +1,6 @@
 @import url("../shared/base.css");
 
-#drive_main_page {
+#drive-main-page {
   --dt-background: transparent;
   --dt-surface: var(--transparent-background);
   --dt-surface-container: var(--transparent-background);
@@ -8,5 +8,9 @@
 
   > div:first-child {
     background: none !important;
+  }
+
+  div[role="region"] {
+    background-color: transparent;
   }
 }

@@ -18,7 +18,7 @@
 }
 
 /* Main Wrapper */
-div[style="position: relative; min-height: 100%;"] {
+body > div[aria-live="polite"] + div {
   /* Some elements where one has a background-color */
   > div:first-child > * {
     background: none !important;
