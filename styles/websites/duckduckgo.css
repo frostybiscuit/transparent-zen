@@ -48,7 +48,7 @@ body.embedded-search-default-theme .newtab-heading {
 }
 
 .header-wrap {
-  background-color: var(--transparent-background-darker) !important;
+  background-color: var(--transparent-background) !important;
   backdrop-filter: var(--backdrop-blur);
   box-shadow: none !important;
 
