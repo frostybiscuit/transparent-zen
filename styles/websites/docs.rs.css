@@ -1,0 +1,38 @@
+body {
+	background: transparent;
+}
+
+:target:not([data-nosnippet]) {
+	background-color: var(--transparent-background);
+}
+
+/* Code blocks */
+.docblock code,
+.hljs {
+	background: transparent;
+}
+
+.item-table dd code, pre, .rustdoc.src .example-wrap, .example-wrap .src-line-numbers {
+	background-color: var(--transparent-background);
+}
+
+/* Tables */
+.docblock table tbody tr:nth-child(2n+1) {
+	background-color: var(--transparent-background);
+}
+
+/* Sidebar */
+.sidebar, rustdoc-topbar, .sidebar-menu-toggle, #src-sidebar {
+	background-color: var(--transparent-background);
+}
+
+/* Navigation */
+div.nav-container {
+	background-color: var(--transparent-background);
+}
+
+div.nav-container form.landing-search-form-nav #search-input-nav input,
+div.nav-container .pure-menu-has-children > .pure-menu-link {
+	background: transparent;
+}
+
