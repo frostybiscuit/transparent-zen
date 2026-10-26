@@ -1,9 +1,54 @@
+@import url("../shared/base.css");
+
 :root {
   --bg-primary: transparent;
   --sidebar-bg: transparent;
   --sidebar-mask-bg: transparent;
   --sidebar-login-pane-bg: transparent;
   --sidebar-surface-primary: transparent;
+}
+
+body,
+html {
+  background-color: transparent !important;
+}
+
+#web-mobile-root {
+  [data-app-shell] {
+    > div {
+      background-color: transparent !important;
+    }
+
+    main {
+      + div:has(> nav) {
+        background-color: transparent !important;
+        border: 0 !important;
+
+        aside#ds-sidebar {
+          background-color: transparent !important;
+        }
+
+        [data-slot="sidebar-header"],
+        [data-slot="sidebar-actions"] {
+          > span {
+            background: none !important;
+          }
+
+          section {
+            background-color: transparent !important;
+            border: 0 !important;
+          }
+        }
+      }
+    }
+
+    header,
+    footer {
+      > span {
+        background: none !important;
+      }
+    }
+  }
 }
 
 #stage-slideover-sidebar {
