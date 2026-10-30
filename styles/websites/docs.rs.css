@@ -15,7 +15,8 @@ body {
 .item-table dd code,
 pre,
 .rustdoc.src .example-wrap,
-.example-wrap .src-line-numbers {
+.example-wrap .src-line-numbers,
+.stab {
 	background-color: var(--transparent-background);
 }
 
@@ -68,4 +69,13 @@ html[data-docs-rs-theme="dark"] {
 
 html[data-docs-rs-theme="light"] {
 	--link-color: var(--color-primary) !important;
+}
+
+/* Crate header */
+div.docsrs-package-container {
+	background: var(--transparent-background);
+}
+
+div .info {
+	background: var(--transparent-background);
 }
