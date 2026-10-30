@@ -12,7 +12,10 @@ body {
 	background: transparent;
 }
 
-.item-table dd code, pre, .rustdoc.src .example-wrap, .example-wrap .src-line-numbers {
+.item-table dd code,
+pre,
+.rustdoc.src .example-wrap,
+.example-wrap .src-line-numbers {
 	background-color: var(--transparent-background);
 }
 
@@ -22,7 +25,10 @@ body {
 }
 
 /* Sidebar */
-.sidebar, rustdoc-topbar, .sidebar-menu-toggle, #src-sidebar {
+.sidebar,
+rustdoc-topbar,
+.sidebar-menu-toggle,
+#src-sidebar {
 	background-color: var(--transparent-background);
 }
 
@@ -32,8 +38,23 @@ div.nav-container {
 }
 
 div.nav-container form.landing-search-form-nav #search-input-nav input,
-div.nav-container .pure-menu-has-children > .pure-menu-link {
+div.nav-container .pure-menu-has-children>.pure-menu-link {
 	background: transparent;
+}
+
+div.nav-container .pure-menu-has-children.pure-menu-active>.pure-menu-link {
+	color: var(--color-text);
+}
+
+/* Home page */
+body input,
+body #search {
+	background-color: var(--transparent-background);
+	color: var(--color-text);
+}
+
+div.recent-releases-container .release:hover {
+	background-color: var(--transparent-background);
 }
 
 /* Color scheme */
