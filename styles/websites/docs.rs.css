@@ -36,3 +36,15 @@ div.nav-container .pure-menu-has-children > .pure-menu-link {
 	background: transparent;
 }
 
+/* Color scheme */
+html[data-docs-rs-theme="light"],
+html[data-docs-rs-theme="dark"] {
+	--main-color: var(--color-text) !important;
+	--color-standard: var(--color-text) !important;
+	--color-background: var(--transparent-background) !important;
+	--sidebar-current-link-background-color: var(--transparent-background) !important;
+}
+
+html[data-docs-rs-theme="light"] {
+	--link-color: var(--color-primary) !important;
+}
