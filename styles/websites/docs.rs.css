@@ -1,0 +1,81 @@
+body {
+	background: transparent;
+}
+
+:target:not([data-nosnippet]) {
+	background-color: var(--transparent-background);
+}
+
+/* Code blocks */
+.docblock code,
+.hljs {
+	background: transparent;
+}
+
+.item-table dd code,
+pre,
+.rustdoc.src .example-wrap,
+.example-wrap .src-line-numbers,
+.stab {
+	background-color: var(--transparent-background);
+}
+
+/* Tables */
+.docblock table tbody tr:nth-child(2n+1) {
+	background-color: var(--transparent-background);
+}
+
+/* Sidebar */
+.sidebar,
+rustdoc-topbar,
+.sidebar-menu-toggle,
+#src-sidebar {
+	background-color: var(--transparent-background);
+}
+
+/* Navigation */
+div.nav-container {
+	background-color: var(--transparent-background);
+}
+
+div.nav-container form.landing-search-form-nav #search-input-nav input,
+div.nav-container .pure-menu-has-children>.pure-menu-link {
+	background: transparent;
+}
+
+div.nav-container .pure-menu-has-children.pure-menu-active>.pure-menu-link {
+	color: var(--color-text);
+}
+
+/* Home page */
+body input,
+body #search {
+	background-color: var(--transparent-background);
+	color: var(--color-text);
+}
+
+div.recent-releases-container .release:hover {
+	background-color: var(--transparent-background);
+}
+
+/* Color scheme */
+html[data-docs-rs-theme="light"],
+html[data-docs-rs-theme="dark"] {
+	--main-color: var(--color-text) !important;
+	--color-standard: var(--color-text) !important;
+	--color-background: var(--transparent-background) !important;
+	--sidebar-current-link-background-color: var(--transparent-background) !important;
+}
+
+html[data-docs-rs-theme="light"] {
+	--link-color: var(--color-primary) !important;
+}
+
+/* Crate header */
+div.docsrs-package-container {
+	background: var(--transparent-background);
+}
+
+div .info {
+	background: var(--transparent-background);
+}

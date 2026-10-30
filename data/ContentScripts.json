@@ -188,6 +188,13 @@
 			"css": ["./styles/websites/discord.css"],
 			"run_at": "document_start",
 			"favicon": "https://icons.duckduckgo.com/ip3/www.discord.com.ico"
+		},
+		{
+			"name": "Docs.rs",
+			"matches": ["[^ ]*://docs.rs/[^ ]*"],
+			"css": ["./styles/websites/docs.rs.css"],
+			"run_at":"document_start",
+			"favicon": "https://docs.rs/favicon.ico"
 		}
 	]
 }
