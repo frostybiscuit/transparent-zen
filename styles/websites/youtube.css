@@ -147,25 +147,6 @@ a#thumbnail {
     color: var(--color-white) !important;
   }
 
-  .ytp-progress-bar-container {
-    .ytp-progress-list {
-      background-color: rgb(from var(--color-white) r g b / 0.25) !important;
-
-      .ytp-play-progress {
-        background: var(--color-primary) !important;
-      }
-
-      .ytp-load-progress,
-      .ytp-hover-progress {
-        background-color: rgb(from var(--color-white) r g b / 0.5) !important;
-      }
-    }
-
-    .ytp-scrubber-button {
-      background-color: var(--color-primary) !important;
-    }
-  }
-
   .ytp-volume-area {
     .ytp-volume-slider-handle {
       background-color: var(--color-white) !important;
